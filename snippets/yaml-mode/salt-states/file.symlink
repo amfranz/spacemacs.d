@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-file-symlink
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  file.symlink:
+    - name: $2
+    - target: $3
+    - user: $4
+    - group: $5

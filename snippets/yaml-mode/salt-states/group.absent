@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-group-absent
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  group.absent:
+    - name: $2

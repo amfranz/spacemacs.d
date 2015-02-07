@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-archive-extracted
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  archive.extracted:
+    - name: $2
+    - source: $3
+    - tar_options: z
+    - archive_format: tar
+    - user: $4
+    - group: $5

@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-group-present
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  group.present:
+    - name: $2
+    - system: ${3:$$(yas-choose-value '("True" "False"))}

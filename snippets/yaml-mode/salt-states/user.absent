@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-user-absent
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  user.absent:
+    - name: $2
+    - purge: ${3:$$(yas-choose-value '("True" "False"))}

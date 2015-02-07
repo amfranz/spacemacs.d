@@ -1,0 +1,25 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-user-present-all
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  user.present:
+    - name: $0NAME
+    - fullname: FULLNAME
+    - uid: UID
+    - gid: GID
+    - gid_from_name: True|False
+    - system: True|False
+    - unique: True|False
+    - home: HOMEDIR
+    - createhome: True|False
+    - shell: /bin/sh|/bin/bash|/usr/sbin/nologin
+    - groups:
+      - GROUPNAME
+    - optional_groups:
+      - GROUPNAME
+    - remove_groups:
+      - GROUPNAME
+    - password: PASSWORD
+    - enforce_password: True|False
+    - empty_password: True|False

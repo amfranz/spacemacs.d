@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-file-managed
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  file.managed:
+    - name: $2
+    - source: salt://{{ slspath }}/files/$3
+    - user: root
+    - group: root
+    - mode: 644
+    - watch_in:
+      - service: $4

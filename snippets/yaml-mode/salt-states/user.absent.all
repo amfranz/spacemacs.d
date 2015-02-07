@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-user-absent-all
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  user.absent:
+    - name: $0NAME
+    - purge: True|False
+    - force: True|False

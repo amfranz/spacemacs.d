@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-pkg-installed
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  pkg.installed:
+    - name: $2

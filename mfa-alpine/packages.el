@@ -1,0 +1,13 @@
+(defconst mfa-alpine-packages '(sh-script))
+
+(defun mfa-alpine/post-init-sh-script ()
+  (dolist (item '(("APKBUILD\\'" . sh-mode)
+                  ("\\.confd\\'" . sh-mode)
+                  ("\\.initd\\'" . sh-mode)
+                  ("\\.pre-install\\'" . sh-mode)
+                  ("\\.post-install\\'" . sh-mode)
+                  ("\\.pre-upgrade\\'" . sh-mode)
+                  ("\\.post-upgrade\\'" . sh-mode)
+                  ("\\.pre-deinstall\\'" . sh-mode)
+                  ("\\.post-deinstall\\'" . sh-mode)))
+    (push item auto-mode-alist)))

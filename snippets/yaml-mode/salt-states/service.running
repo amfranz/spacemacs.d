@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-service-running
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  service.running:
+    - name: $2
+    - enable: True
+    - require:
+      - pkg: $3

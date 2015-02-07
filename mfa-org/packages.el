@@ -1,0 +1,71 @@
+(defconst mfa-org-packages '(fontawesome helm-org-rifle helm-orgcard org org-indent))
+
+(defun mfa-org/init-fontawesome ()
+  (use-package fontawesome
+    :defer t
+    :init
+    (spacemacs/set-leader-keys "xf" #'helm-fontawesome)))
+
+(defun mfa-org/init-helm-org-rifle ()
+  (use-package helm-org-rifle
+    :defer t
+    :init
+    (progn
+      (defun mfa-org/helm-org-rifle-org-directory ()
+        "Rifle through the org directory."
+        (interactive)
+        (helm-org-rifle-directories `(,org-directory)))
+      (spacemacs/set-leader-keys "o/" #'mfa-org/helm-org-rifle-org-directory))))
+
+(defun mfa-org/init-helm-orgcard ()
+  (use-package helm-orgcard
+    :defer t
+    :init
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+      "?" #'helm-orgcard)))
+
+(defun mfa-org/post-init-org ()
+  ;; share org files over Dropbox.
+  (setq org-directory "~/Dropbox/Org/")
+
+  ;; install a shortcut to be able to quickly open the top org file.
+  (defun org-index ()
+    (interactive)
+    (find-file (concat org-directory "index.org")))
+  (spacemacs/set-leader-keys "oi" #'org-index)
+
+  (with-eval-after-load 'org
+    ;; Set up agendas.
+    (setq org-agenda-files (list (concat org-directory "agenda/")))
+
+    ;; Return should follow links.
+    (setq org-return-follows-link t)
+    (evil-define-key 'normal org-mode-map (kbd "RET") 'org-return)
+
+    ;; Enable additional languages babel should handle.
+    (org-babel-do-load-languages
+      'org-babel-load-languages
+        '((ditaa . t)
+          (dot . t)
+          (emacs-lisp . t)))
+
+    ;; ditaa converts ascii images to real images.
+    (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+
+    ;; graphviz creates graphs based on descriptions.
+    (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
+
+    ;; Workaround for incompatibilites with yasnippet.
+    (with-eval-after-load 'yasnippet
+      (defun yas/org-very-safe-expand ()
+        (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+      (add-hook 'org-mode-hook
+        (lambda ()
+          (make-variable-buffer-local 'yas/trigger-key)
+          (setq yas/trigger-key [tab])
+          (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+          (define-key yas/keymap [tab] 'yas/next-field))))))
+
+(defun mfa-org/post-init-org-indent ()
+  (with-eval-after-load 'org-indent
+    (spacemacs|hide-lighter 'org-indent-mode)))

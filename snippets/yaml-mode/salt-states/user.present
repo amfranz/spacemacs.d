@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-user-present
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  user.present:
+    - name: $2
+    - gid: $2
+    - system: ${3:$$(yas-choose-value '("True" "False"))}
+    - home: /home/$2
+    - createhome: ${4:$$(yas-choose-value '("True" "False"))}
+    - shell: ${5:$$(yas-choose-value '("/bin/sh" "/bin/bash" "/usr/sbin/nologin"))}

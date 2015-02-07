@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: slf4j.logger
+# expand-env: ((yas-indent-line 'auto))
+# --
+private static final Logger logger = LoggerFactory.getLogger(`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`.class);

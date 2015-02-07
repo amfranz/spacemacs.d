@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Disabling progress bars keeps the output clean of the
+# ANSI escape sequences that are used to animate them.
+export NPM_CONFIG_PROGRESS=false
+
+# Use NVM, if present.
+if [ -n "$NVM_DIR" -a -s "$NVM_DIR/nvm.sh" ]; then
+  source "$NVM_DIR/nvm.sh" || exit $?
+
+  if [ -n "$(nvm_find_nvmrc)" ]; then
+    nvm use --silent >/dev/null || exit $?
+  fi
+fi
+
+# Add command from NPM packages to the PATH,
+# if the 'node_modules' directory is present.
+NPM_BIN=$(npm bin) || exit $?
+if [ -d "$NPM_BIN" ]; then
+  PATH="$NPM_BIN:$PATH"
+fi
+
+exec "$@"

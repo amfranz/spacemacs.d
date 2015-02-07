@@ -1,0 +1,15 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: sls-group-present-all
+# expand-env: ((yas-indent-line 'fixed))
+# --
+$1:
+  group.present:
+    - name: $0NAME
+    - gid: GID
+    - system: True|False
+    - addusers:
+      - USERNAME
+    - delusers:
+      - USERNAME
+    - members:
+      - USERNAME

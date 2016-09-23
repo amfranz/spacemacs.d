@@ -53,18 +53,7 @@
     (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
     ;; graphviz creates graphs based on descriptions.
-    (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
-
-    ;; Workaround for incompatibilites with yasnippet.
-    (with-eval-after-load 'yasnippet
-      (defun yas/org-very-safe-expand ()
-        (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-      (add-hook 'org-mode-hook
-        (lambda ()
-          (make-variable-buffer-local 'yas/trigger-key)
-          (setq yas/trigger-key [tab])
-          (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-          (define-key yas/keymap [tab] 'yas/next-field))))))
+    (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))))
 
 (defun mfa-org/post-init-org-indent ()
   (with-eval-after-load 'org-indent

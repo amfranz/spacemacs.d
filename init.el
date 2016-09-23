@@ -91,8 +91,7 @@ values."
      shell-scripts
      spacemacs-layouts
      sql
-     (syntax-checking :variables
-                      syntax-checking-enable-tooltips nil)
+     syntax-checking
      vinegar
      version-control
      yaml

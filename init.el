@@ -484,7 +484,18 @@ you should place your code here."
   ;; does less when trying to autodetect source control meta-data.
   (setq vc-handled-backends '(Git))
 
-  ;; Disable highlight current line.
+  ;; Hide emoji mode lighter, it is distracting.
+  (with-eval-after-load 'emoji-cheat-sheet-plus
+    (spacemacs|hide-lighter emoji-cheat-sheet-plus-display-mode))
+
+  ;; Hide dired-omit-mode lighter, it is distracting.
+  (with-eval-after-load 'dired-x
+    (defun mfa//hide-dired-omit-mode-lighter ()
+      (spacemacs|hide-lighter dired-omit-mode))
+    (advice-add 'dired-omit-startup
+                :after #'mfa//hide-dired-omit-mode-lighter))
+
+  ;; Disable highlight current line, it is distracting.
   (when global-hl-line-mode
     (global-hl-line-mode -1))
 

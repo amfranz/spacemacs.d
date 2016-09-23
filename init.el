@@ -53,7 +53,6 @@ values."
      ;; layers by spacemacs
      ansible
      auto-completion
-     chrome
      clojure
      (c-c++ :variables
             c-c++-enable-clang-support t)
@@ -105,7 +104,6 @@ values."
      mfa-ascii
      mfa-bookmarks
      mfa-checkbashisms
-     mfa-chrome
      mfa-dash
      mfa-defproject
      mfa-devdocs

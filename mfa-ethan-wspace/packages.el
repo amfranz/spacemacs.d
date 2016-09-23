@@ -16,12 +16,11 @@
       (defun ethan-wspace--inappropriate-buffer-advice (orig-fun &rest args)
         "Disables ethan-wspace in image and git commit message buffers."
         (unless
-            (memq major-mode '(git-commit-mode
-                               git-rebase-mode
-                               image-mode))
+          (or (string-suffix-p "/COMMIT_EDITMSG" buffer-file-name)
+              (memq major-mode '(image-mode)))
           (apply orig-fun args)))
-      (advice-add 'ethan-wspace--is-buffer-appropriate :around
-                  #'ethan-wspace-inappropriate-buffer-advice)
+      (advice-add 'ethan-wspace-is-buffer-appropriate :around
+                  #'ethan-wspace--inappropriate-buffer-advice)
 
       (defun ethan-wspace--tabs-are-ok ()
         (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))

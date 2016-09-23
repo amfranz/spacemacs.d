@@ -38,10 +38,6 @@
     ;; Set up agendas.
     (setq org-agenda-files (list (concat org-directory "agenda/")))
 
-    ;; Return should follow links.
-    (setq org-return-follows-link t)
-    (evil-define-key 'normal org-mode-map (kbd "RET") 'org-return)
-
     ;; Enable additional languages babel should handle.
     (org-babel-do-load-languages
       'org-babel-load-languages

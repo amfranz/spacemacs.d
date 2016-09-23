@@ -515,6 +515,12 @@ you should place your code here."
     (interactive)
     (call-interactively shell-default-shell))
   (spacemacs/set-leader-keys "\"" #'spacemacs/default-shell)
+  (defun spacemacs/projectile-default-shell ()
+    "Open the default shell at projectile project root."
+    (interactive)
+    (let ((default-directory (projectile-project-root)))
+      (call-interactively shell-default-shell)))
+  (spacemacs/set-leader-keys "p\"" #'spacemacs/projectile-default-shell)
 
   ;; For *most* languages I work with 2 space indent is the norm.
   (setq-default evil-shift-width 2)

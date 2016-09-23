@@ -15,7 +15,7 @@
         "Rifle through the org directory."
         (interactive)
         (helm-org-rifle-directories `(,org-directory)))
-      (spacemacs/set-leader-keys "o/" #'mfa-org/helm-org-rifle-org-directory))))
+      (spacemacs/set-leader-keys "aor" #'mfa-org/helm-org-rifle-org-directory))))
 
 (defun mfa-org/init-helm-orgcard ()
   (use-package helm-orgcard

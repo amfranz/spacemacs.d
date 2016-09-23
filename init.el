@@ -499,11 +499,6 @@ you should place your code here."
   (when global-hl-line-mode
     (global-hl-line-mode -1))
 
-  ;; Disable xterm mouse mode, it makes it harder to copy-paste.
-  ;; xterm-mouse-mode also causes issues in daemon mode.
-  (when xterm-mouse-mode
-    (xterm-mouse-mode -1))
-
   ;; When the name of the server socket has been customized, child shells need
   ;; to be told the new name so that emacsclient will always connect to the
   ;; Emacs instance it has been invoked from.

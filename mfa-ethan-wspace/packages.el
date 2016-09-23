@@ -23,18 +23,6 @@
       (advice-add 'ethan-wspace--is-buffer-appropriate :around
                   #'ethan-wspace-inappropriate-buffer-advice)
 
-      ;; Some major modes do turn require-final-newline on, need to explicitly
-      ;; turn it off again.
-      (defun ethan-wspace--disable-require-final-newline ()
-        (if ethan-wspace-mode
-            (progn
-              (set (make-local-variable 'ethan-wspace--require-final-newline-orig)
-                   require-final-newline)
-              (setq require-final-newline nil))
-          (setq require-final-newline ethan-wspace--require-final-newline-orig)))
-      (add-hook 'ethan-wspace-mode-hook
-                #'ethan-wspace--disable-require-final-newline)
-
       (defun ethan-wspace--tabs-are-ok ()
         (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors)))
 

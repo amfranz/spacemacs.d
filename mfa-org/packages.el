@@ -29,10 +29,10 @@
   (setq org-directory "~/Dropbox/Org/")
 
   ;; install a shortcut to be able to quickly open the top org file.
-  (defun org-index ()
+  (defun mfa-org/org-index ()
     (interactive)
     (find-file (concat org-directory "index.org")))
-  (spacemacs/set-leader-keys "oi" #'org-index)
+  (spacemacs/set-leader-keys "oi" #'mfa-org/org-index)
 
   (with-eval-after-load 'org
     ;; Set up agendas.

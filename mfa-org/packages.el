@@ -26,7 +26,7 @@
 
 (defun mfa-org/post-init-org ()
   ;; share org files over Dropbox.
-  (setq org-directory "~/Dropbox/Org/")
+  (setq org-directory "~/Dropbox/Workspace/org/")
 
   ;; install a shortcut to be able to quickly open the top org file.
   (defun mfa-org/org-index ()

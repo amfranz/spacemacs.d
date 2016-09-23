@@ -124,6 +124,7 @@ values."
      mfa-javascript
      mfa-json
      mfa-make-mode
+     mfa-multi-line
      mfa-mwim
      mfa-neotree
      mfa-org
@@ -141,7 +142,6 @@ values."
      ;; TODO
      ;; bpr
      ;; fzf
-     ;; multi-line
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these

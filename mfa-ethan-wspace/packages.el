@@ -4,7 +4,15 @@
   (use-package ethan-wspace
     :diminish ethan-wspace-mode
     :init
-    (spacemacs/set-leader-keys "xe" #'ethan-wspace-clean-all)
+    (progn
+      (spacemacs|add-toggle ethan-wspace-mode
+        :status ethan-wspace-mode
+        :on (ethan-wspace-mode)
+        :off (ethan-wspace-mode -1)
+        :documentation "Toggle whitespace cleaning (ethan-wspace-mode)."
+        :evil-leader "te")
+
+      (spacemacs/set-leader-keys "xe" #'ethan-wspace-clean-all))
     :config
     (progn
       ;; Major modes shouldn't try to control the final newline any more.

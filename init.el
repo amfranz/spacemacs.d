@@ -756,6 +756,16 @@ you should place your code here."
   (spacemacs|hide-lighter xclip-mode)
   (when (and (not window-system) (getenv "DISPLAY"))
     (xclip-mode))
+
+  ;; Define the godoc HTTP server as a Prodigy managed service.
+  (with-eval-after-load 'prodigy
+    (prodigy-define-service
+      :name "Go Documentation Server"
+      :command "godoc"
+      :args '("-http" "127.0.0.1:6060" "-v")
+      :port 6060
+      :url "http://localhost:6060/"
+      :cwd user-home-directory))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

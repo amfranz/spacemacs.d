@@ -64,6 +64,7 @@ values."
      github
      emacs-lisp
      emoji
+     erlang
      evil-snipe
      (go :variables
          go-tab-width 4)

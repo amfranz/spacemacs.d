@@ -393,8 +393,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
     (setq gc-cons-threshold 20000000)) ; 20 MB
   (add-hook 'minibuffer-setup-hook #'disable-gc-hook)
   (add-hook 'minibuffer-exit-hook #'enable-gc-hook)
-  (add-hook 'after-init-hook #'enable-gc-hook)
-  (disable-gc-hook)
 
   ;; Prefer to load non-compiled elisp files if they are newer than their
   ;; compiled equivalents. This is a prophylactic against loading outdated

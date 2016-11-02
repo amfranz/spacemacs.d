@@ -757,6 +757,16 @@ you should place your code here."
       :port 6060
       :url "http://localhost:6060/"
       :cwd user-home-directory))
+
+  ;; Use a solid bar Unicode character as vertical border.
+  (set-display-table-slot standard-display-table 'vertical-border #x2502)
+  (with-eval-after-load 'page-break-lines
+    (defun mfa//buffer-display-table-vertical-border-advice (window)
+      (with-current-buffer (window-buffer window)
+        (when buffer-display-table
+          (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
+    (advice-add 'page-break-lines--update-display-table
+                :after #'mfa//buffer-display-table-vertical-border-advice))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -112,7 +112,6 @@ values."
      mfa-dynamic-ruler
      mfa-editorconfig
      mfa-environment
-     mfa-ethan-wspace
      mfa-evil
      mfa-evil-mc
      mfa-evil-quickscope
@@ -376,7 +375,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'changed
    ))
 
 (defun dotspacemacs/user-init ()

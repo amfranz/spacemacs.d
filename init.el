@@ -89,8 +89,8 @@ values."
      ruby
      search-engine
      (shell :variables
-            shell-default-shell 'multi-term
-            shell-enable-smart-eshell t)
+            shell-default-shell 'eshell
+            shell-default-term-shell "/bin/zsh")
      shell-scripts
      spacemacs-layouts
      sql
@@ -526,12 +526,17 @@ you should place your code here."
                           path-separator (getenv "PATH")))
           (push absolute-layer-bin-path exec-path)))))
 
-  ;; A key binding to open a full buffer-size shell.
+  ;; Make the shell prompt more fancy with zsh.
+  (setq multi-term-program "/bin/zsh")
+
+  ;; A key binding to open a full buffer-size shell in the current directory.
   (defun spacemacs/default-shell ()
     "Open the default shell."
     (interactive)
     (call-interactively shell-default-shell))
   (spacemacs/set-leader-keys "\"" #'spacemacs/default-shell)
+
+  ;; A key binding to open a full buffer-size shell in the project root directory.
   (defun spacemacs/projectile-default-shell ()
     "Open the default shell at projectile project root."
     (interactive)

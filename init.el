@@ -52,7 +52,10 @@ values."
 
      ;; layers by spacemacs
      ansible
-     auto-completion
+     (auto-completion :variables
+                      ;; No good way to insert a newline when the popup is present.
+                      ;; Let's disable the completion on RET and use C-l instead.
+                      auto-completion-return-key-behavior nil)
      clojure
      (c-c++ :variables
             c-c++-enable-clang-support t)

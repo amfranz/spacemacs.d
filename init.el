@@ -442,6 +442,14 @@ you should place your code here."
   ;; Disable lockfiles (.#*).
   (setq create-lockfiles nil)
 
+  ;; Customize file backups.
+  (setq backup-by-copying t
+        backup-directory-alist `(("." . ,(concat spacemacs-cache-directory "backups/")))
+        delete-old-versions t
+        kept-new-versions 2
+        kept-old-versions 2
+        version-control t)
+
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
     (push "\\`/tmp/" recentf-exclude)

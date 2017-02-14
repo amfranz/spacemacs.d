@@ -60,9 +60,11 @@ values."
      (c-c++ :variables
             c-c++-enable-clang-support t)
      colors
+     csv
      (dash :variables
            helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
      docker
+     fasd
      (git :variables
           git-magit-status-fullscreen t)
      github
@@ -72,12 +74,16 @@ values."
      (go :variables
          go-tab-width 4)
      graphviz
+     (gtags :variables
+            gtags-enable-by-default nil)
      helm
      html
+     imenu-list
      javascript
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
+     nginx
      nlinum
      (org :variables
           org-enable-github-support t)
@@ -85,17 +91,19 @@ values."
      plantuml
      prodigy
      python
-     ;; rebox
      restclient
-     ruby
+     (ruby :variables
+           ruby-version-manager 'rvm)
+     rust
      search-engine
      (shell :variables
             shell-default-shell 'eshell
             shell-default-term-shell "/bin/zsh")
      shell-scripts
-     spacemacs-layouts
      sql
      syntax-checking
+     systemd
+     typescript
      vinegar
      version-control
      yaml
@@ -150,7 +158,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(zenburn-theme)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.

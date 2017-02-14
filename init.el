@@ -63,7 +63,8 @@ values."
      (dash :variables
            helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
      docker
-     git
+     (git :variables
+          git-magit-status-fullscreen t)
      github
      emacs-lisp
      erlang

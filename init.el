@@ -583,7 +583,7 @@ you should place your code here."
     :evil-leader "tJ")
 
   (defun show-and-copy-project-dirname ()
-    "Show and copy the full path to the directory of the current file in the minibuffer."
+    "Show and copy the full path to the current project directory in the minibuffer."
     (interactive)
     (let ((project-root (projectile-project-root)))
       (message (kill-new project-root))))

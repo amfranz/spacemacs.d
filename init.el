@@ -618,7 +618,6 @@ you should place your code here."
   (spacemacs/set-leader-keys "xll" #'sort-lines-by-length)
   (spacemacs/set-leader-keys "xln" #'sort-numeric-fields)
 
-  ;; Make Flycheck a little bit less eager to lint.
   ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
   (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
 
@@ -626,9 +625,10 @@ you should place your code here."
   (with-eval-after-load 'ws-butler
     (push 'go-mode ws-butler-global-exempt-modes))
 
+  ;; Make Flycheck a little bit less eager to lint. This is mostly due to
+  ;; gometalinter which is eating CPU cycles like they are candy.
   (with-eval-after-load 'flycheck
-    (setq flycheck-check-syntax-automatically
-          (delete 'new-line flycheck-check-syntax-automatically)))
+    (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
   ;; Scroll the compilation buffer to the first error.
   (setq compilation-scroll-output 'first-error)

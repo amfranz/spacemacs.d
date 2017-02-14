@@ -543,7 +543,6 @@ you should place your code here."
   (spacemacs/set-leader-keys "nm" #'next-match)
   (spacemacs/set-leader-keys "ou" #'spacemacs/avy-open-url)
   (spacemacs/set-leader-keys "qe" #'server-edit)
-  (spacemacs/set-leader-keys "wx" #'kill-buffer-and-window)
 
   ;; Key bindings for auto-fill.
   (spacemacs/declare-prefix "of" "auto-fill")

@@ -86,7 +86,9 @@ values."
      nginx
      nlinum
      (org :variables
-          org-enable-github-support t)
+          org-enable-bootstrap-support t
+          org-enable-github-support t
+          org-enable-reveal-js-support t)
      php
      plantuml
      prodigy
@@ -140,7 +142,6 @@ values."
      mfa-neotree
      mfa-org
      mfa-pass
-     mfa-poporg
      mfa-projectile
      mfa-python
      mfa-ruby

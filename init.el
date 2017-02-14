@@ -66,7 +66,6 @@ values."
      git
      github
      emacs-lisp
-     emoji
      erlang
      evil-snipe
      (go :variables
@@ -494,10 +493,6 @@ you should place your code here."
   ;; Reduce the list of supported VC backends. This improves performance as it
   ;; does less when trying to autodetect source control meta-data.
   (setq vc-handled-backends '(Git))
-
-  ;; Hide emoji mode lighter, it is distracting.
-  (with-eval-after-load 'emoji-cheat-sheet-plus
-    (spacemacs|hide-lighter emoji-cheat-sheet-plus-display-mode))
 
   ;; Hide dired-omit-mode lighter, it is distracting.
   (with-eval-after-load 'dired-x

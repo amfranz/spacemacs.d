@@ -838,6 +838,29 @@ you should place your code here."
   ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
   (fset 'evil-visual-update-x-selection 'ignore)
 
+  ;; Add support for running go benchmarks
+  (with-eval-after-load 'go-mode
+    (defun spacemacs/go-run-test-current-function ()
+      (interactive)
+      (if (string-match "_test\\.go" buffer-file-name)
+          (save-excursion
+            (re-search-backward "^func[ ]+\\(?:([[:alnum:]]*?[ ]?[*]?[[:alnum:]]+)[ ]+\\)?\\(\\(Test\\|Benchmark\\)[[:alnum:]_]+\\)(.*)")
+            (let ((test-method
+                  (if (string= (match-string-no-properties 2) "Benchmark")
+                      "-bench"
+                    (if go-use-gocheck-for-testing
+                        "-check.f"
+                      "-run"))))
+              (spacemacs/go-run-tests (concat test-method "='" (match-string-no-properties 1) "'"))))
+        (message "Must be in a _test.go file to run go-run-test-current-function")))
+
+    (defun spacemacs/go-run-package-benchmarks ()
+      (interactive)
+      (spacemacs/go-run-tests "-bench=."))
+
+    (spacemacs/set-leader-keys-for-major-mode 'go-mode
+      "tb" #'spacemacs/go-run-package-benchmarks))
+
   (defun magit-diff-this-file ()
     (interactive)
     (let ((file-name (buffer-file-name)))

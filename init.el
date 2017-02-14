@@ -619,6 +619,13 @@ you should place your code here."
   (spacemacs/set-leader-keys "xln" #'sort-numeric-fields)
 
   ;; Make Flycheck a little bit less eager to lint.
+  ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
+  (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
+
+  ;; Disable ws-butler for go source code, go fmt will do the job instead.
+  (with-eval-after-load 'ws-butler
+    (push 'go-mode ws-butler-global-exempt-modes))
+
   (with-eval-after-load 'flycheck
     (setq flycheck-check-syntax-automatically
           (delete 'new-line flycheck-check-syntax-automatically)))

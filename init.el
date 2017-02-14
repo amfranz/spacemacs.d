@@ -562,7 +562,6 @@ you should place your code here."
   (spacemacs/set-leader-keys "bb" #'helm-buffers-list)
 
   ;; Miscellaneous key bindings to built-in functions.
-  (spacemacs/set-leader-keys "gd" #'vc-diff)
   (spacemacs/set-leader-keys "nm" #'next-match)
   (spacemacs/set-leader-keys "ou" #'spacemacs/avy-open-url)
   (spacemacs/set-leader-keys "qe" #'server-edit)
@@ -838,6 +837,14 @@ you should place your code here."
   ;; Required to be able to paste from clipboard in visual mode
   ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
   (fset 'evil-visual-update-x-selection 'ignore)
+
+  (defun magit-diff-this-file ()
+    (interactive)
+    (let ((file-name (buffer-file-name)))
+      (if file-name
+          (magit-diff "master" nil (list buffer-file-name))
+        (error "Buffer not visiting a file"))))
+  (spacemacs/set-leader-keys "gd" #'magit-diff-this-file)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

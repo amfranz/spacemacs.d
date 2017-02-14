@@ -76,7 +76,8 @@ values."
      html
      javascript
      lua
-     markdown
+     (markdown :variables
+               markdown-live-preview-engine 'vmd)
      nlinum
      (org :variables
           org-enable-github-support t)

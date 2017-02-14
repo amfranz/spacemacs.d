@@ -771,6 +771,16 @@ you should place your code here."
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
 
+  ;; Augment sort lines to support case insensitive sort with prefix argument.
+  (defun spacemacs/sort-lines (invert-case)
+    "Sort lines in region or current buffer"
+    (interactive "P")
+    (require 'sort) ;; to ensure sort-fold-case is defined
+    (let ((beg (if (region-active-p) (region-beginning) (point-min)))
+          (end (if (region-active-p) (region-end) (point-max)))
+          (sort-fold-case (if invert-case (not sort-fold-case) sort-fold-case)))
+      (sort-lines nil beg end)))
+
   ;; Required to be able to paste from clipboard in visual mode
   ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
   (fset 'evil-visual-update-x-selection 'ignore)

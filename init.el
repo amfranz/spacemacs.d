@@ -770,6 +770,10 @@ you should place your code here."
           (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
+
+  ;; Required to be able to paste from clipboard in visual mode
+  ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
+  (fset 'evil-visual-update-x-selection 'ignore)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

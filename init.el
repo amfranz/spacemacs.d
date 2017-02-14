@@ -476,6 +476,10 @@ you should place your code here."
   ;; Having this disabled is annoying, totally messes up visual indentation.
   (setq-default truncate-lines t)
 
+  ;; Adjust thresholds for sensible window splitting.
+  (setq split-height-threshold 40
+        split-width-threshold 120)
+
   ;; Tell paradox that we won't give it a GitHub token.
   (setq paradox-github-token t)
 

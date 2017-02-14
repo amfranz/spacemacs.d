@@ -771,6 +771,12 @@ you should place your code here."
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
 
+  ;; Force eshell to quit if it gets stuck with "text is read-only"
+  (defun kill-eshell ()
+    (interactive)
+    (let ((inhibit-read-only t))
+      (kill-this-buffer)))
+
   ;; Augment sort lines to support case insensitive sort with prefix argument.
   (defun spacemacs/sort-lines (invert-case)
     "Sort lines in region or current buffer"

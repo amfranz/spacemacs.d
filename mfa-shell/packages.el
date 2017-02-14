@@ -8,8 +8,9 @@
 (defun mfa-shell/post-init-multi-term ()
   (with-eval-after-load 'multi-term
     (dolist (key '("C-r" "C-s" "M-r" "C-n" "C-p"))
-      (setq term-bind-key-alist (delq (assoc "C-r" term-bind-key-alist) term-bind-key-alist)))
-    (push '("C-r" . term-send-reverse-search-history) term-bind-key-alist)))
+      (setq term-bind-key-alist (delq (assoc key term-bind-key-alist) term-bind-key-alist)))
+    (push '("C-r" . term-send-reverse-search-history) term-bind-key-alist)
+    (push '("M-DEL" . term-send-backward-kill-word) term-bind-key-alist)))
 
 (defun mfa-shell/post-init-shell ()
   (when (configuration-layer/package-usedp 'bash-completion)

@@ -25,30 +25,33 @@
 
 (defun mfa-org/org-from-mobile ()
   (interactive)
-  (find-file (concat org-directory "from-mobile.org")))
+  (find-file org-mobile-inbox-for-pull))
 
 (defun mfa-org/post-init-org ()
   ;; share org files over Dropbox.
   (setq org-directory "~/Dropbox/Workspace/org/")
 
-  ;; Set up agendas.
+  ;; set up agendas.
   (setq org-agenda-files (list (concat org-directory "agenda/")))
 
-  ;; configure org-mobile.
-  (setq org-mobile-inbox-for-pull (concat org-directory "from-mobile.org")
-        org-mobile-directory "~/Dropbox/Apps/MobileOrg/")
+  ;; set up org-mobile.
+  (autoload 'org-mobile-pull "org")
+  (autoload 'org-mobile-push "org")
+
+  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg/"
+        org-mobile-inbox-for-pull (concat org-directory "from-mobile.org")
+        org-mobile-files (list 'org-agenda-files (concat org-directory "trove/")))
 
   (spacemacs/declare-prefix "om" "org-mobile")
+  (spacemacs/set-leader-keys "omc" #'mfa-org/org-from-mobile)
   (spacemacs/set-leader-keys "omf" #'org-mobile-pull)
-  (spacemacs/set-leader-keys "omi" #'mfa-org/org-from-mobile)
   (spacemacs/set-leader-keys "omp" #'org-mobile-push)
 
-  (spacemacs/set-leader-keys "oi" #'mfa-org/org-index)
-
+  ;; set up org-babel.
   (spacemacs|use-package-add-hook org
     :post-config
     (progn
-      ;; Enable additional languages babel should handle.
+      ;; enable additional languages babel should handle.
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((ditaa . t)
@@ -59,7 +62,10 @@
       (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
       ;; graphviz creates graphs based on descriptions.
-      (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot)))))
+      (push '("dot" . graphviz-dot) org-src-lang-modes)))
+
+  ;; extra keybindings for org functionality.
+  (spacemacs/set-leader-keys "oi" #'mfa-org/org-index))
 
 (defun mfa-org/init-poporg ()
   (use-package poporg

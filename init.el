@@ -136,6 +136,7 @@ values."
      mfa-fancy-narrow
      mfa-google-this
      mfa-highlight-symbols
+     mfa-iimage
      mfa-javascript
      mfa-json
      mfa-make-mode

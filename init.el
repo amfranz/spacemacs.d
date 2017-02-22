@@ -56,22 +56,22 @@ values."
                       ;; No good way to insert a newline when the popup is present.
                       ;; Let's disable the completion on RET and use C-l instead.
                       auto-completion-return-key-behavior nil)
-     clojure
      (c-c++ :variables
             c-c++-enable-clang-support t)
      chrome
+     clojure
      colors
      csv
      (dash :variables
            helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
      docker
      fasd
-     (git :variables
-          git-magit-status-fullscreen t)
-     github
      emacs-lisp
      erlang
      evil-snipe
+     (git :variables
+          git-magit-status-fullscreen t)
+     github
      (go :variables
          go-tab-width 4)
      graphviz

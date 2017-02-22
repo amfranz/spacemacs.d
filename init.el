@@ -59,6 +59,7 @@ values."
      clojure
      (c-c++ :variables
             c-c++-enable-clang-support t)
+     chrome
      colors
      csv
      (dash :variables
@@ -118,6 +119,7 @@ values."
      mfa-ascii
      mfa-bookmarks
      mfa-checkbashisms
+     mfa-chrome
      mfa-dash
      mfa-defproject
      mfa-devdocs

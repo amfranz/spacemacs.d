@@ -84,6 +84,10 @@ values."
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
+     (mu4e :variables
+           mu4e-account-alist t
+           mu4e-enable-mode-line t
+           mu4e-enable-notification t)
      nginx
      nlinum
      (org :variables
@@ -140,6 +144,7 @@ values."
      mfa-javascript
      mfa-json
      mfa-make-mode
+     mfa-mu4e
      mfa-multi-line
      mfa-mwim
      mfa-neotree

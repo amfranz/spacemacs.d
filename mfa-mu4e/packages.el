@@ -40,4 +40,11 @@
                  '("xView in XWidget" . mu4e-action-view-with-xwidget) t)
 
     (require 'mu4e-contrib)
-    (mu4e-alert-set-default-style 'notifications)))
+    (mu4e-alert-set-default-style 'notifications))
+
+  (setq send-mail-function #'smtpmail-send-it
+        message-send-mail-function #'smtpmail-send-it
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-stream-type 'starttls))

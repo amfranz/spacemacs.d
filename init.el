@@ -571,7 +571,6 @@ you should place your code here."
 
   ;; Miscellaneous key bindings to built-in functions.
   (spacemacs/set-leader-keys "nm" #'next-match)
-  (spacemacs/set-leader-keys "ou" #'spacemacs/avy-open-url)
   (spacemacs/set-leader-keys "qe" #'server-edit)
 
   ;; Key bindings for auto-fill.

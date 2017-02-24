@@ -17,8 +17,8 @@
         mu4e-view-show-images t)
 
   (setq mu4e-maildir-shortcuts
-        '(("/amfranz@gmail.com/INBOX" . ?g)
-          ("/maigner@updox.com/INBOX" . ?u)))
+        '(("/amfranz@gmail.com/INBOX" . ?a)
+          ("/maigner@updox.com/INBOX" . ?m)))
 
   (setq mu4e-bookmarks
         `(("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
@@ -33,24 +33,37 @@
            "All inboxes" ?i)))
 
   (with-eval-after-load 'mu4e
-    (setq mu4e-account-alist
-          '(("amfranz@gmail.com"
-             (mu4e-sent-messages-behavior delete)
-             (mu4e-drafts-folder "/amfranz@gmail.com/Drafts/")
-             (mu4e-refile-folder "/amfranz@gmail.com/Archive/")
-             (mu4e-sent-folder "/amfranz@gmail.com/Sent Mail/")
-             (mu4e-trash-folder "/amfranz@gmail.com/Trash/")
-             (user-full-name "Michael Franz Aigner")
-             (user-mail-address "amfranz@gmail.com"))
-            ("maigner@updox.com"
-             (mu4e-sent-messages-behavior delete)
-             (mu4e-drafts-folder "/maigner@updox.com/Drafts/")
-             (mu4e-refile-folder "/amfranz@gmail.com/Archive/")
-             (mu4e-sent-folder "/maigner@updox.com/Sent Mail/")
-             (mu4e-trash-folder "/maigner@updox.com/Trash/")
-             (user-full-name "Michael Franz Aigner")
-             (user-mail-address "maigner@updox.com"))))
-    (mu4e/mail-account-reset)
+    (setq mu4e-contexts
+          `(,(make-mu4e-context
+              :name "amfranz@gmail.com"
+              :match-func (lambda (msg)
+                            (when msg
+                              (string-prefix-p "/amfranz@gmail.com/" (mu4e-message-field msg :maildir))))
+              :vars '((user-mail-address      . "amfranz@gmail.com")
+                      (user-full-name         . "Michael Franz Aigner")
+                      (mu4e-drafts-folder     . "/amfranz@gmail.com/Drafts/")
+                      (mu4e-refile-folder     . "/amfranz@gmail.com/Archive/")
+                      (mu4e-sent-folder       . "/amfranz@gmail.com/Sent Mail/")
+                      (mu4e-trash-folder      . "/amfranz@gmail.com/Trash/")
+                      (mu4e-compose-signature . (concat
+                                                 "---\n"
+                                                 "best regards,\n"
+                                                 "Michael Franz Aigner\n"))))
+            ,(make-mu4e-context
+              :name "maigner@updox.com"
+              :match-func (lambda (msg)
+                            (when msg
+                              (string-prefix-p "/maigner@updox.com/" (mu4e-message-field msg :maildir))))
+              :vars '((user-mail-address      . "maigner@updox.com" )
+                      (user-full-name         . "Michael Franz Aigner" )
+                      (mu4e-drafts-folder     . "/maigner@updox.com/Drafts/")
+                      (mu4e-refile-folder     . "/maigner@updox.com/Archive/")
+                      (mu4e-sent-folder       . "/maigner@updox.com/Sent Mail/")
+                      (mu4e-trash-folder      . "/maigner@updox.com/Trash/")
+                      (mu4e-compose-signature . (concat
+                                                 "---\n"
+                                                 "best regards,\n"
+                                                 "Michael Franz Aigner\n"))))))
 
     (add-to-list 'mu4e-view-actions
                  '("xView in XWidget" . mu4e-action-view-with-xwidget) t)

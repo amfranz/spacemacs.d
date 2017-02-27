@@ -42,7 +42,7 @@
               :vars '((user-mail-address      . "amfranz@gmail.com")
                       (user-full-name         . "Michael Franz Aigner")
                       (mu4e-drafts-folder     . "/amfranz@gmail.com/Drafts/")
-                      (mu4e-refile-folder     . "/amfranz@gmail.com/Archive/")
+                      (mu4e-refile-folder     . "/amfranz@gmail.com/All Mail/")
                       (mu4e-sent-folder       . "/amfranz@gmail.com/Sent Mail/")
                       (mu4e-trash-folder      . "/amfranz@gmail.com/Trash/")
                       (mu4e-compose-signature . (concat
@@ -57,7 +57,7 @@
               :vars '((user-mail-address      . "maigner@updox.com" )
                       (user-full-name         . "Michael Franz Aigner" )
                       (mu4e-drafts-folder     . "/maigner@updox.com/Drafts/")
-                      (mu4e-refile-folder     . "/maigner@updox.com/Archive/")
+                      (mu4e-refile-folder     . "/maigner@updox.com/All Mail/")
                       (mu4e-sent-folder       . "/maigner@updox.com/Sent Mail/")
                       (mu4e-trash-folder      . "/maigner@updox.com/Trash/")
                       (mu4e-compose-signature . (concat

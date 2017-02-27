@@ -65,8 +65,9 @@
                                                  "best regards,\n"
                                                  "Michael Franz Aigner\n"))))))
 
-    (add-to-list 'mu4e-view-actions
-                 '("xView in XWidget" . mu4e-action-view-with-xwidget) t)
+    (when (eq window-system 'x)
+      (add-to-list 'mu4e-view-actions
+                   '("xView in XWidget" . mu4e-action-view-with-xwidget) t))
 
     (require 'mu4e-contrib)
     (mu4e-alert-set-default-style 'notifications))

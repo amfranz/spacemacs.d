@@ -47,22 +47,13 @@
   (spacemacs/set-leader-keys "omf" #'org-mobile-pull)
   (spacemacs/set-leader-keys "omp" #'org-mobile-push)
 
-  ;; set up org-babel.
-  (spacemacs|use-package-add-hook org
-    :post-config
-    (progn
-      ;; enable additional languages babel should handle.
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((ditaa . t)
-         (dot . t)
-         (emacs-lisp . t)))
+  ;; ditaa converts ascii images to real images.
+  (push '(ditaa . t) org-babel-load-languages)
+  (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
-      ;; ditaa converts ascii images to real images.
-      (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
-
-      ;; graphviz creates graphs based on descriptions.
-      (push '("dot" . graphviz-dot) org-src-lang-modes)))
+  ;; graphviz creates graphs based on descriptions.
+  (push '(dot . t) org-babel-load-languages)
+  (push '("dot" . graphviz-dot) org-src-lang-modes)
 
   ;; extra keybindings for org functionality.
   (spacemacs/set-leader-keys "oi" #'mfa-org/org-index))

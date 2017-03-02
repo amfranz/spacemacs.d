@@ -157,6 +157,7 @@ values."
      mfa-shell-scripts
      mfa-string-edit
      mfa-string-inflection
+     mfa-sqlformat
      mfa-xml
 
      ;; TODO

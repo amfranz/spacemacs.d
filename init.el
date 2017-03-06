@@ -84,10 +84,7 @@ values."
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
-     (mu4e :variables
-           mu4e-account-alist t
-           mu4e-enable-mode-line t
-           mu4e-enable-notification t)
+     mu4e
      nginx
      nlinum
      (org :variables

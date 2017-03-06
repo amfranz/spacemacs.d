@@ -1,4 +1,4 @@
-(defconst mfa-org-packages '(fontawesome helm-org-rifle helm-orgcard org poporg))
+(defconst mfa-org-packages '(fontawesome helm-org-rifle helm-orgcard org orglink poporg))
 
 (defun mfa-org/init-fontawesome ()
   (use-package fontawesome
@@ -57,6 +57,14 @@
 
   ;; extra keybindings for org functionality.
   (spacemacs/set-leader-keys "oi" #'mfa-org/org-index))
+
+(defun mfa-org/init-orglink ()
+  (use-package orglink
+    :defer t
+    :init
+    (add-hook 'prog-mode-hook #'orglink-mode)
+    :config
+    (spacemacs|hide-lighter orglink-mode)))
 
 (defun mfa-org/init-poporg ()
   (use-package poporg

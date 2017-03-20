@@ -718,7 +718,7 @@ you should place your code here."
       (if (not (file-directory-p file))
           (find-file file)
         (let ((find-file-run-dired t))
-          (if (eq dired-window (selected-window))
+          (if (and vinegar-reuse-dired-buffer (eq dired-window (selected-window)))
               (find-alternate-file file)
             (find-file file))))))
   (with-eval-after-load 'dired

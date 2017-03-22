@@ -130,6 +130,7 @@ values."
      mfa-editorconfig
      mfa-environment
      mfa-evil
+     mfa-evil-lion
      mfa-evil-mc
      mfa-evil-quickscope
      mfa-evil-textobj-anyblock

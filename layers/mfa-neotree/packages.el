@@ -8,9 +8,6 @@
     (setq all-the-icons-scale-factor 1.0)))
 
 (defun mfa-neotree/post-init-neotree ()
-  ;; Bind neotree-find to a key.
-  (spacemacs/set-leader-keys "fd" #'neotree-find)
-
   (with-eval-after-load 'neotree
 
     ;; Make the tree more fancy.

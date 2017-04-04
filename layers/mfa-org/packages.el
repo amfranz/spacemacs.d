@@ -47,6 +47,12 @@
   (spacemacs/set-leader-keys "omf" #'org-mobile-pull)
   (spacemacs/set-leader-keys "omp" #'org-mobile-push)
 
+  ;; additional leader key bindings for org functionality.
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "oy" #'org-copy-special
+    "oc" #'org-cut-special
+    "op" #'org-paste-special)
+
   ;; ditaa converts ascii images to real images.
   (push '(ditaa . t) org-babel-load-languages)
   (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")

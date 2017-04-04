@@ -108,6 +108,7 @@ values."
      syntax-checking
      systemd
      typescript
+     vimscript
      vinegar
      version-control
      yaml

@@ -807,25 +807,6 @@ you should place your code here."
       :url "http://localhost:6060/"
       :cwd user-home-directory))
 
-  ;; https://github.com/syl20bnr/spacemacs/pull/3460
-  (defun spacemacs/window-layout-toggle ()
-    "Toggle between horizontal and vertical layout of two windows."
-    (interactive)
-    (when (= (count-windows) 2)
-      (let* ((window-tree (car (window-tree)))
-             (current-split-vertical-p (car window-tree))
-             (first-window (nth 2 window-tree))
-             (second-window (nth 3 window-tree))
-             (second-window-state (window-state-get second-window))
-             (splitter (if current-split-vertical-p
-                           #'split-window-horizontally
-                         #'split-window-vertically)))
-        (delete-other-windows first-window)
-        ;; `window-state-put' also re-selects the window if needed, so we don't
-        ;; need to call `select-window'
-        (window-state-put second-window-state (funcall splitter)))))
-  (spacemacs/set-leader-keys "w TAB" #'spacemacs/window-layout-toggle)
-
   ;; Use a solid bar Unicode character as vertical border.
   (set-display-table-slot standard-display-table 'vertical-border #x2502)
   (with-eval-after-load 'page-break-lines

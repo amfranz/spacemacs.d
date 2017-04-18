@@ -174,10 +174,9 @@ See URL `https://developers.google.com/closure/utilities'."
 (defun mfa-javascript/post-init-projectile ()
   (with-eval-after-load 'projectile
     (projectile-register-project-type
-     'nodejs-gulp-mocha
-     '("package.json" "gulpfile.*" "test/mocha.opts")
-     "nvpm-exec-gulp"
-     "nvpm-exec-mocha")
+     'nodejs-gulp-mocha '("package.json" "gulpfile.*" "test/mocha.opts")
+     :compile "nvpm-exec-gulp"
+     :test "nvpm-exec-mocha")
     (defun projectile-test-suffix--javascript (orig-fun project-type)
       (cond
        ((member project-type '(nodejs-gulp-mocha)) "_test")

@@ -869,6 +869,10 @@ you should place your code here."
           (magit-diff "master" nil (list buffer-file-name))
         (error "Buffer not visiting a file"))))
   (spacemacs/set-leader-keys "gd" #'magit-diff-this-file)
+
+  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/8027
+  (require 'ansible)
+  (require 'ansible-doc)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

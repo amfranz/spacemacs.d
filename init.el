@@ -870,6 +870,14 @@ you should place your code here."
         (error "Buffer not visiting a file"))))
   (spacemacs/set-leader-keys "gd" #'magit-diff-this-file)
 
+  (with-eval-after-load 'core-configuration-layer
+    (defun configuration-layer//preload-restart-emacs (&rest args)
+      "Preloads the restart-emacs package before updating packages which
+potentially deletes it, after which it can not be autoloaded any more."
+      (require 'restart-emacs))
+    (advice-add 'configuration-layer/update-packages :before
+                'configuration-layer//preload-restart-emacs))
+
   ;; workaround for https://github.com/syl20bnr/spacemacs/issues/8027
   (require 'ansible)
   (require 'ansible-doc)

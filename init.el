@@ -98,7 +98,8 @@ values."
      restclient
      (ruby :variables
            ruby-version-manager 'rvm)
-     rust
+     (rust :variables
+           rust-format-on-save t)
      search-engine
      (shell :variables
             shell-default-shell 'eshell

@@ -881,6 +881,13 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; workaround for https://github.com/syl20bnr/spacemacs/issues/8027
   (require 'ansible)
   (require 'ansible-doc)
+
+  (defun open-konsole ()
+    (interactive)
+    (call-process "konsole" nil 0 nil "--nofork" "--workdir" (expand-file-name default-directory)))
+
+  (spacemacs/declare-prefix "oa" "applications")
+  (spacemacs/set-leader-keys "oat" #'open-konsole)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

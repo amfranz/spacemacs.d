@@ -126,6 +126,7 @@ values."
      mfa-defproject
      mfa-devdocs
      mfa-diff
+     mfa-dired
      mfa-dtrt-indent
      mfa-dynamic-ruler
      mfa-editorconfig

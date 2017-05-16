@@ -79,6 +79,7 @@ values."
             gtags-enable-by-default nil)
      helm
      html
+     ibuffer
      imenu-list
      javascript
      lua

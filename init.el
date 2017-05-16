@@ -888,9 +888,11 @@ potentially deletes it, after which it can not be autoloaded any more."
   (defun open-konsole ()
     (interactive)
     (call-process "konsole" nil 0 nil "--nofork" "--workdir" (expand-file-name default-directory)))
-
-  (spacemacs/declare-prefix "oa" "applications")
-  (spacemacs/set-leader-keys "oat" #'open-konsole)
+  (defun projectile-open-konsole ()
+    (interactive)
+    (call-process "konsole" nil 0 nil "--nofork" "--workdir" (projectile-project-root)))
+  (spacemacs/set-leader-keys "ok" #'open-konsole)
+  (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -666,19 +666,6 @@ you should place your code here."
   ;; Scroll the compilation buffer to the first error.
   (setq compilation-scroll-output 'first-error)
 
-  (with-eval-after-load 'compile
-    (defun close-compile-buffer-if-successful (buffer string)
-      "Bury a compilation buffer if succeeded without warnings "
-      (if (and
-           (string-match "compilation" (buffer-name buffer))
-           (string-match "finished" string)
-           (not
-            (with-current-buffer buffer
-              (goto-char (point-min))
-              (search-forward "exited abnormally" nil t))))
-          (spacemacs/close-compilation-window)))
-    (add-hook 'compilation-finish-functions #'close-compile-buffer-if-successful))
-
   ;; Support for colors with ANSI escape sequences compile output buffer.
   (with-eval-after-load 'compile
     (autoload 'ansi-color-apply-on-region "ansi-color")

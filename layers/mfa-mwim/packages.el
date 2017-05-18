@@ -12,7 +12,6 @@
       (with-eval-after-load 'evil
         (define-key evil-normal-state-map (kbd "C-e") #'mwim-end)
         (define-key evil-motion-state-map (kbd "C-e") #'mwim-end)
-        (define-key evil-insert-state-map (kbd "C-e") #'mwim-end)
         (define-key evil-visual-state-map (kbd "C-e") #'mwim-end)
         (evil-declare-motion 'mwim-beginning)
         (evil-declare-motion 'mwim-end)))))

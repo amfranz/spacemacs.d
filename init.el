@@ -860,6 +860,9 @@ you should place your code here."
         (error "Buffer not visiting a file"))))
   (spacemacs/set-leader-keys "gd" #'magit-diff-this-file)
 
+  (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
+  (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)
+
   (with-eval-after-load 'core-configuration-layer
     (defun configuration-layer//preload-restart-emacs (&rest args)
       "Preloads the restart-emacs package before updating packages which

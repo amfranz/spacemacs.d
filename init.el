@@ -146,6 +146,7 @@ values."
      mfa-iimage
      mfa-javascript
      mfa-json
+     mfa-lice
      mfa-make-mode
      mfa-mu4e
      mfa-multi-line

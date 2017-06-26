@@ -65,7 +65,6 @@ values."
      (dash :variables
            helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
      docker
-     fasd
      emacs-lisp
      erlang
      evil-snipe

@@ -256,7 +256,10 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font `("DejaVu Sans Mono for Powerline"
-                               :size ,(if (and (eq window-system 'x) (eq (x-display-pixel-width) 2560)) 16 13)
+                               :size ,(pcase (and (display-graphic-p) (x-display-pixel-width))
+                                        (2880 26)
+                                        (2560 16)
+                                        (_ 13))
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)

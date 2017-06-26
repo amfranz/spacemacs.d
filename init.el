@@ -461,7 +461,15 @@ before packages are loaded. If you are unsure, you should try in setting them in
     ;; NVM
     (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
       (add-to-list 'exec-path-from-shell-variables item)))
-  )
+
+  ;; When the name of the server socket has been customized, child shells need
+  ;; to be told the new name so that emacsclient will always connect to the
+  ;; Emacs instance it has been invoked from.
+  (with-eval-after-load 'server
+    (let ((socket-name (getenv "EMACS_SERVER_NAME")))
+      (if socket-name
+          (setq server-name socket-name)
+        (setenv "EMACS_SERVER_NAME" server-name)))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -544,11 +552,11 @@ you should place your code here."
   (when global-hl-line-mode
     (global-hl-line-mode -1))
 
-  ;; When the name of the server socket has been customized, child shells need
-  ;; to be told the new name so that emacsclient will always connect to the
-  ;; Emacs instance it has been invoked from.
+  ;; Patch emacsclient --eval to be quiet.
+  ;; Source: https://emacs.stackexchange.com/questions/28989/how-to-stop-emacsclient-t-a-eval-output-to-stdout
   (with-eval-after-load 'server
-    (setenv "EMACS_SERVER_NAME" server-name))
+    (define-advice server-eval-and-print (:filter-args (args) no-print)
+      (list (car args) nil)))
 
   ;; Register directories with executables dedicated specifically for use by Emacs.
   (dolist (layer-path (cons configuration-layer-private-directory dotspacemacs-configuration-layer-path))

@@ -502,8 +502,27 @@ you should place your code here."
     (push "\\`/var/tmp/" recentf-exclude))
 
   ;; Mention the active buffer name in the title bar.
-  (when window-system
-    (setq frame-title-format '(buffer-file-name "Emacs: %b (%f)" "Emacs: %b")))
+  (defun frame-title ()
+    (concat
+     (buffer-name)
+     (when (or buffer-file-name (eq major-mode 'dired-mode))
+       (concat " (" (string-remove-suffix "/" (abbreviate-file-name default-directory)) ")"))
+     " - Emacs"))
+  (require 's)
+  (setq frame-title-format '((:eval (s-replace "%" "%%" (frame-title)))))
+  (defun xterm-supports-title ()
+    (and (not (display-graphic-p))
+         (let ((term (frame-parameter nil 'tty-type)))
+           (or (string-prefix-p "xterm" term)
+               (string-prefix-p "screen" term)))))
+  (defun xterm-update-title ()
+    (when (xterm-supports-title)
+      (let ((old-title (frame-parameter nil 'xterm-title))
+            (new-title (frame-title)))
+        (unless (string-equal old-title new-title)
+          (send-string-to-terminal (concat "\033]0;" new-title "\007"))
+          (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
+  (add-hook 'post-command-hook #'xterm-update-title)
 
   ;; Various customization of helm.
   (setq helm-default-external-file-browser "xdg-open"

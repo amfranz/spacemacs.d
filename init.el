@@ -653,11 +653,17 @@ you should place your code here."
       (message (kill-new project-root))))
   (spacemacs/set-leader-keys "pY" #'show-and-copy-project-dirname)
 
+  (defun buffer-path ()
+    (or buffer-file-name
+        (and (eq major-mode 'dired-mode)
+             (expand-file-name (if (consp dired-directory)
+                                   (car dired-directory)
+                                 dired-directory)))))
+
   (defun show-and-copy-buffer-dirname ()
     "Show and copy the full path to the directory of the current file in the minibuffer."
     (interactive)
-    ;; list-buffers-directory is the variable set in dired buffers
-    (let ((file-name (or (buffer-file-name) list-buffers-directory)))
+    (let ((file-name (buffer-path)))
       (if file-name
           (message (kill-new (if (file-directory-p file-name)
                                  file-name

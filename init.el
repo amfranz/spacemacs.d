@@ -449,6 +449,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;; This needs to be set before evil is loaded or it won't take effect.
   (setq evil-search-module 'evil-search)
 
+  ;; Do not warn about environment variables set in .zshrc / .bashrc. This
+  ;; warning gets triggered because rbenv does add its shim directory to the
+  ;; PATH in those shell files. We can ignore that, it's harmless.
+  (setq exec-path-from-shell-check-startup-files nil)
+
   ;; Import additional variables from the shell profile.
   (with-eval-after-load 'exec-path-from-shell
     ;; Go

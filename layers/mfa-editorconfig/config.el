@@ -1,0 +1,1 @@
+(defvar editorconfig-verbose nil)

@@ -922,6 +922,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/set-leader-keys "ok" #'open-konsole)
   (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
 
+  (setq helm-ag-base-command "rg --no-heading --ignore-case")
+
   (defun set-require-final-newline ()
     (set (make-local-variable 'require-final-newline)
          mode-require-final-newline))

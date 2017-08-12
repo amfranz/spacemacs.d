@@ -921,6 +921,27 @@ potentially deletes it, after which it can not be autoloaded any more."
       (open-konsole)))
   (spacemacs/set-leader-keys "ok" #'open-konsole)
   (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
+
+  ;; Workaround for https://github.com/syl20bnr/spacemacs/issues/4219
+  ;; Might be obsolete in the next Spacemacs release.
+  (spacemacs|advise-commands
+   "indent" (yank yank-pop evil-paste-before evil-paste-after) around
+   "If current mode is not one of spacemacs-indent-sensitive-modes
+ indent yanked text (with universal arg don't indent)."
+   (let ((prefix (ad-get-arg 0)))
+     (ad-set-arg 0 (unless (equal '(4) prefix) prefix))
+     (evil-start-undo-step)
+     ad-do-it
+     (if (and (not (equal '(4) prefix))
+              (not (member major-mode spacemacs-indent-sensitive-modes))
+              (or (derived-mode-p 'prog-mode)
+                  (member major-mode spacemacs-indent-sensitive-modes)))
+         (let ((transient-mark-mode nil)
+               (save-undo buffer-undo-list))
+           (spacemacs/yank-advised-indent-function (region-beginning)
+                                                   (region-end))))
+     (evil-end-undo-step)
+     (ad-set-arg 0 prefix)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

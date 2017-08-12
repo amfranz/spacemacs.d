@@ -922,6 +922,11 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/set-leader-keys "ok" #'open-konsole)
   (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
 
+  (defun set-require-final-newline ()
+    (set (make-local-variable 'require-final-newline)
+         mode-require-final-newline))
+  (add-hook 'conf-mode-hook #'set-require-final-newline)
+
   ;; Workaround for https://github.com/syl20bnr/spacemacs/issues/4219
   ;; Might be obsolete in the next Spacemacs release.
   (spacemacs|advise-commands

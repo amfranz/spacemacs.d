@@ -919,16 +919,17 @@ potentially deletes it, after which it can not be autoloaded any more."
   (require 'ansible)
   (require 'ansible-doc)
 
-  (defun open-konsole ()
+  (defun open-terminal ()
     (interactive)
     (call-process "konsole" nil 0 nil "--nofork"
                   "--workdir" (expand-file-name default-directory)))
-  (defun projectile-open-konsole ()
+  (defun projectile-open-terminal ()
     (interactive)
     (let ((default-directory (projectile-project-root)))
-      (open-konsole)))
-  (spacemacs/set-leader-keys "ok" #'open-konsole)
-  (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
+      (open-terminal)))
+  (spacemacs/set-leader-keys "ot" #'open-terminal)
+  (spacemacs/declare-prefix "op" "projects")
+  (spacemacs/set-leader-keys "opt" #'projectile-open-terminal)
 
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)

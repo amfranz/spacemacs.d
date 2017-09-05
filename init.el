@@ -161,6 +161,7 @@ values."
      mfa-string-edit
      mfa-string-inflection
      mfa-sqlformat
+     mfa-treemacs
      mfa-xml
 
      ;; TODO

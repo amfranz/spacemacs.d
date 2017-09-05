@@ -928,6 +928,13 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   (setq winum-scope 'frame-local)
 
+  (defun my-scratch-lisp-interaction ()
+    "create a scratch buffer in lisp interaction mode"
+    (interactive)
+    (switch-to-buffer (get-buffer-create "*scratch*"))
+    (lisp-interaction-mode))
+  (spacemacs/set-leader-keys "o'" #'my-scratch-lisp-interaction)
+
   (setq helm-ag-base-command "rg --no-heading --ignore-case")
 
   (defun set-require-final-newline ()

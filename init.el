@@ -926,6 +926,9 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/set-leader-keys "ok" #'open-konsole)
   (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
 
+  ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
+  (setq x-gtk-use-system-tooltips nil)
+
   (setq winum-scope 'frame-local)
 
   (defun my-scratch-lisp-interaction ()

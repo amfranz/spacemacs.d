@@ -953,6 +953,10 @@ potentially deletes it, after which it can not be autoloaded any more."
                                                    (region-end))))
      (evil-end-undo-step)
      (ad-set-arg 0 prefix)))
+
+  (with-eval-after-load 'dired
+    (define-key dired-mode-map
+      (kbd "C-c C-e") #'wdired-change-to-wdired-mode))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

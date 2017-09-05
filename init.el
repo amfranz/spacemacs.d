@@ -428,7 +428,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-  ;; Tweak the garbage collector.
+  ;; Turn garbage collection off while interacting with Emacs in the minibuffer,
+  ;; this avoids stuttering that could occur if garbage collection triggers.
   (defun disable-gc-hook ()
     (setq gc-cons-threshold most-positive-fixnum))
   (defun enable-gc-hook ()

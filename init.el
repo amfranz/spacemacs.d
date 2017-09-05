@@ -162,6 +162,7 @@ values."
      mfa-string-inflection
      mfa-sqlformat
      mfa-treemacs
+     mfa-vdiff
      mfa-xml
 
      ;; TODO

@@ -61,6 +61,7 @@ values."
      chrome
      clojure
      colors
+     cscope
      csv
      (dash :variables
            helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")

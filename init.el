@@ -926,6 +926,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/set-leader-keys "ok" #'open-konsole)
   (spacemacs/set-leader-keys "oK" #'projectile-open-konsole)
 
+  (setq winum-scope 'frame-local)
+
   (setq helm-ag-base-command "rg --no-heading --ignore-case")
 
   (defun set-require-final-newline ()

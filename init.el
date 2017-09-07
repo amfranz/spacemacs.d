@@ -260,7 +260,6 @@ values."
    dotspacemacs-default-font `("DejaVu Sans Mono for Powerline"
                                :size ,(pcase (and (display-graphic-p) (x-display-pixel-width))
                                         (2880 26)
-                                        (2560 16)
                                         (_ 13))
                                :weight normal
                                :width normal
@@ -428,6 +427,29 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+
+  ;; Make frames larger than the conservative default size.
+  (let ((goal-height 54)
+        (goal-width 160))
+    (setq default-frame-alist `((width . ,goal-width)
+                                (height . ,goal-height)))
+    ;; Also resize the initial frame to the goal size, but enlarge the frame in
+    ;; all directions so that the center of the window does remain where it is.
+    (when (display-graphic-p)
+      (set-frame-position
+       nil
+       (max 0
+            (-
+             (car (frame-position))
+             (*
+              (/ (- goal-width (frame-width)) 2)
+              (/ (frame-pixel-width) (frame-width)))))
+       (max (-
+             (cdr (frame-position))
+             (*
+              (/ (- goal-height (frame-height)) 2)
+              (/ (frame-pixel-height) (frame-height))))))
+      (set-frame-size nil goal-width goal-height)))
 
   ;; Turn garbage collection off while interacting with Emacs in the minibuffer,
   ;; this avoids stuttering that could occur if garbage collection triggers.

@@ -4,4 +4,4 @@
   (use-package helm-pass
     :defer t
     :init
-    (spacemacs/set-leader-keys "op" #'helm-pass)))
+    (spacemacs/set-leader-keys "ou" #'helm-pass)))

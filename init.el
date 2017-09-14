@@ -998,9 +998,16 @@ potentially deletes it, after which it can not be autoloaded any more."
       (kbd "C-c C-e") #'wdired-change-to-wdired-mode))
 
   ;; Workaround for error about void symbol helm-bookmark-map.
+  ;; Will be obsolete with the next Spacemacs release.
   (remove-hook 'helm-mode-hook 'simpler-helm-bookmark-keybindings)
   (with-eval-after-load 'helm-bookmark
     (add-hook 'helm-mode-hook #'simpler-helm-bookmark-keybindings))
+
+  ;; Workaround for broken functionality.
+  ;; Will be obsolete with the next Spacemacs release.
+  (defun org-projectile/goto-todos ()
+    (interactive)
+    (find-file (concat (projectile-project-root) "TODOs.org")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

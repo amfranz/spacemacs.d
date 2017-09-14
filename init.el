@@ -1008,6 +1008,15 @@ potentially deletes it, after which it can not be autoloaded any more."
   (defun org-projectile/goto-todos ()
     (interactive)
     (find-file (concat (projectile-project-root) "TODOs.org")))
+
+  ;; Workaround for broken xterm-paste. Yank needs to be called interactively.
+  (with-eval-after-load 'xterm
+    (defun xterm-paste ()
+      "Handle the start of a terminal paste operation."
+      (interactive)
+      (let* ((pasted-text (xterm--pasted-text))
+            (interprogram-paste-function (lambda () pasted-text)))
+        (call-interactively #'yank))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

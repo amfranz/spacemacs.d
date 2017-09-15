@@ -943,8 +943,9 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   (defun open-terminal ()
     (interactive)
-    (call-process "konsole" nil 0 nil "--nofork"
-                  "--workdir" (expand-file-name default-directory)))
+    (let ((process-environment (remove-if (lambda (kv) (string-prefix-p "EMACS_SERVER_NAME=" kv)) process-environment)))
+      (call-process "konsole" nil 0 nil "--nofork" "--separate"
+                    "--workdir" (expand-file-name default-directory))))
   (defun projectile-open-terminal ()
     (interactive)
     (let ((default-directory (projectile-project-root)))

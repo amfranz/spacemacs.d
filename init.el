@@ -560,7 +560,8 @@ you should place your code here."
   (setq helm-default-external-file-browser "xdg-open"
         helm-home-url "https://www.google.com/"
         helm-M-x-fuzzy-match t
-        helm-raise-command "wmctrl -xa %s")
+        helm-raise-command "wmctrl -xa %s"
+        helm-always-two-windows nil)
 
   ;; Enable adaptive helm sources.
   (require 'helm-adaptive)

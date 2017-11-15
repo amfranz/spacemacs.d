@@ -58,7 +58,6 @@ values."
                       auto-completion-return-key-behavior nil)
      (c-c++ :variables
             c-c++-enable-clang-support t)
-     chrome
      clojure
      colors
      cscope
@@ -123,7 +122,6 @@ values."
      mfa-ascii
      mfa-bookmarks
      mfa-checkbashisms
-     mfa-chrome
      mfa-dash
      mfa-defproject
      mfa-devdocs

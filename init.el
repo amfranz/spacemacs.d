@@ -449,6 +449,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
               (/ (frame-pixel-height) (frame-height))))))
       (set-frame-size nil goal-width goal-height)))
 
+  ;; Disable vertical scroll bars that occasionally appear on new frames.
+  ;; https://emacs.stackexchange.com/questions/23773/disable-scrollbar-on-new-frame
+  (add-to-list 'default-frame-alist
+               '(vertical-scroll-bars . nil))
+
   ;; Turn garbage collection off while interacting with Emacs in the minibuffer,
   ;; this avoids stuttering that could occur if garbage collection triggers.
   (defun disable-gc-hook ()

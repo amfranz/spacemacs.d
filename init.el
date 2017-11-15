@@ -151,6 +151,7 @@ values."
      mfa-mwim
      mfa-neotree
      mfa-org
+     mfa-org-trello
      mfa-pass
      mfa-projectile
      mfa-python

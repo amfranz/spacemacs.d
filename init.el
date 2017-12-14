@@ -152,7 +152,6 @@ values."
      mfa-evil-mc
      mfa-evil-quickscope
      mfa-evil-textobj-anyblock
-     mfa-evil-vimish-fold
      mfa-fancy-narrow
      mfa-go
      mfa-google-this

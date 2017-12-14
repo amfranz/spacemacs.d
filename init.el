@@ -51,7 +51,23 @@ values."
      ;; version-control
 
      ;; layers by spacemacs
-     ansible
+     (ansible :variables
+              ;;
+              ;; We do not really turn off automatic decryption of the vault
+              ;; files, we just don't let Spacemacs register the hooks and
+              ;; instead we'll do it ourselves in the mfa-ansible layer.
+              ;;
+              ;; We do it ourselves because Spacemacs is hooking the initial
+              ;; automatic decryption into the activation of ansible mode. This
+              ;; too early, at this point directory-local variables are not
+              ;; loaded yet, so an ansible::vault-password-file set as directory
+              ;; local variable won't work.
+              ;;
+              ;; Our own logic hooks the initial decryption into the
+              ;; hack-local-variables-hook instead, a hook which is invoked
+              ;; after the directory local variables have been loaded.
+              ;;
+              ansible-auto-encrypt-descrypt nil)
      (auto-completion :variables
                       ;; No good way to insert a newline when the popup is present.
                       ;; Let's disable the completion on RET and use C-l instead.

@@ -13,8 +13,12 @@
     (spacemacs|hide-lighter ansible)
     (add-hook 'ansible-hook
               #'mfa-ansible//update-imenu-expression)
-    (add-hook 'hack-local-variables-hook
-              #'mfa-ansible//auto-decrypt-encrypt-vault)))
+    (add-hook 'yaml-mode-local-vars-hook
+              #'mfa-ansible//auto-decrypt-encrypt-vault))
+  (advice-add 'ansible::encrypt-buffer :before
+              #'mfa-ansible//save-coord)
+  (advice-add 'ansible::decrypt-buffer :after
+              #'mfa-ansible//restore-coord))
 
 (defun mfa-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc

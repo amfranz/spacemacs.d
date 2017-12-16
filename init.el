@@ -146,6 +146,7 @@ values."
      mfa-dtrt-indent
      mfa-dynamic-ruler
      mfa-editorconfig
+     mfa-el-patch
      mfa-environment
      mfa-evil
      mfa-evil-lion
@@ -179,6 +180,7 @@ values."
      mfa-treemacs
      mfa-vdiff
      mfa-xml
+     mfa-yasnippet
 
      ;; TODO
      ;; bpr

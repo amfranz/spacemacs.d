@@ -1,4 +1,4 @@
-(defconst mfa-ansible-packages '(ansible ansible-doc company-ansible flycheck))
+(defconst mfa-ansible-packages '(ansible ansible-doc company el-patch flycheck))
 
 (defun mfa-ansible/post-init-ansible ()
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5
@@ -25,10 +25,19 @@
     (evilified-state-evilify-map ansible-doc-module-mode-map
       :mode ansible-doc-module-mode)))
 
-(defun mfa-ansible/post-init-company-ansible ()
-  (setq company-backends-yaml-mode
-        '(company-files
-          (company-ansible company-dabbrev))))
+(defun mfa-ansible/post-init-company ()
+  (with-eval-after-load 'company-dabbrev-code
+    (add-to-list 'company-dabbrev-code-modes 'yaml-mode)))
+
+(defun mfa-ansible/post-init-el-patch ()
+  (eval '(el-patch-defun spacemacs/ansible-company-maybe-enable ()
+           "Add the ansible company backend only for when ansible mode is active."
+           (when (spacemacs//ansible-should-enable?)
+             (el-patch-swap
+               (add-to-list 'company-backends 'company-ansible)
+               (setq-local company-backends
+                           '(company-files
+                             (company-ansible company-dabbrev-code))))))))
 
 (defun mfa-ansible/post-init-flycheck ()
   (spacemacs/add-flycheck-hook 'yaml-mode))

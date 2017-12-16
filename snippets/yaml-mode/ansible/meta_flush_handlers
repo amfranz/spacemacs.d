@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Run handlers which have thus far been notified
+# key: meta_flush_handlers
+# condition: ansible
+# --
+- meta: flush_handlers

@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: A block with a tag
+# key: block_with_tag
+# condition: ansible
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+- block:
+
+    `yas-selected-text`$0
+
+  tags:
+    - $1

@@ -10,6 +10,7 @@
       (spacemacs/set-leader-keys "xie" #'string-inflection-lisp)
       (spacemacs/set-leader-keys "xii" #'string-inflection-all-cycle)
       (spacemacs/set-leader-keys "xij" #'string-inflection-java-style-cycle)
+      (spacemacs/set-leader-keys "xik" #'string-inflection-kebab-case)
       (spacemacs/set-leader-keys "xil" #'string-inflection-lower-camelcase)
       (spacemacs/set-leader-keys "xir" #'string-inflection-ruby-style-cycle)
       (spacemacs/set-leader-keys "xis" #'string-inflection-underscore)

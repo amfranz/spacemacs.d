@@ -69,9 +69,11 @@ values."
               ;;
               ansible-auto-encrypt-descrypt nil)
      (auto-completion :variables
-                      ;; No good way to insert a newline when the popup is present.
-                      ;; Let's disable the completion on RET and use C-l instead.
-                      auto-completion-return-key-behavior nil)
+                      ;; There is no good way to insert a newline when the popup
+                      ;; is present. Let's disable the completion on RET and use
+                      ;; TAB instead.
+                      auto-completion-return-key-behavior nil
+                      auto-completion-tab-key-behavior 'complete)
      (c-c++ :variables
             c-c++-enable-clang-support t)
      clojure

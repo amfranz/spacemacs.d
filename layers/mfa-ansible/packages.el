@@ -9,6 +9,17 @@
       (when (file-directory-p yml-dir)
         (delete-directory yml-dir t))
       (rename-file txt-dir yml-dir)))
+  ;; This is very similar to the default value, the only changes are
+  ;; to anchor file names with a slash and the addition of the
+  ;; '*.yaml' file extension.
+  (setq spacemacs--ansible-filename-re
+        (concat ".*/\\(?:"
+                "main\.ya?ml\\|"
+                "site\.ya?ml\\|"
+                "encrypted\.ya?ml\\|"
+                "roles/.+\.ya?ml\\|"
+                "group_vars/.+\\|"
+                "host_vars/.+\\)"))
   (with-eval-after-load 'ansible
     (spacemacs|hide-lighter ansible)
     (add-hook 'ansible-hook

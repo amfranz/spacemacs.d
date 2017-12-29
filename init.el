@@ -633,15 +633,10 @@ you should place your code here."
     (define-advice server-eval-and-print (:filter-args (args) no-print)
       (list (car args) nil)))
 
-  ;; Register directories with executables dedicated specifically for use by Emacs.
-  (dolist (layer-path (cons configuration-layer-private-directory dotspacemacs-configuration-layer-path))
-    (let ((layer-bin-path (concat layer-path "bin/")))
-      (when (file-directory-p layer-bin-path)
-        (let ((absolute-layer-bin-path (expand-file-name layer-bin-path)))
-          (setenv "PATH" (concat
-                          (replace-regexp-in-string "/$" "" absolute-layer-bin-path)
-                          path-separator (getenv "PATH")))
-          (push absolute-layer-bin-path exec-path)))))
+  ;; Add ~/spacemacs.d/bin/ to the executable search path.
+  (let ((bin-path (concat dotspacemacs-directory "bin/")))
+    (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))
+    (push bin-path exec-path))
 
   ;; Make the shell prompt more fancy with zsh.
   (setq multi-term-program "/bin/zsh")

@@ -27,6 +27,20 @@
   (move-to-column (caddr mfa-ansible-saved-coord) t)
   (kill-local-variable 'mfa-ansible-saved-coord))
 
+(defun mfa-ansible//vault-string (mode beginning end)
+  (when (use-region-p)
+    (let ((output (ansible::vault mode (buffer-substring-no-properties beginning end))))
+      (delete-region beginning end)
+      (insert output))))
+
+(defun mfa-ansible/encrypt-string (beginning)
+  (interactive "r")
+  (mfa-ansible//vault-string "encrypt" beginning end))
+
+(defun mfa-ansible/decrypt-string (beginning end)
+  (interactive "r")
+  (mfa-ansible//vault-string "decrypt" beginning end))
+
 (defun mfa-ansible//quote-yaml (input)
   (if (string-prefix-p "{" input)
       (concat "'" input "'")

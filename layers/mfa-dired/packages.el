@@ -18,5 +18,9 @@
 (defun mfa-dired/post-init-dired ()
   (spacemacs|use-package-add-hook dired
     :post-config
-    (evil-define-key 'evilified dired-mode-map
-      "-" #'dired-up-directory)))
+    (progn
+      (add-hook 'dired-mode-hook #'dired-dwim-target-mode)
+      (spacemacs/set-leader-keys-for-major-mode 'dired-mode
+        "ot" #'dired-dwim-target-mode)
+      (evil-define-key 'evilified dired-mode-map
+        "-" #'dired-up-directory))))

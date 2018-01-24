@@ -54,19 +54,22 @@
     "op" #'org-paste-special)
 
   ;; ditaa converts ascii images to real images.
-  (push '(ditaa . t) org-babel-load-languages)
-  (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+  (with-eval-after-load 'org
+    (push '(ditaa . t) org-babel-load-languages)
+    (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar"))
 
   ;; graphviz creates graphs based on descriptions.
-  (push '(dot . t) org-babel-load-languages)
-  (push '("dot" . graphviz-dot) org-src-lang-modes)
+  (with-eval-after-load 'org
+    (push '(dot . t) org-babel-load-languages)
+    (push '("dot" . graphviz-dot) org-src-lang-modes))
 
   ;; plantuml creates UML diagrams.
   (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
         plantuml-output-type "png")
   (setq org-plantuml-jar-path plantuml-jar-path)
-  (push '(plantuml . t) org-babel-load-languages)
-  (push '("plantuml" . plantuml) org-src-lang-modes)
+  (with-eval-after-load 'org
+    (push '(plantuml . t) org-babel-load-languages)
+    (push '("plantuml" . plantuml) org-src-lang-modes))
 
   ;; extra keybindings for org functionality.
   (spacemacs/set-leader-keys "oi" #'mfa-org/org-index))

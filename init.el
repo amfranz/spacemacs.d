@@ -798,23 +798,6 @@ you should place your code here."
     (push '(maven-error "^\\[ERROR\\] \\(\\(.+?\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]\\)" 2 3 4 2 1) compilation-error-regexp-alist-alist)
     (push 'maven-error compilation-error-regexp-alist))
 
-  ;; Give dired the same "select window by prefix" functionality as neotree.
-  (defun dired-find-file-by-prefix (&optional arg)
-    (interactive "P")
-    (let ((file (dired-get-file-for-visit))
-          (dired-window (selected-window)))
-      (when (and (integerp arg) (bound-and-true-p winum-mode))
-        (winum-select-window-by-number arg))
-      (if (not (file-directory-p file))
-          (find-file file)
-        (let ((find-file-run-dired t))
-          (if (and vinegar-reuse-dired-buffer (eq dired-window (selected-window)))
-              (find-alternate-file file)
-            (find-file file))))))
-  (with-eval-after-load 'dired
-    (evil-define-key 'evilified dired-mode-map
-      (kbd "RET") #'dired-find-file-by-prefix))
-
   ;; X clipboard support for Emacs in terminal.
   (defvar xclip-saved-icf nil
     "Saved value of `interprogram-cut-function'.")

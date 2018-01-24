@@ -23,4 +23,6 @@
       (spacemacs/set-leader-keys-for-major-mode 'dired-mode
         "ot" #'dired-dwim-target-mode)
       (evil-define-key 'evilified dired-mode-map
+        (kbd "RET") #'dired-find-file-by-prefix)
+      (evil-define-key 'evilified dired-mode-map
         "-" #'dired-up-directory))))

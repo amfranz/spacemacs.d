@@ -996,10 +996,6 @@ potentially deletes it, after which it can not be autoloaded any more."
      (evil-end-undo-step)
      (ad-set-arg 0 prefix)))
 
-  (with-eval-after-load 'dired
-    (define-key dired-mode-map
-      (kbd "C-c C-e") #'wdired-change-to-wdired-mode))
-
   ;; Workaround for error about void symbol helm-bookmark-map.
   ;; Will be obsolete with the next Spacemacs release.
   (remove-hook 'helm-mode-hook 'simpler-helm-bookmark-keybindings)

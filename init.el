@@ -102,7 +102,7 @@ values."
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
-     mu4e
+     ;; mu4e
      nginx
      nlinum
      (org :variables
@@ -164,7 +164,7 @@ values."
      mfa-json
      mfa-lice
      mfa-make-mode
-     mfa-mu4e
+     ;; mfa-mu4e
      mfa-multi-line
      mfa-mwim
      mfa-neotree

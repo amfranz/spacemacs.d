@@ -120,8 +120,7 @@ values."
            rust-format-on-save t)
      search-engine
      (shell :variables
-            shell-default-shell 'eshell
-            shell-default-term-shell "/bin/zsh")
+            shell-default-shell 'multi-term)
      shell-scripts
      sql
      syntax-checking
@@ -637,9 +636,6 @@ you should place your code here."
   (let ((bin-path (concat dotspacemacs-directory "bin/")))
     (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))
     (push bin-path exec-path))
-
-  ;; Make the shell prompt more fancy with zsh.
-  (setq multi-term-program "/bin/zsh")
 
   ;; A key binding to open a full buffer-size shell in the current directory.
   (defun spacemacs/default-shell ()

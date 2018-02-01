@@ -1,9 +1,15 @@
-(defconst mfa-shell-packages '(bash-completion multi-term shell term))
+(defconst mfa-shell-packages '(bash-completion eterm-256color multi-term shell term))
 
 (defun mfa-shell/init-bash-completion ()
   (use-package bash-completion
     :if (configuration-layer/package-usedp 'shell)
     :defer t))
+
+(defun mfa-shell/init-eterm-256color ()
+  (use-package eterm-256color
+    :if (configuration-layer/package-usedp 'shell)
+    :defer t
+    :init (add-hook 'term-mode-hook #'eterm-256color-mode)))
 
 (defun mfa-shell/post-init-multi-term ()
   (with-eval-after-load 'multi-term

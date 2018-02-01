@@ -637,21 +637,6 @@ you should place your code here."
     (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))
     (push bin-path exec-path))
 
-  ;; A key binding to open a full buffer-size shell in the current directory.
-  (defun spacemacs/default-shell ()
-    "Open the default shell."
-    (interactive)
-    (call-interactively shell-default-shell))
-  (spacemacs/set-leader-keys "\"" #'spacemacs/default-shell)
-
-  ;; A key binding to open a full buffer-size shell in the project root directory.
-  (defun spacemacs/projectile-default-shell ()
-    "Open the default shell at projectile project root."
-    (interactive)
-    (let ((default-directory (projectile-project-root)))
-      (call-interactively shell-default-shell)))
-  (spacemacs/set-leader-keys "p\"" #'spacemacs/projectile-default-shell)
-
   ;; For *most* languages I work with 2 space indent is the norm.
   (setq-default evil-shift-width 2)
 

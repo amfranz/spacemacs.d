@@ -48,22 +48,26 @@
 
 (defun mfa-ansible/upgrade-syntax (beginning end)
   (interactive "*r")
-  (when (and t (use-region-p))
+  (when (use-region-p)
     (let ((input (buffer-substring-no-properties beginning end))
           (attr-pattern "\\([A-Za-z0-9_]+\\)=\\(.*?\\)\\(?:\\'\\| +[A-Za-z0-9_]+=\\)"))
       (setq input (replace-regexp-in-string "\n *" " " input t t))
       (let ((match-start (string-match attr-pattern input)))
-        (when match-start
-          (delete-region beginning end)
-          (goto-char beginning)
-          (insert "\n")
-          (goto-char beginning)
-          (insert (s-trim-right (substring input 0 match-start)))
-          (while match-start
-            (let ((key (match-string 1 input))
-                  (value (match-string 2 input))
-                  (scan-start (match-end 2)))
+        (let ((key (match-string 1 input))
+              (value (match-string 2 input))
+              (scan-start (match-end 2)))
+          (when match-start
+            (delete-region beginning end)
+            (goto-char beginning)
+            (insert "\n")
+            (goto-char beginning)
+            (insert (s-trim-right (substring input 0 match-start)))
+            (while match-start
               (insert "\n")
               (indent-according-to-mode)
               (insert key ": " (mfa-ansible//quote-yaml value))
-              (setq match-start (string-match attr-pattern input scan-start)))))))))
+              (setq match-start (string-match attr-pattern input scan-start))
+              (when match-start
+                (setq key (match-string 1 input)
+                      value (match-string 2 input)
+                      scan-start (match-end 2))))))))))

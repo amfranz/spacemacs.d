@@ -166,7 +166,6 @@ values."
      ;; mfa-mu4e
      mfa-multi-line
      mfa-mwim
-     mfa-neotree
      mfa-org
      mfa-org-trello
      mfa-pass

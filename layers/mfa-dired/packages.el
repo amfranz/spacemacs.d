@@ -1,4 +1,8 @@
-(defconst mfa-dired-packages '(all-the-icons-dired dired-narrow dired))
+(defconst mfa-dired-packages '(all-the-icons all-the-icons-dired dired-narrow dired))
+
+(defun mfa-dired/init-all-the-icons ()
+  (use-package all-the-icons
+    :defer t))
 
 (defun mfa-dired/init-all-the-icons-dired ()
   (use-package all-the-icons-dired

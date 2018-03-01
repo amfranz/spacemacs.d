@@ -70,10 +70,19 @@ values."
               ansible-auto-encrypt-descrypt nil)
      (auto-completion :variables
                       ;; There is no good way to insert a newline when the popup
-                      ;; is present. Let's disable the completion on RET and use
-                      ;; TAB instead.
+                      ;; is present. Let's disable the completion on RET.
                       auto-completion-return-key-behavior nil
-                      auto-completion-tab-key-behavior 'complete)
+                      ;; Navigating org mode tables can be difficult, if you
+                      ;; press TAB to go to the next cell it will autocomplete
+                      ;; instead. Let's disable the completion on TAB.
+                      auto-completion-tab-key-behavior nil
+                      ;; Since neither RET nor TAB will trigger completion any
+                      ;; more, the interaction with autocompletion has to be
+                      ;; done via the Vim/Evil keybindings:
+                      ;;   C-n => next
+                      ;;   C-p => previous
+                      ;;   C-l => complete
+                      )
      (c-c++ :variables
             c-c++-enable-clang-support t)
      clojure

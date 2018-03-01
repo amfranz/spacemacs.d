@@ -1,4 +1,4 @@
-(defconst mfa-shell-packages '(bash-completion eterm-256color multi-term shell term))
+(defconst mfa-shell-packages '(bash-completion eterm-256color shell term))
 
 (defun mfa-shell/init-bash-completion ()
   (use-package bash-completion
@@ -10,13 +10,6 @@
     :if (configuration-layer/package-usedp 'shell)
     :defer t
     :init (add-hook 'term-mode-hook #'eterm-256color-mode)))
-
-(defun mfa-shell/post-init-multi-term ()
-  (with-eval-after-load 'multi-term
-    (dolist (key '("C-r" "C-s" "M-r" "C-n" "C-p"))
-      (setq term-bind-key-alist (delq (assoc key term-bind-key-alist) term-bind-key-alist)))
-    (push '("C-r" . term-send-reverse-search-history) term-bind-key-alist)
-    (push '("M-DEL" . term-send-backward-kill-word) term-bind-key-alist)))
 
 (defun mfa-shell/post-init-shell ()
   (when (configuration-layer/package-usedp 'bash-completion)

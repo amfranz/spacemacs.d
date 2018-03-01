@@ -120,7 +120,7 @@ values."
            rust-format-on-save t)
      search-engine
      (shell :variables
-            shell-default-shell 'multi-term)
+            shell-default-shell 'term)
      shell-scripts
      sql
      syntax-checking

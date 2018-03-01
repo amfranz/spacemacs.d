@@ -28,6 +28,9 @@
   (find-file org-mobile-inbox-for-pull))
 
 (defun mfa-org/post-init-org ()
+  ;; automatically indent org sections.
+  (setq org-startup-indented t)
+
   ;; share org files over Dropbox.
   (setq org-directory "~/Dropbox/Workspace/org/")
 

@@ -444,6 +444,22 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
+  ;; Speed up startup slightly by delaying garbage collection until after
+  ;; Spacemacs has initialized.
+  (defun disable-gc-hook ()
+    (setq gc-cons-threshold most-positive-fixnum
+          gc-cons-percentage 0.6))
+  (defun enable-gc-hook ()
+    (setq gc-cons-threshold 16777216 ; 16 MB
+          gc-cons-percentage 0.1))
+  (disable-gc-hook)
+  (add-hook 'emacs-startup-hook #'enable-gc-hook)
+
+  ;; Turn garbage collection off while interacting with Emacs in the minibuffer,
+  ;; this avoids stuttering that could occur if garbage collection triggers.
+  (add-hook 'minibuffer-setup-hook #'disable-gc-hook)
+  (add-hook 'minibuffer-exit-hook #'enable-gc-hook)
+
   ;; Make frames larger than the conservative default size.
   (let ((goal-height 54)
         (goal-width 160))
@@ -471,15 +487,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
   ;; https://emacs.stackexchange.com/questions/23773/disable-scrollbar-on-new-frame
   (add-to-list 'default-frame-alist
                '(vertical-scroll-bars . nil))
-
-  ;; Turn garbage collection off while interacting with Emacs in the minibuffer,
-  ;; this avoids stuttering that could occur if garbage collection triggers.
-  (defun disable-gc-hook ()
-    (setq gc-cons-threshold most-positive-fixnum))
-  (defun enable-gc-hook ()
-    (setq gc-cons-threshold 20000000)) ; 20 MB
-  (add-hook 'minibuffer-setup-hook #'disable-gc-hook)
-  (add-hook 'minibuffer-exit-hook #'enable-gc-hook)
 
   ;; Prefer to load non-compiled elisp files if they are newer than their
   ;; compiled equivalents. This is a prophylactic against loading outdated

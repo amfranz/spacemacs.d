@@ -1004,6 +1004,13 @@ potentially deletes it, after which it can not be autoloaded any more."
       (let* ((pasted-text (xterm--pasted-text))
             (interprogram-paste-function (lambda () pasted-text)))
         (call-interactively #'yank))))
+
+  (defun insert-date (arg)
+    (interactive "P")
+    (insert (if arg
+                (format-time-string "%Y-%m-%d %H:%M:%S")
+              (format-time-string "%Y-%m-%d"))))
+  (spacemacs/set-leader-keys "id" #'insert-date)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

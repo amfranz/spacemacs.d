@@ -7,11 +7,10 @@
 (defun mfa-dired/init-all-the-icons-dired ()
   (use-package all-the-icons-dired
     :defer t
+    :diminish
     :init
     (with-eval-after-load 'dired
-      (add-hook 'dired-mode-hook #'all-the-icons-dired-mode))
-    :config
-    (spacemacs|hide-lighter all-the-icons-dired-mode)))
+      (add-hook 'dired-mode-hook #'all-the-icons-dired-mode))))
 
 (defun mfa-dired/init-dired-narrow ()
   (use-package dired-narrow

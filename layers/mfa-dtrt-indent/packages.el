@@ -2,6 +2,7 @@
 
 (defun mfa-dtrt-indent/init-dtrt-indent ()
   (use-package dtrt-indent
+    :diminish
     :config
     (progn
       (defun dtrt-indent--propagate-to-evil-shift-width ()

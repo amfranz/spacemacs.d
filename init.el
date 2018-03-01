@@ -166,6 +166,7 @@ values."
      mfa-fancy-narrow
      mfa-go
      mfa-google-this
+     mfa-hcl
      mfa-highlight-symbols
      mfa-iimage
      mfa-javascript

@@ -178,6 +178,7 @@ values."
      mfa-string-inflection
      mfa-sqlformat
      mfa-treemacs
+     mfa-vagrant
      mfa-vdiff
      mfa-xml
      mfa-yasnippet

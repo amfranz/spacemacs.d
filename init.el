@@ -145,7 +145,6 @@ values."
      mfa-angularjs
      mfa-ansible
      mfa-artist
-     mfa-ascii
      mfa-bookmarks
      mfa-checkbashisms
      mfa-dash

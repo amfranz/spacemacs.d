@@ -1,4 +1,4 @@
-(defconst mfa-bookmarks-packages '(helm-bm bm bookmark+))
+(defconst mfa-bookmarks-packages '(helm-bm bm))
 
 (defun mfa-bookmarks/init-helm-bm ()
   (use-package helm-bm
@@ -68,17 +68,3 @@
       (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
 
       (bm-repository-load))))
-
-(defun mfa-bookmarks/init-bookmark+ ()
-  (use-package bookmark+
-    :defer t
-    :init
-    (with-eval-after-load 'bookmark
-      (require 'bookmark+))
-    :config
-    (progn
-      (setq bmkp-last-as-first-bookmark-file nil
-            bookmark-default-file (concat spacemacs-cache-directory "bookmarks")
-            bmkp-bmenu-state-file (concat spacemacs-cache-directory "bmk-bmenu-state.el")
-            bmkp-bmenu-commands-file (concat spacemacs-cache-directory "bmk-bmenu-commands.el"))
-      (evil-set-initial-state 'bookmark-edit-annotation-mode 'normal))))

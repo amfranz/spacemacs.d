@@ -2,7 +2,9 @@
 
 (defun mfa-dired/init-all-the-icons ()
   (use-package all-the-icons
-    :defer t))
+    :defer t
+    :init
+    (setq inhibit-compacting-font-caches t)))
 
 (defun mfa-dired/init-all-the-icons-dired ()
   (use-package all-the-icons-dired

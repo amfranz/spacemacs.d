@@ -23,4 +23,11 @@
 
 (defun mfa-evil/init-evil-replace-with-register ()
   (use-package evil-replace-with-register
-    :config (evil-replace-with-register-install)))
+    :defer t
+    :init
+    (progn
+      (setq evil-replace-with-register-key (kbd "gR"))
+      (define-key evil-normal-state-map
+        evil-replace-with-register-key #'evil-replace-with-register)
+      (define-key evil-visual-state-map
+        evil-replace-with-register-key #'evil-replace-with-register))))

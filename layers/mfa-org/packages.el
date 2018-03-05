@@ -23,10 +23,6 @@
   (interactive)
   (find-file (concat org-directory "index.org")))
 
-(defun mfa-org/org-from-mobile ()
-  (interactive)
-  (find-file org-mobile-inbox-for-pull))
-
 (defun mfa-org/post-init-org ()
   ;; automatically indent org sections.
   (setq org-startup-indented t)
@@ -36,19 +32,6 @@
 
   ;; set up agendas.
   (setq org-agenda-files (list (concat org-directory "agenda/")))
-
-  ;; set up org-mobile.
-  (autoload 'org-mobile-pull "org")
-  (autoload 'org-mobile-push "org")
-
-  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg/"
-        org-mobile-inbox-for-pull (concat org-directory "from-mobile.org")
-        org-mobile-files (list 'org-agenda-files (concat org-directory "trove/")))
-
-  (spacemacs/declare-prefix "om" "org-mobile")
-  (spacemacs/set-leader-keys "omc" #'mfa-org/org-from-mobile)
-  (spacemacs/set-leader-keys "omf" #'org-mobile-pull)
-  (spacemacs/set-leader-keys "omp" #'org-mobile-push)
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode

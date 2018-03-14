@@ -953,6 +953,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/declare-prefix "op" "projects")
   (spacemacs/set-leader-keys "opt" #'projectile-open-terminal)
 
+  (defun open-file-manager-in-directory ()
+    (interactive)
+    (let ((process-environment (remove-if (lambda (kv) (string-prefix-p "EMACS_SERVER_NAME=" kv)) process-environment)))
+      (call-process "xdg-open" nil 0 nil (expand-file-name default-directory))))
+  (spacemacs/set-leader-keys "od" #'open-file-manager-in-directory)
+
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)
 

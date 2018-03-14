@@ -1,4 +1,7 @@
-(defconst mfa-ruby-packages '(ruby-mode))
+(defconst mfa-ruby-packages '(rubocop ruby-mode))
+
+(defun mfa-ruby/post-init-rubocop ()
+  (spacemacs|hide-lighter rubocop-mode))
 
 (defun mfa-ruby/post-init-ruby-mode ()
   ;; Ruby mode customizations

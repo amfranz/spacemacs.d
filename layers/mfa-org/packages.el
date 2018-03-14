@@ -31,7 +31,11 @@
   (setq org-directory "~/Dropbox/Workspace/org/")
 
   ;; set up agendas.
-  (setq org-agenda-files (list (concat org-directory "agenda/")))
+  (setq org-agenda-files (list (concat org-directory "agenda/"))
+        org-outline-path-complete-in-steps nil
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-refile-targets '((org-agenda-files :maxlevel . 2))
+        org-refile-use-outline-path 'file)
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode

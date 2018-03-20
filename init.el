@@ -152,6 +152,7 @@ values."
      mfa-devdocs
      mfa-diff
      mfa-dired
+     mfa-dokuwiki
      mfa-dtrt-indent
      mfa-dynamic-ruler
      mfa-editorconfig

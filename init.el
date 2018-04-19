@@ -2,6 +2,19 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+(defun eterm-256color-package--description-file (dir)
+  "Fixes the guess of the package description file for the `eterm-256color' package.
+
+This is a replacement for `package--description-file' in `subr.el'. The only
+change is that the regular expression is anchored at the end."
+  (concat (let ((subdir (file-name-nondirectory
+                         (directory-file-name dir))))
+            (if (string-match "\\([^.].*?\\)-\\([0-9]+\\(?:[.][0-9]+\\|\\(?:pre\\|beta\\|alpha\\)[0-9]+\\)*\\)\\'" subdir)
+                (match-string 1 subdir) subdir))
+          "-pkg.el"))
+
+(advice-add 'package--description-file :override #'eterm-256color-package--description-file)
+
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable

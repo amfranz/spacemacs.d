@@ -1,4 +1,14 @@
-(defconst mfa-shell-packages '(eterm-256color term))
+(defconst mfa-shell-packages
+  '((eterm-256color
+     :location (recipe
+                :fetcher github
+                :repo "dieggsy/eterm-256color"
+                ;; the latest version in melpa is currently broken,
+                ;; this is the last good revision known.
+                :commit "dab96af559deb443c4c9c00e23389926e1607192"
+                :files (:defaults
+                        "eterm-256color.ti")))
+    term))
 
 (defun mfa-shell/init-eterm-256color ()
   (use-package eterm-256color

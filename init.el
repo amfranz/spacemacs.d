@@ -161,7 +161,6 @@ values."
      mfa-bookmarks
      mfa-checkbashisms
      mfa-dash
-     mfa-defproject
      mfa-devdocs
      mfa-diff
      mfa-dired

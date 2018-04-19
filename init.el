@@ -191,6 +191,7 @@ values."
      mfa-org
      mfa-org-trello
      mfa-pass
+     mfa-prodigy
      mfa-projectile
      mfa-python
      mfa-ruby

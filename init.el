@@ -552,16 +552,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
       (add-to-list 'exec-path-from-shell-variables item))
     ;; NVM
     (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
-      (add-to-list 'exec-path-from-shell-variables item)))
-
-  ;; When the name of the server socket has been customized, child shells need
-  ;; to be told the new name so that emacsclient will always connect to the
-  ;; Emacs instance it has been invoked from.
-  (with-eval-after-load 'server
-    (let ((socket-name (getenv "EMACS_SERVER_NAME")))
-      (if socket-name
-          (setq server-name socket-name)
-        (setenv "EMACS_SERVER_NAME" server-name)))))
+      (add-to-list 'exec-path-from-shell-variables item))))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.

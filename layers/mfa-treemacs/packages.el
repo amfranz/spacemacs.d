@@ -27,10 +27,7 @@
 
 (defun mfa-treemacs/init-treemacs-evil ()
   (use-package treemacs-evil
-    :defer t
-    :init
-    (with-eval-after-load 'treemacs
-      (require 'treemacs-evil))
+    :after (treemacs)
     :config
     (progn
       (define-key evil-treemacs-state-map (kbd "gi") #'treemacs-change-root)

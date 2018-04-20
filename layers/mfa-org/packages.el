@@ -57,6 +57,9 @@
     (push '(plantuml . t) org-babel-load-languages)
     (push '("plantuml" . plantuml) org-src-lang-modes))
 
+  ;; configure org-download.
+  (setq org-download-heading-lvl nil)
+
   ;; extra keybindings for org functionality.
   (spacemacs/set-leader-keys "oi" #'mfa-org/org-index))
 

@@ -19,10 +19,19 @@
 
   ;; Enter insert mode automatically when moving the point to a snippet field.
   (defun mfa-yasnippet//enter-insert-state (&rest ignored)
-    (when (evil-normal-state-p)
-      (evil-insert-state nil)))
+    (unless undo-in-progress
+      (when (evil-normal-state-p)
+        (evil-insert-state))))
   (advice-add 'yas--move-to-field :after
               #'mfa-yasnippet//enter-insert-state)
+
+  ;; Leave insert mode automatically when reaching the exit point of a snippet.
+  (defun mfa-yasnippet//exit-insert-state (&rest ignored)
+    (unless undo-in-progress ;; required?
+      (when (evil-insert-state-p)
+        (evil-normal-state))))
+  (advice-add 'yas-exit-snippet :after
+              #'mfa-yasnippet//exit-insert-state)
 
   ;; The following patch fixes these issues in helm-c-yasnippet: (1) evaluate
   ;; the `expand-env` attribute in snippets, (2) filter the list of snippets by

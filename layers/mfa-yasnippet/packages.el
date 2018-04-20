@@ -116,7 +116,8 @@ like `yas--current-key'"
                   (alist-get 'action helm-source-yasnippet)))))
 
 (defun mfa-yasnippet/post-init-yasnippet()
-  (setq yas-snippet-dirs (delete 'yas-installed-snippets-dir yas-snippet-dirs)))
+  (setq yas-snippet-dirs (delete 'yas-installed-snippets-dir yas-snippet-dirs))
+  (autoload 'yas-hippie-try-expand "yasnippet"))
 
 (defun mfa-yasnippet/init-yasnippet-snippets ()
   (use-package yasnippet-snippets

@@ -166,6 +166,10 @@ See URL `https://developers.google.com/closure/utilities'."
 
 (defun mfa-javascript/post-init-js2-mode ()
   (with-eval-after-load 'js2-mode
+    (setq js2-mode-show-parse-errors nil
+          js2-mode-show-strict-warnings nil)
+    (add-hook 'js2-mode-hook (lambda ()
+                               (kill-local-variable 'next-error-function)))
     (add-hook 'js2-mode-hook (lambda ()
                                (setq evil-shift-width js2-basic-offset)))))
 

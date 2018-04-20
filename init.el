@@ -191,7 +191,6 @@ values."
      mfa-google-this
      mfa-hcl
      mfa-highlight-symbols
-     mfa-iimage
      mfa-javascript
      mfa-json
      mfa-lice

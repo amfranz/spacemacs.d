@@ -33,7 +33,7 @@
       (define-key evil-treemacs-state-map (kbd "gi") #'treemacs-change-root)
       (define-key evil-treemacs-state-map (kbd "gu") #'treemacs-uproot)
       (define-key evil-treemacs-state-map (kbd "h") #'mfa-treemacs/goto-parent-node-maybe)
-      (define-key evil-treemacs-state-map (kbd "l") #'treemacs-RET-action))))
+      (define-key evil-treemacs-state-map (kbd "l") #'treemacs-TAB-action))))
 
 (defun mfa-treemacs/init-treemacs-projectile ()
   (use-package treemacs-projectile

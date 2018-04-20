@@ -40,7 +40,7 @@
 
 (defun mfa-treemacs/init-treemacs-projectile ()
   (use-package treemacs-projectile
-    :defer t
+    :commands (treemacs-projectile-create-header)
     :init
     (progn
       (setq treemacs-header-function #'treemacs-projectile-create-header)

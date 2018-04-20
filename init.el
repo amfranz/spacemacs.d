@@ -153,7 +153,7 @@ values."
            rust-format-on-save t)
      search-engine
      (shell :variables
-            shell-default-shell 'term)
+            shell-default-shell 'eshell)
      shell-scripts
      sql
      syntax-checking

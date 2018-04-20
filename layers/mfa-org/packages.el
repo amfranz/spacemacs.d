@@ -62,11 +62,8 @@
 
 (defun mfa-org/init-orglink ()
   (use-package orglink
-    :defer t
-    :init
-    (add-hook 'prog-mode-hook #'orglink-mode)
-    :config
-    (spacemacs|hide-lighter orglink-mode)))
+    :hook (prog-mode . orglink-mode)
+    :diminish))
 
 (defun mfa-org/init-poporg ()
   (use-package poporg

@@ -1024,6 +1024,8 @@ potentially deletes it, after which it can not be autoloaded any more."
                 (format-time-string "%Y-%m-%d %H:%M:%S")
               (format-time-string "%Y-%m-%d"))))
   (spacemacs/set-leader-keys "id" #'insert-date)
+
+  (setq fci-rule-color "sky blue")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -868,16 +868,6 @@ you should place your code here."
   (when (and (not window-system) (getenv "DISPLAY"))
     (xclip-mode))
 
-  ;; Define the godoc HTTP server as a Prodigy managed service.
-  (with-eval-after-load 'prodigy
-    (prodigy-define-service
-      :name "Go Documentation Server"
-      :command "godoc"
-      :args '("-http" "127.0.0.1:6060" "-v")
-      :port 6060
-      :url "http://localhost:6060/"
-      :cwd user-home-directory))
-
   ;; Use a solid bar Unicode character as vertical border.
   (set-display-table-slot standard-display-table 'vertical-border #x2502)
   (with-eval-after-load 'page-break-lines

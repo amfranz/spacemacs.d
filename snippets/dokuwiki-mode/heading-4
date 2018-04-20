@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Heading level 4
+# key: h4
+# --
+=== $1 ===
+$0

@@ -1,4 +1,9 @@
-(defconst mfa-dokuwiki-packages '(dokuwiki dokuwiki-mode))
+;; -*- lexical-binding: t -*-
+
+(defconst mfa-dokuwiki-packages '(company dokuwiki dokuwiki-mode outline-magic))
+
+(defun mfa-dokuwiki/post-init-company ()
+  (spacemacs|add-company-hook dokuwiki-mode))
 
 (defun mfa-dokuwiki/init-dokuwiki ()
   (use-package dokuwiki
@@ -19,8 +24,17 @@
         "owc" #'mfa-dokuwiki/configure
         "owl" #'dokuwiki-list-pages
         "owo" #'dokuwiki-open-page
+        "owr" #'mfa-dokuwiki/reopen-page
         "ows" #'dokuwiki-save-page))))
 
 (defun mfa-dokuwiki/init-dokuwiki-mode ()
   (use-package dokuwiki-mode
-    :defer t))
+    :mode "\\.dwiki\\'"
+    :config
+    (progn
+      (add-hook 'dokuwiki-mode-hook #'mfa-dokuwiki//configure-line-wrap)
+      (add-hook 'dokuwiki-mode-hook #'mfa-dokuwiki//configure-imenu-index))))
+
+(defun mfa-dokuwiki/init-outline-magic ()
+  (use-package outline-magic
+    :after (dokuwiki-mode)))

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Heading level 3
+# key: h3
+# --
+==== $1 ====
+$0

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: File block
+# key: file
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+<file>
+`(string-trim-right yas-selected-text)`$0
+</file>

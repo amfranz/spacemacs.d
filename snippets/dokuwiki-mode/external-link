@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: External link
+# key: extlink
+# --
+[[${1:url}|${2:label}]]$0

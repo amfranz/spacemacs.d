@@ -194,6 +194,7 @@ values."
      mfa-prodigy
      mfa-projectile
      mfa-python
+     mfa-quickrun
      mfa-ruby
      mfa-shell
      mfa-shell-scripts

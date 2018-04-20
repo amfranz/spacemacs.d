@@ -33,7 +33,7 @@
       (delete-region beginning end)
       (insert output))))
 
-(defun mfa-ansible/encrypt-string (beginning)
+(defun mfa-ansible/encrypt-string (beginning end)
   (interactive "r")
   (mfa-ansible//vault-string "encrypt" beginning end))
 

@@ -689,12 +689,6 @@ you should place your code here."
   (spacemacs/set-leader-keys "ofc" #'set-fill-column)
   (spacemacs/set-leader-keys "ofp" #'set-fill-prefix)
 
-  ;; Key bindings for compile.
-  (spacemacs/declare-prefix "ce" "compile-errors")
-  (spacemacs/set-leader-keys "cef" #'first-error)
-  (spacemacs/set-leader-keys "cen" #'next-error)
-  (spacemacs/set-leader-keys "cep" #'previous-error)
-
   (spacemacs|add-toggle subword-mode
     :status subword-mode
     :on (subword-mode)

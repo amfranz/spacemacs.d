@@ -148,7 +148,7 @@ values."
      python
      restclient
      (ruby :variables
-           ruby-version-manager 'rvm)
+           ruby-version-manager 'rbenv)
      (rust :variables
            rust-format-on-save t)
      search-engine

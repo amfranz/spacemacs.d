@@ -2,6 +2,17 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+(defun display-scaling-factor ()
+  "Reads the display scaling factor from the Cinnamon dconf database.
+This will return 2 on Hi-DPI displays, 1 otherwise."
+  (pcase (getenv "DESKTOP_SESSION")
+    ("cinnamon"
+     (string-to-number
+      (string-trim-right
+       (shell-command-to-string
+        "dconf read /org/cinnamon/active-display-scale"))))
+    (_ 1)))
+
 (defun eterm-256color-package--description-file (dir)
   "Fixes the guess of the package description file for the `eterm-256color' package.
 
@@ -299,9 +310,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font `("DejaVu Sans Mono for Powerline"
-                               :size ,(pcase (and (display-graphic-p) (x-display-pixel-width))
-                                        (2880 26)
-                                        (_ 13))
+                               :size ,(* 13 (display-scaling-factor))
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)

@@ -1,11 +1,3 @@
-(defun mfa-treemacs/display-scaling-factor ()
-  "Reads the display scaling factor from the Cinnamon dconf database.
-This will return 2 on Hi-DPI displays, 1 otherwise."
-  (string-to-number
-   (string-trim-right
-    (shell-command-to-string
-     "dconf read /org/cinnamon/active-display-scale"))))
-
 (defun mfa-treemacs/find-file-select-window ()
   "Finds the current file in Treemacs and selects the Treemacs window."
   (interactive)

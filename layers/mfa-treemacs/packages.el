@@ -16,7 +16,7 @@
     :defer t
     :init
     (progn
-      (setq treemacs-resize-icons (* 16 (mfa-treemacs/display-scaling-factor)))
+      (setq treemacs-resize-icons (* 16 (display-scaling-factor)))
       (spacemacs/set-leader-keys "ft" #'mfa-treemacs/find-file-select-window)
       (with-eval-after-load 'winum
         (advice-add 'winum-select-window-0-or-10 :override #'treemacs-select-window)))

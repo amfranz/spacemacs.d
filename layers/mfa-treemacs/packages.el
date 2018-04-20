@@ -21,6 +21,7 @@
       (advice-add 'winum-select-window-0-or-10 :override #'treemacs-select-window))
     :config
     (progn
+      (setq treemacs-silent-refresh t)
       (treemacs-follow-mode t)
       (treemacs-filewatch-mode t))))
 

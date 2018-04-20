@@ -161,13 +161,11 @@ See URL `https://developers.google.com/closure/utilities'."
 
 (defun mfa-javascript/post-init-js-mode ()
   (with-eval-after-load 'js-mode
-    (setq-default js-indent-level 2)
     (add-hook 'js-mode-hook (lambda ()
                               (setq evil-shift-width js-indent-level)))))
 
 (defun mfa-javascript/post-init-js2-mode ()
   (with-eval-after-load 'js2-mode
-    (setq-default js2-basic-offset 2)
     (add-hook 'js2-mode-hook (lambda ()
                                (setq evil-shift-width js2-basic-offset)))))
 

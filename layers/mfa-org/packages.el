@@ -19,10 +19,6 @@
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "?" #'helm-orgcard)))
 
-(defun mfa-org/org-index ()
-  (interactive)
-  (find-file (concat org-directory "index.org")))
-
 (defun mfa-org/post-init-org ()
   ;; automatically indent org sections.
   (setq org-startup-indented t)

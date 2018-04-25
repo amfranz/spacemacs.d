@@ -169,6 +169,7 @@ values."
      mfa-angularjs
      mfa-ansible
      mfa-artist
+     mfa-atomic-chrome
      mfa-bookmarks
      mfa-checkbashisms
      mfa-dash

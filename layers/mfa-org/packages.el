@@ -61,7 +61,10 @@
   (setq org-download-heading-lvl nil)
 
   ;; extra keybindings for org functionality.
-  (spacemacs/set-leader-keys "oi" #'mfa-org/org-index))
+  (spacemacs/set-leader-keys "oi" #'mfa-org/org-index)
+  (spacemacs/declare-prefix-for-mode 'org-mode "mot" "toggles")
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "oti" #'org-toggle-inline-images))
 
 (defun mfa-org/init-orglink ()
   (use-package orglink

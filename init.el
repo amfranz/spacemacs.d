@@ -193,6 +193,7 @@ values."
      mfa-hcl
      mfa-highlight-symbols
      mfa-javascript
+     mfa-journal
      mfa-json
      mfa-lice
      mfa-make-mode

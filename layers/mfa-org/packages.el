@@ -1,4 +1,4 @@
-(defconst mfa-org-packages '(fontawesome helm-org-rifle helm-orgcard org org-journal orglink poporg))
+(defconst mfa-org-packages '(fontawesome helm-org-rifle helm-orgcard org orglink poporg))
 
 (defun mfa-org/init-fontawesome ()
   (use-package fontawesome
@@ -65,14 +65,6 @@
   (spacemacs/declare-prefix-for-mode 'org-mode "mot" "toggles")
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "oti" #'org-toggle-inline-images))
-
-(defun mfa-org/init-org-journal ()
-  (use-package org-journal
-    :defer t
-    :config
-    (setq org-journal-dir "~/Dropbox/Workspace/org/journal/"
-          org-journal-file-format "%Y-%m-%d.org"
-          org-journal-file-pattern (org-journal-format-string->regex "%Y-%m-%d.org"))))
 
 (defun mfa-org/init-orglink ()
   (use-package orglink

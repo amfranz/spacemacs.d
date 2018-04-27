@@ -3,6 +3,7 @@
      :location (recipe
                 :fetcher github
                 :repo "amfranz/treemacs"
+                :commit "645b3ac375d6f859599cd7fbbd10d0803ff24d90"
                 :files (:defaults
                         "icons"
                         "src/elisp/treemacs*.el"
@@ -16,14 +17,14 @@
     :defer t
     :init
     (progn
-      (setq treemacs-resize-icons (* 16 (display-scaling-factor)))
       (spacemacs/set-leader-keys "ft" #'mfa-treemacs/find-file-select-window)
       (advice-add 'winum-select-window-0-or-10 :override #'treemacs-select-window))
     :config
     (progn
       (setq treemacs-silent-refresh t)
       (treemacs-follow-mode t)
-      (treemacs-filewatch-mode t))))
+      (treemacs-filewatch-mode t)
+      (treemacs-resize-icons (* 16 (display-scaling-factor))))))
 
 (defun mfa-treemacs/init-treemacs-evil ()
   (use-package treemacs-evil

@@ -33,6 +33,13 @@
         org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-refile-use-outline-path 'file)
 
+  ;; colorize priorities.
+  (with-eval-after-load 'zenburn-theme
+    (zenburn-with-color-variables
+      (setq org-priority-faces `((?A . (:foreground ,zenburn-magenta))
+                                 (?B . (:foreground ,zenburn-yellow))
+                                 (?C . (:foreground ,zenburn-cyan))))))
+
   ;; additional leader key bindings for org functionality.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "oy" #'org-copy-special

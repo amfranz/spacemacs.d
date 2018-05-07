@@ -19,4 +19,7 @@
   (add-to-list 'auto-mode-alist '("Vagrantfile\\'" . ruby-mode))
 
   ;; Additional interpreter associations.
-  (add-to-list 'interpreter-mode-alist '("rake" . ruby-mode)))
+  (add-to-list 'interpreter-mode-alist '("rake" . ruby-mode))
+
+  ;; It is unnecessary for rbenv to show the Ruby version in the modeline.
+  (setq rbenv-show-active-ruby-in-modeline nil))

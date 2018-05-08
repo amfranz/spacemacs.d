@@ -1,4 +1,4 @@
-(defconst mfa-evil-packages '(evil evil-escape evil-matchit evil-nerd-commenter evil-replace-with-register))
+(defconst mfa-evil-packages '(evil evil-escape evil-matchit evil-nerd-commenter evil-replace-with-char evil-replace-with-register))
 
 (defun mfa-evil/post-init-evil ()
   (with-eval-after-load 'evil
@@ -20,6 +20,14 @@
   (autoload 'evilnc-get-comment-bounds "evil-nerd-commenter-operator")
   (define-key evil-inner-text-objects-map "c" #'evilnc-inner-comment)
   (define-key evil-outer-text-objects-map "c" #'evilnc-outer-commenter))
+
+(defun mfa-evil/init-evil-replace-with-char ()
+  (use-package evil-replace-with-char
+    :defer t
+    :init
+    (progn
+      (autoload 'evil-operator-replace-with-char "evil-replace-with-char")
+      (define-key evil-normal-state-map "zx" 'evil-operator-replace-with-char))))
 
 (defun mfa-evil/init-evil-replace-with-register ()
   (use-package evil-replace-with-register

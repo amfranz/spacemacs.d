@@ -496,6 +496,15 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (add-hook 'minibuffer-setup-hook #'disable-gc-hook)
   (add-hook 'minibuffer-exit-hook #'enable-gc-hook)
 
+  ;; Turn garbage collection on while installing packages. This avoids Emacs to
+  ;; hang for a long time after the packages are installed.
+  (defun enable-gc-around-advice (orig-fun &rest args)
+    (let ((gc-cons-threshold 16777216) ; 16 MB
+          (gc-cons-percentage 0.1))
+      (apply orig-fun args)))
+  (advice-add 'configuration-layer//install-packages
+              :around #'enable-gc-around-advice)
+
   ;; Make frames larger than the conservative default size.
   (let ((goal-height 54)
         (goal-width 160))

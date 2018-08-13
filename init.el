@@ -826,12 +826,12 @@ you should place your code here."
         (with-temp-buffer
           (insert text)
           (call-process-region (point-min) (point-max)
-                               "xclip" nil 0 nil "-silent" "-i" "-selection" "clipboard"))))
+                               "xsel" nil 0 nil "--input" "--clipboard"))))
   (defun xclip-paste-function ()
     (if window-system
         (x-selection-value)
       (when (getenv "DISPLAY")
-        (let ((xclip-output (shell-command-to-string "xclip -o -selection clipboard")))
+        (let ((xclip-output (shell-command-to-string "xsel --output --clipboard")))
           (unless (string= (car kill-ring) xclip-output)
             xclip-output)))))
   (define-minor-mode xclip-mode

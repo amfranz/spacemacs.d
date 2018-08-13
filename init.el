@@ -6,12 +6,29 @@
   "Reads the display scaling factor from the Cinnamon dconf database.
 This will return 2 on Hi-DPI displays, 1 otherwise."
   (pcase (getenv "DESKTOP_SESSION")
+    ("plasma"
+     (round (string-to-number
+             (shell-command-to-string
+              "xrdb -query | awk -F :\\\\t 'BEGIN { dpi = 96 } $1 == \"Xft.dpi\" { dpi = $2 } END { print dpi }'")) 96))
     ("cinnamon"
      (string-to-number
       (string-trim-right
        (shell-command-to-string
         "dconf read /org/cinnamon/active-display-scale"))))
     (_ 1)))
+
+(defun display-pixels-per-inch ()
+  "Calculates the DPI of the primary display."
+  (round (display-pixel-height) (/ (display-mm-height) 25.4)))
+
+(defun dpi-adjusted-font-size ()
+  "Calculates a recommended size in pixels for the default font based on the DPI
+of the monitor."
+  (if (display-graphic-p)
+      ;; 7.38 characters per vertical inch, rounded to the closest integral number of pixels.
+      ;; The guideline is to return 13 on 96 DPI displays and 14 on 101 DPI displays.
+      (round (display-pixels-per-inch) 7.38)
+    13))
 
 (defun eterm-256color-package--description-file (dir)
   "Fixes the guess of the package description file for the `eterm-256color' package.
@@ -312,7 +329,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font `("DejaVu Sans Mono for Powerline"
-                               :size ,(* 13 (display-scaling-factor))
+                               :size ,(* (dpi-adjusted-font-size) (display-scaling-factor))
                                :weight normal
                                :width normal
                                :powerline-scale 1.0)

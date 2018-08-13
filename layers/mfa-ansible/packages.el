@@ -3,8 +3,8 @@
 (defun mfa-ansible/post-init-ansible ()
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5
   (let* ((pkg-dir (package-desc-dir (cadr (assq 'ansible package-alist))))
-         (txt-dir (concat pkg-dir "/snippets/text-mode/"))
-         (yml-dir (concat pkg-dir "/snippets/yaml-mode/")))
+         (txt-dir (concat pkg-dir "/snippets/text-mode"))
+         (yml-dir (concat pkg-dir "/snippets/yaml-mode")))
     (when (file-directory-p txt-dir)
       (when (file-directory-p yml-dir)
         (delete-directory yml-dir t))

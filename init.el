@@ -544,7 +544,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
              (*
               (/ (- goal-width (frame-width)) 2)
               (/ (frame-pixel-width) (frame-width)))))
-       (max (-
+       (max 0
+            (-
              (cdr (frame-position))
              (*
               (/ (- goal-height (frame-height)) 2)

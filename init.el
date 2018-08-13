@@ -12,9 +12,8 @@ This will return 2 on Hi-DPI displays, 1 otherwise."
               "xrdb -query | awk -F :\\\\t 'BEGIN { dpi = 96 } $1 == \"Xft.dpi\" { dpi = $2 } END { print dpi }'")) 96))
     ("cinnamon"
      (string-to-number
-      (string-trim-right
-       (shell-command-to-string
-        "dconf read /org/cinnamon/active-display-scale"))))
+      (shell-command-to-string
+       "dconf read /org/cinnamon/active-display-scale")))
     (_ 1)))
 
 (defun display-pixels-per-inch ()

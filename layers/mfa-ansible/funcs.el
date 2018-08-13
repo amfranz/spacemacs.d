@@ -9,7 +9,9 @@
   (funcall orig-fun mode str))
 
 (defun mfa-ansible//auto-decrypt-encrypt-vault ()
-  (when ansible
+  (when (and ansible
+             (string-match-p "\\`\$ANSIBLE_VAULT;[0-9]+\.[0-9]+"
+                             (buffer-substring-no-properties (point-min) (point-max))))
     (ansible::auto-decrypt-encrypt)
     (add-hook 'ws-butler-mode-hook #'mfa-ansible//fix-ws-butler-decrypt-order t t)))
 

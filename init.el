@@ -564,7 +564,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
       (add-to-list 'exec-path-from-shell-variables item))
     ;; NVM
     (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
-      (add-to-list 'exec-path-from-shell-variables item))))
+      (add-to-list 'exec-path-from-shell-variables item)))
+
+  ;; Add this projects library directory to the load path.
+  (add-to-list 'load-path (concat dotspacemacs-directory "lib/")))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.

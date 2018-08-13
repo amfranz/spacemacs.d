@@ -24,6 +24,8 @@
   (spacemacs|use-package-add-hook dired
     :post-config
     (progn
+      (with-eval-after-load 'font-lock
+        (require 'font-lock+))
       (add-hook 'dired-mode-hook #'dired-dwim-target-mode)
       (spacemacs/set-leader-keys-for-major-mode 'dired-mode
         "ot" #'dired-dwim-target-mode)

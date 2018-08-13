@@ -1068,7 +1068,20 @@ potentially deletes it, after which it can not be autoloaded any more."
     (evil-ex-nohighlight))
   (spacemacs/set-leader-keys "sc" 'mfa-search-clear-highlight)
 
-  (setq fci-rule-color "sky blue")
+  (with-eval-after-load 'zenburn-theme
+    (zenburn-with-color-variables
+      (custom-theme-set-variables
+       'zenburn
+       ;; The default choice for fci-rule-color is too dark, this makes it
+       ;; brighter.
+       `(fci-rule-color ,zenburn-bg+3))
+      (custom-theme-set-faces
+       'zenburn
+       ;; This is aliased to lazy-highlight by spacemacs, but the alias does
+       ;; only work in the initial frame, without this it will be reset in any
+       ;; additional frames.
+       `(evil-search-highlight-persist-highlight-face
+         ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05)))))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

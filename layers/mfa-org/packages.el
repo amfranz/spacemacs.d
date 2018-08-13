@@ -36,9 +36,11 @@
   ;; colorize priorities.
   (with-eval-after-load 'zenburn-theme
     (zenburn-with-color-variables
-      (setq org-priority-faces `((?A . (:foreground ,zenburn-magenta))
-                                 (?B . (:foreground ,zenburn-yellow))
-                                 (?C . (:foreground ,zenburn-cyan))))))
+      (custom-theme-set-variables
+       'zenburn
+       `(org-priority-faces '((?A . (:foreground ,zenburn-magenta))
+                              (?B . (:foreground ,zenburn-yellow))
+                              (?C . (:foreground ,zenburn-cyan)))))))
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode

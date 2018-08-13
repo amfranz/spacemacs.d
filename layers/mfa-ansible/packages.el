@@ -26,6 +26,8 @@
               #'mfa-ansible//update-imenu-expression)
     (add-hook 'yaml-mode-local-vars-hook
               #'mfa-ansible//auto-decrypt-encrypt-vault))
+  (advice-add 'ansible::vault :around
+              #'mfa-ansible//vault-encrypt-advice)
   (advice-add 'ansible::encrypt-buffer :before
               #'mfa-ansible//save-coord)
   (advice-add 'ansible::decrypt-buffer :after

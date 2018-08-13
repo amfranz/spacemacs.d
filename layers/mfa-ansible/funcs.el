@@ -1,3 +1,8 @@
+(defun mfa-ansible//vault-encrypt-advice (orig-fun mode str)
+  (when (string= mode "encrypt")
+    (setq mode "encrypt --encrypt-vault-id=default"))
+  (funcall orig-fun mode str))
+
 (defun mfa-ansible//auto-decrypt-encrypt-vault ()
   (when ansible
     (ansible::auto-decrypt-encrypt)

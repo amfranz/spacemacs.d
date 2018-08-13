@@ -480,29 +480,36 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
 
-  ;; Speed up startup slightly by delaying garbage collection until after
-  ;; Spacemacs has initialized.
-  (defun disable-gc-hook ()
-    (setq gc-cons-threshold most-positive-fixnum
-          gc-cons-percentage 0.6))
-  (defun enable-gc-hook ()
-    (setq gc-cons-threshold 16777216 ; 16 MB
-          gc-cons-percentage 0.1))
-  (disable-gc-hook)
-  (add-hook 'emacs-startup-hook #'enable-gc-hook)
+  ;; Garbage collect only during idle times.
+  (defvar gc-idle-repeat-timer nil
+    "Timer for `gc-idle-collect' to reschedule itself, or nil.")
 
-  ;; Turn garbage collection off while interacting with Emacs in the minibuffer,
-  ;; this avoids stuttering that could occur if garbage collection triggers.
-  (add-hook 'minibuffer-setup-hook #'disable-gc-hook)
-  (add-hook 'minibuffer-exit-hook #'enable-gc-hook)
+  (defun gc-idle-collect ()
+    "Collect garbage when the user is idle."
+    (when gc-idle-repeat-timer
+      (cancel-timer gc-idle-repeat-timer))
+    (garbage-collect)
+    (setq gc-idle-repeat-timer
+          (run-with-idle-timer (time-add (current-idle-time) 300) nil #'gc-idle-collect)))
 
-  ;; Turn garbage collection on while installing packages. This avoids Emacs to
-  ;; hang for a long time after the packages are installed.
+  (defun gc-idle-enable ()
+    "Configure garbage collection to occur when the user is idle."
+    (setq gc-cons-threshold most-positive-fixnum)
+    (run-with-idle-timer 2 t #'gc-idle-collect))
+
+  ;; (add-hook 'emacs-startup-hook #'gc-idle-enable)
+  (gc-idle-enable)
+
+  ;; Turn garbage collection on while installing packages and recompiling ELPA
+  ;; packages. This avoids Emacs to hang for a long time after many packages get
+  ;; installed.
   (defun enable-gc-around-advice (orig-fun &rest args)
     (let ((gc-cons-threshold 16777216) ; 16 MB
           (gc-cons-percentage 0.1))
       (apply orig-fun args)))
   (advice-add 'configuration-layer//install-packages
+              :around #'enable-gc-around-advice)
+  (advice-add 'spacemacs/recompile-elpa
               :around #'enable-gc-around-advice)
 
   ;; Make frames larger than the conservative default size.

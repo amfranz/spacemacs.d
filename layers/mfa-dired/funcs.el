@@ -17,5 +17,5 @@ different target window number can be specified via the prefix argument."
 
 (define-minor-mode dired-dwim-target-mode ()
   "Toggle dired-dwim-target mode."
-  :lighter "ⓣ"
+  :lighter "dired-dwim-target"
   (set (make-local-variable 'dired-dwim-target) dired-dwim-target-mode))

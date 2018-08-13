@@ -40,8 +40,8 @@
   (advice-add 'ansible::decrypt-buffer :after
               #'mfa-ansible//restore-coord)
   (spacemacs/set-leader-keys-for-minor-mode 'ansible
-    "se" #'mfa-ansible/encrypt-string
-    "sd" #'mfa-ansible/decrypt-string
+    "re" #'mfa-ansible/encrypt-region
+    "rd" #'mfa-ansible/decrypt-region
     "u" #'mfa-ansible/upgrade-syntax))
 
 (defun mfa-ansible/post-init-ansible-doc ()
@@ -57,4 +57,4 @@
   (spacemacs/add-flycheck-hook 'yaml-mode))
 
 (defun mfa-ansible/post-init-yaml-mode ()
-  (spacemacs/declare-prefix-for-mode 'yaml-mode "ms" "string"))
+  (spacemacs/declare-prefix-for-mode 'yaml-mode "mr" "region"))

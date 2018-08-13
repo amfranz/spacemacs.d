@@ -671,12 +671,6 @@ you should place your code here."
   (when global-hl-line-mode
     (global-hl-line-mode -1))
 
-  ;; Patch emacsclient --eval to be quiet.
-  ;; Source: https://emacs.stackexchange.com/questions/28989/how-to-stop-emacsclient-t-a-eval-output-to-stdout
-  (with-eval-after-load 'server
-    (define-advice server-eval-and-print (:filter-args (args) no-print)
-      (list (car args) nil)))
-
   ;; Add ~/spacemacs.d/bin/ to the executable search path.
   (let ((bin-path (concat dotspacemacs-directory "bin/")))
     (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))

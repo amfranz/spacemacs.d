@@ -176,6 +176,7 @@ values."
      mfa-devdocs
      mfa-diff
      mfa-dired
+     mfa-direnv
      mfa-dokuwiki
      mfa-dtrt-indent
      mfa-dynamic-ruler

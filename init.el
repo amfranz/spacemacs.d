@@ -1082,7 +1082,6 @@ potentially deletes it, after which it can not be autoloaded any more."
        ;; additional frames.
        `(evil-search-highlight-persist-highlight-face
          ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05)))))))
-  )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
+  (setq custom-file (concat dotspacemacs-directory "custom.el"))
+  (load custom-file))

@@ -1,3 +1,8 @@
+(defun mfa-ansible//ansible-company-maybe-enable ()
+  (when (spacemacs//ansible-should-enable?)
+    (setq-local company-backends '(company-files
+                                   (company-ansible company-dabbrev-code)))))
+
 (defun mfa-ansible//vault-encrypt-advice (orig-fun mode str)
   (when (string= mode "encrypt")
     (setq mode "encrypt --encrypt-vault-id=default"))

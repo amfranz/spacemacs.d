@@ -1,4 +1,4 @@
-(defconst mfa-ansible-packages '(ansible ansible-doc company el-patch flycheck yaml-mode))
+(defconst mfa-ansible-packages '(ansible ansible-doc company flycheck yaml-mode))
 
 (defun mfa-ansible/post-init-ansible ()
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5
@@ -20,6 +20,13 @@
                 "roles/.+\.ya?ml\\|"
                 "group_vars/.+\\|"
                 "host_vars/.+\\)"))
+  (spacemacs|use-package-add-hook ansible
+    :post-config
+    (progn
+      (remove-hook 'yaml-mode-hook
+                   'spacemacs/ansible-company-maybe-enable)
+      (add-hook 'yaml-mode-hook
+                'mfa-ansible//ansible-company-maybe-enable t)))
   (with-eval-after-load 'ansible
     (spacemacs|hide-lighter ansible)
     (add-hook 'ansible-hook
@@ -45,16 +52,6 @@
 (defun mfa-ansible/post-init-company ()
   (with-eval-after-load 'company-dabbrev-code
     (add-to-list 'company-dabbrev-code-modes 'yaml-mode)))
-
-(defun mfa-ansible/post-init-el-patch ()
-  (eval '(el-patch-defun spacemacs/ansible-company-maybe-enable ()
-           "Add the ansible company backend only for when ansible mode is active."
-           (when (spacemacs//ansible-should-enable?)
-             (el-patch-swap
-               (add-to-list 'company-backends 'company-ansible)
-               (setq-local company-backends
-                           '(company-files
-                             (company-ansible company-dabbrev-code))))))))
 
 (defun mfa-ansible/post-init-flycheck ()
   (spacemacs/add-flycheck-hook 'yaml-mode))

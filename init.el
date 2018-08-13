@@ -529,8 +529,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
               :around #'enable-gc-around-advice)
 
   ;; Make frames larger than the conservative default size.
-  (let ((goal-height 54)
-        (goal-width 160))
+  (let ((goal-height 47)
+        (goal-width 164))
     (setq default-frame-alist `((width . ,goal-width)
                                 (height . ,goal-height)))
     ;; Also resize the initial frame to the goal size, but enlarge the frame in

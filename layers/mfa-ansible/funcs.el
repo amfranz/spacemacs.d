@@ -11,9 +11,12 @@
 (defun mfa-ansible//auto-decrypt-encrypt-vault ()
   (when ansible
     (ansible::auto-decrypt-encrypt)
-    (when (memq 'ansible::encrypt-buffer before-save-hook)
-      (remove-hook 'before-save-hook 'ansible::encrypt-buffer t)
-      (add-hook 'before-save-hook 'ansible::encrypt-buffer t t))))
+    (add-hook 'ws-butler-mode-hook #'mfa-ansible//fix-ws-butler-decrypt-order t t)))
+
+(defun mfa-ansible//fix-ws-butler-decrypt-order ()
+  (when (and ws-butler-mode (memq #'ansible::encrypt-buffer before-save-hook))
+    (remove-hook 'before-save-hook #'ansible::encrypt-buffer t)
+    (add-hook 'before-save-hook #'ansible::encrypt-buffer t t)))
 
 (defun mfa-ansible//update-imenu-expression ()
   (when ansible

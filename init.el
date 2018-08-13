@@ -1034,6 +1034,16 @@ potentially deletes it, after which it can not be autoloaded any more."
               (format-time-string "%Y-%m-%d"))))
   (spacemacs/set-leader-keys "id" #'insert-date)
 
+  ;; Even though we use evil-search, effectively both search modules are in use,
+  ;; as some functionality like 'dired' and 'go to definition' seems to always
+  ;; use isearch regardless of the value of 'evil-search-module'.
+  (defun mfa-search-clear-highlight ()
+    "Clear evil-search as well as evil-ex-search persistent highlights."
+    (interactive)
+    (evil-search-highlight-persist-remove-all)
+    (evil-ex-nohighlight))
+  (spacemacs/set-leader-keys "sc" 'mfa-search-clear-highlight)
+
   (setq fci-rule-color "sky blue")
   )
 

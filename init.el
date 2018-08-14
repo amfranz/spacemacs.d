@@ -1068,6 +1068,10 @@ potentially deletes it, after which it can not be autoloaded any more."
     (evil-ex-nohighlight))
   (spacemacs/set-leader-keys "sc" 'mfa-search-clear-highlight)
 
+  ;; Ensure files visited by emacsclient a fullscreen experience.
+  ;; TODO only trigger when a new frame was requested by the client.
+  (add-hook 'server-visit-hook #'delete-other-windows)
+
   (with-eval-after-load 'zenburn-theme
     (zenburn-with-color-variables
       (custom-theme-set-variables

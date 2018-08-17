@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# key: tramp-ssh
+# --
+[[file:/ssh:${1:USER}@${2:HOST}:${3:PATH}]]$0

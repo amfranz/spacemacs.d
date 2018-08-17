@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# key: tramp-ssh-sudo
+# --
+[[file:/ssh:${1:USER}@${2:HOST}|sudo:root@$2:${3:PATH}]]$0

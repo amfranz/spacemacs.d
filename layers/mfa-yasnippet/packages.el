@@ -1,4 +1,4 @@
-(defconst mfa-yasnippet-packages '(helm-c-yasnippet yasnippet yasnippet-snippets))
+(defconst mfa-yasnippet-packages '(helm-c-yasnippet yasnippet yasnippet-classic-snippets yasnippet-snippets))
 
 (defun mfa-yasnippet/post-init-helm-c-yasnippet ()
   ;; This message displays the key binding for the snippet, but the message is
@@ -127,6 +127,10 @@ like `yas--current-key'"
 (defun mfa-yasnippet/post-init-yasnippet()
   (setq yas-snippet-dirs (delete 'yas-installed-snippets-dir yas-snippet-dirs))
   (autoload 'yas-hippie-try-expand "yasnippet"))
+
+(defun mfa-yasnippet/init-yasnippet-classic-snippets ()
+  (use-package yasnippet-classic-snippets
+    :defer t))
 
 (defun mfa-yasnippet/init-yasnippet-snippets ()
   (use-package yasnippet-snippets

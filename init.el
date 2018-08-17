@@ -590,7 +590,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
       (add-to-list 'exec-path-from-shell-variables item)))
 
   ;; Add this projects library directory to the load path.
-  (add-to-list 'load-path (concat dotspacemacs-directory "lib/")))
+  (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
+
+  ;; Keep customizations in a separate file that is not under version control.
+  (setq custom-file (concat dotspacemacs-directory "custom.el"))
+  (load custom-file))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -1084,7 +1088,4 @@ potentially deletes it, after which it can not be autoloaded any more."
        ;; only work in the initial frame, without this it will be reset in any
        ;; additional frames.
        `(evil-search-highlight-persist-highlight-face
-         ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05)))))))
-
-  (setq custom-file (concat dotspacemacs-directory "custom.el"))
-  (load custom-file))
+         ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05))))))))

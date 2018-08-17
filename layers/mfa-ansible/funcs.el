@@ -81,13 +81,13 @@
   (interactive "*r")
   (when (use-region-p)
     (let ((input (buffer-substring-no-properties beginning end))
-          (attr-pattern "\\([A-Za-z0-9_]+\\)=\\(.*?\\)\\(?:\\'\\| +[A-Za-z0-9_]+=\\)"))
+          (attr-pattern "\\([A-Za-z0-9_]+\\)=\\(.*?\\)[ \n]*\\(?:\\'\\|[A-Za-z0-9_]+=\\)"))
       (setq input (replace-regexp-in-string "\n *" " " input t t))
       (let ((match-start (string-match attr-pattern input)))
-        (let ((key (match-string 1 input))
-              (value (match-string 2 input))
-              (scan-start (match-end 2)))
-          (when match-start
+        (when match-start
+          (let ((key (match-string 1 input))
+                (value (match-string 2 input))
+                (scan-start (match-end 2)))
             (delete-region beginning end)
             (goto-char beginning)
             (insert "\n")

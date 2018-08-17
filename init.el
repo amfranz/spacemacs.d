@@ -1088,4 +1088,10 @@ potentially deletes it, after which it can not be autoloaded any more."
        ;; only work in the initial frame, without this it will be reset in any
        ;; additional frames.
        `(evil-search-highlight-persist-highlight-face
-         ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05))))))))
+         ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05)))))))
+
+  ;; Some glyphs in this font can cause Emacs to crash.
+  ;; https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=892611
+  ;; https://github.com/syl20bnr/spacemacs/issues/10695
+  ;; https://lists.nongnu.org/archive/html/bug-gnu-emacs/2018-01/msg00260.html
+  (add-to-list 'face-ignored-fonts "Noto Color Emoji"))

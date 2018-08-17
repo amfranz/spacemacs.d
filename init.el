@@ -589,6 +589,24 @@ before packages are loaded. If you are unsure, you should try in setting them in
     (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
       (add-to-list 'exec-path-from-shell-variables item)))
 
+  ;; Temporary diversions to workaround defuns and defvars renamed by the latest
+  ;; org-projectile. Will be obsolete with the next Spacemacs release.
+  (defvaralias 'org-projectile:per-repo-filename 'org-projectile-per-project-filepath)
+  (defvaralias 'org-projectile:projects-file 'org-projectile-projects-file)
+  (autoload 'org-projectile:capture-for-current-project "org-category-capture")
+  (autoload 'org-projectile:location-for-project "org-category-capture")
+  (autoload 'org-projectile:per-repo "org-category-capture")
+  (autoload 'org-projectile:project-todo-completing-read "org-category-capture")
+  (autoload 'org-projectile:project-todo-entry "org-category-capture")
+  (autoload 'org-projectile:todo-files "org-category-capture")
+  (with-eval-after-load 'org-category-capture
+    (defalias 'org-projectile:capture-for-current-project 'org-projectile-capture-for-current-project)
+    (defalias 'org-projectile:location-for-project 'org-projectile-location-for-project)
+    (defalias 'org-projectile:per-repo 'org-projectile-per-project)
+    (defalias 'org-projectile:project-todo-completing-read 'org-projectile-project-todo-completing-read)
+    (defalias 'org-projectile:project-todo-entry 'org-projectile-project-todo-entry)
+    (defalias 'org-projectile:todo-files 'org-projectile-todo-files))
+
   ;; Add this projects library directory to the load path.
   (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
 

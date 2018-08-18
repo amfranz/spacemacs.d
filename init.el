@@ -641,6 +641,7 @@ you should place your code here."
 
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
+    (push "\\`/dev/" recentf-exclude)
     (push "\\`/tmp/" recentf-exclude)
     (push "\\`/var/tmp/" recentf-exclude))
 

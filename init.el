@@ -230,6 +230,7 @@ values."
      mfa-shell-scripts
      mfa-string-edit
      mfa-string-inflection
+     mfa-tmux
      mfa-treemacs
      mfa-vagrant
      mfa-vdiff

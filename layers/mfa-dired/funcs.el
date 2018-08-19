@@ -14,8 +14,3 @@ different target window number can be specified via the prefix argument."
         (if (and vinegar-reuse-dired-buffer (eq dired-window (selected-window)))
             (find-alternate-file file)
           (find-file file))))))
-
-(define-minor-mode dired-dwim-target-mode ()
-  "Toggle dired-dwim-target mode."
-  :lighter "dired-dwim-target"
-  (set (make-local-variable 'dired-dwim-target) dired-dwim-target-mode))

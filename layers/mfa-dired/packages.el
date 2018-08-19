@@ -26,10 +26,6 @@
     (progn
       (with-eval-after-load 'font-lock
         (require 'font-lock+))
-      (add-hook 'dired-mode-hook #'dired-dwim-target-mode)
-      (spacemacs|diminish dired-dwim-target-mode "ⓣ" "t")
-      (spacemacs/set-leader-keys-for-major-mode 'dired-mode
-        "ot" #'dired-dwim-target-mode)
       (evil-define-key 'evilified dired-mode-map
         (kbd "RET") #'dired-find-file-by-prefix)
       (evil-define-key 'evilified dired-mode-map

@@ -1095,18 +1095,23 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; TODO only trigger when a new frame was requested by the client.
   (add-hook 'server-visit-hook #'delete-other-windows)
 
+  (spacemacs|use-package-add-hook fill-column-indicator
+    :post-config
+    (with-eval-after-load 'zenburn-theme
+      (zenburn-with-color-variables
+        (custom-theme-set-variables
+         'zenburn
+         ;; The choice Spacemacs makes for fci-rule-color is too dark for the
+         ;; zenburn theme, this adjusts the rule to be a brighter color.
+         `(fci-rule-color ,zenburn-bg+3)))))
+
   (with-eval-after-load 'zenburn-theme
     (zenburn-with-color-variables
-      (custom-theme-set-variables
-       'zenburn
-       ;; The default choice for fci-rule-color is too dark, this makes it
-       ;; brighter.
-       `(fci-rule-color ,zenburn-bg+3))
       (custom-theme-set-faces
        'zenburn
        ;; This is aliased to lazy-highlight by spacemacs, but the alias does
-       ;; only work in the initial frame, without this it will be reset in any
-       ;; additional frames.
+       ;; only work in the initial frame. This makes it work in subsequent
+       ;; frames as well, as long as the theme is zenburn that is.
        `(evil-search-highlight-persist-highlight-face
          ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05)))))))
 

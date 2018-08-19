@@ -231,6 +231,7 @@ values."
      mfa-string-edit
      mfa-string-inflection
      mfa-tmux
+     mfa-sqlformat
      mfa-treemacs
      mfa-vagrant
      mfa-vdiff

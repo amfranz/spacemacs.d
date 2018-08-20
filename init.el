@@ -215,6 +215,7 @@ values."
      mfa-json
      mfa-lice
      mfa-make-mode
+     mfa-markdown
      ;; mfa-mu4e
      mfa-multi-line
      mfa-mwim

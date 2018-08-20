@@ -1,4 +1,4 @@
-(defconst mfa-ansible-packages '(ansible ansible-doc company flycheck yaml-mode))
+(defconst mfa-ansible-packages '(ansible ansible-doc company flycheck flycheck-yamllint yaml-mode))
 
 (defun mfa-ansible/post-init-ansible ()
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5
@@ -55,6 +55,12 @@
 
 (defun mfa-ansible/post-init-flycheck ()
   (spacemacs/add-flycheck-hook 'yaml-mode))
+
+(defun mfa-ansible/init-flycheck-yamllint ()
+  (use-package flycheck-yamllint
+    :after (flycheck yaml-mode)
+    :config
+    (flycheck-yamllint-setup)))
 
 (defun mfa-ansible/post-init-yaml-mode ()
   (spacemacs/declare-prefix-for-mode 'yaml-mode "mr" "region"))

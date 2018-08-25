@@ -1,4 +1,4 @@
-(defconst mfa-ansible-packages '(ansible ansible-doc company flycheck flycheck-yamllint yaml-mode))
+(defconst mfa-ansible-packages '(ansible ansible-doc company expand-region flycheck flycheck-yamllint yaml-mode))
 
 (defun mfa-ansible/post-init-ansible ()
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5
@@ -52,6 +52,10 @@
 (defun mfa-ansible/post-init-company ()
   (with-eval-after-load 'company-dabbrev-code
     (add-to-list 'company-dabbrev-code-modes 'yaml-mode)))
+
+(defun mfa-ansible/post-init-expand-region ()
+  (with-eval-after-load 'expand-region
+    (er/enable-mode-expansions 'yaml-mode #'er/add-yaml-mode-expansions)))
 
 (defun mfa-ansible/post-init-flycheck ()
   (spacemacs/add-flycheck-hook 'yaml-mode))

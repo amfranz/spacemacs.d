@@ -102,3 +102,98 @@
                 (setq key (match-string 1 input)
                       value (match-string 2 input)
                       scan-start (match-end 2))))))))))
+
+(defun er//find-start-of-yaml-dict-or-array-value ()
+  (let ((needle1 " *\\([a-zA-Z0-9_\\-\\.]+:\\)")
+        (needle2 " *- *\\([a-zA-Z0-9_\\-\\.]+:\\)?"))
+    (beginning-of-line)
+    (while (not (or (eq (point) (point-min))
+                    (looking-at needle1)
+                    (looking-at needle2)))
+      (forward-line -1))
+    (when (or (looking-at needle1)
+              (looking-at needle2))
+      (prog1
+          (- (or (match-beginning 1)
+                 (match-beginning 0))
+             (match-beginning 0))
+        (goto-char (match-end 0))
+        (while (not (looking-at " *\\([^ \n]\\)"))
+          (forward-line 1))
+        (goto-char (match-beginning 1))))))
+
+(defun er/mark-yaml-value ()
+  "Marks one YAML value."
+  (interactive)
+  (let ((here (point)))
+    (let ((level (er//find-start-of-yaml-dict-or-array-value)))
+      (if (not level)
+          (goto-char here)
+        (set-mark (point))
+        (er//find-edge-of-yaml-indentation (+ level 1) 1 (point-max))
+        (end-of-line)
+        (exchange-point-and-mark)))))
+
+(defun er//find-start-of-yaml-dict-or-array ()
+  (let ((needle " *\\(-\\|[a-zA-Z0-9_\\-\\.]+:\\)"))
+    (beginning-of-line)
+    (while (not (or (eq (point) (point-min))
+                    (looking-at needle)))
+      (forward-line -1))
+    (if (looking-at needle)
+        (- (match-beginning 1) (match-beginning 0)))))
+
+(defun er//find-edge-of-yaml-indentation (level stride limit)
+  (let ((last-nonempty-line (point)))
+    (while (progn
+             (forward-line stride)
+             (and (or (looking-at " *$")
+                      (progn
+                        (looking-at " *\\(.\\)")
+                        (when (<= level (- (match-beginning 1) (match-beginning 0)))
+                          (setq last-nonempty-line (point)))))
+                  (not (eq (point) limit)))))
+    (goto-char last-nonempty-line)))
+
+(defun er/mark-yaml-this-block ()
+  (interactive)
+  (let ((here (point)))
+    (let ((level (er//find-start-of-yaml-dict-or-array)))
+      (if (not level)
+          (goto-char here)
+        (set-mark (point))
+        (er//find-edge-of-yaml-indentation (+ level 1) 1 (point-max))
+        (forward-line 1)
+        (exchange-point-and-mark)))))
+
+(defun er//mark-yaml-block (include-parent)
+  (let ((here (point)))
+    (let ((level (er//find-start-of-yaml-dict-or-array)))
+      (if (not level)
+          (goto-char here)
+        (er//find-edge-of-yaml-indentation level -1 (point-min))
+        (when include-parent
+          (forward-line -1))
+        (set-mark (point))
+        (er//find-edge-of-yaml-indentation level 1 (point-max))
+        (forward-line 1)
+        (exchange-point-and-mark)))))
+
+(defun er/mark-yaml-sibling-block ()
+  "Marks all YAML lines of the same indentation level."
+  (interactive)
+  (er//mark-yaml-block nil))
+
+(defun er/mark-yaml-parent-block ()
+  "Marks all YAML lines of the same indentation level and their parent."
+  (interactive)
+  (er//mark-yaml-block t))
+
+(defun er/add-yaml-mode-expansions ()
+  "Add expansions for buffers in `yaml-mode'."
+  (set (make-local-variable 'er/try-expand-list)
+       (append er/try-expand-list
+               '(er/mark-yaml-value
+                 er/mark-yaml-this-block
+                 er/mark-yaml-sibling-block
+                 er/mark-yaml-parent-block))))

@@ -90,8 +90,9 @@
                 (scan-start (match-end 2)))
             (delete-region beginning end)
             (goto-char beginning)
-            (insert "\n")
-            (goto-char beginning)
+            (when (zerop (current-column))
+              (insert "\n")
+              (goto-char beginning))
             (insert (s-trim-right (substring input 0 match-start)))
             (while match-start
               (insert "\n")

@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# key: atp
+# expand-env: ((yas-indent-line 'fixed))
+# --
+#
+# {{ managed_template }}
+#
+# The master copy of this file is at {{ template_path|git_link }}
+#

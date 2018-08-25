@@ -127,10 +127,14 @@ This function should only modify configuration layer settings."
                       ;;   C-p => previous
                       ;;   C-l => complete
                       )
+     better-defaults
+     bm
      (c-c++ :variables
+            c-c++-enable-c++11 t
             c-c++-enable-clang-support t)
      clojure
      colors
+     copy-as-format
      cscope
      csv
      (dash :variables
@@ -143,15 +147,24 @@ This function should only modify configuration layer settings."
           git-magit-status-fullscreen t)
      github
      (go :variables
-         go-tab-width 4)
+         go-format-before-save t
+         go-tab-width 4
+         go-use-gometalinter t
+         godoc-at-point-function 'godoc-gogetdoc)
      graphviz
      (gtags :variables
             gtags-enable-by-default nil)
      helm
-     html
-     ibuffer
+     (html :variables
+           web-fmt-tool 'prettier)
+     (ibuffer :variables
+              ibuffer-group-buffers-by 'projects)
      imenu-list
-     javascript
+     (javascript :variables
+                 javascript-fmt-tool 'prettier
+                 js-indent-level 2)
+     (json :variables
+           json-fmt-tool 'prettier)
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
@@ -160,13 +173,18 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-bootstrap-support t
           org-enable-github-support t
-          org-enable-reveal-js-support t)
+          org-enable-reveal-js-support t
+          org-enable-org-journal-support t
+          org-projectile-file "notes.org")
+     parinfer
      php
      plantuml
+     prettier
      prodigy
      python
      restclient
      (ruby :variables
+           ruby-test-runner 'rspec
            ruby-version-manager 'rbenv)
      (rust :variables
            rust-format-on-save t)
@@ -174,7 +192,8 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-shell 'eshell)
      shell-scripts
-     sql
+     (sql :variables
+          sql-capitalize-keywords t)
      syntax-checking
      systemd
      treemacs

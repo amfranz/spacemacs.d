@@ -998,9 +998,9 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   (defun open-terminal ()
     (interactive)
-    (let ((process-environment (remove-if (lambda (kv) (string-prefix-p "EMACS_SERVER_NAME=" kv)) process-environment)))
-      (call-process "konsole" nil 0 nil "--nofork" "--separate"
-                    "--workdir" (expand-file-name default-directory))))
+    (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))
+      (call-process "konsole" nil 0 nil "--workdir" (expand-file-name default-directory))))
+
   (defun projectile-open-terminal ()
     (interactive)
     (let ((default-directory (projectile-project-root)))
@@ -1011,7 +1011,7 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   (defun open-file-manager-in-directory ()
     (interactive)
-    (let ((process-environment (remove-if (lambda (kv) (string-prefix-p "EMACS_SERVER_NAME=" kv)) process-environment)))
+    (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))
       (call-process "xdg-open" nil 0 nil (expand-file-name default-directory))))
   (spacemacs/set-leader-keys "od" #'open-file-manager-in-directory)
 

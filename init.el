@@ -918,30 +918,12 @@ before packages are loaded."
     :documentation "Toggle superword movement and editing (superword mode)."
     :evil-leader "tJ")
 
-  (defun show-and-copy-project-dirname ()
+  (defun projectile-copy-directory-path ()
     "Show and copy the full path to the current project directory in the minibuffer."
     (interactive)
     (let ((project-root (projectile-project-root)))
-      (message (kill-new project-root))))
-  (spacemacs/set-leader-keys "pY" #'show-and-copy-project-dirname)
-
-  (defun buffer-path ()
-    (or buffer-file-name
-        (and (eq major-mode 'dired-mode)
-             (expand-file-name (if (consp dired-directory)
-                                   (car dired-directory)
-                                 dired-directory)))))
-
-  (defun show-and-copy-buffer-dirname ()
-    "Show and copy the full path to the directory of the current file in the minibuffer."
-    (interactive)
-    (let ((file-name (buffer-path)))
-      (if file-name
-          (message (kill-new (if (file-directory-p file-name)
-                                 file-name
-                               (file-name-directory file-name))))
-        (error "Buffer not visiting a file"))))
-  (spacemacs/set-leader-keys "fY" #'show-and-copy-buffer-dirname)
+      (message "%s" (kill-new project-root))))
+  (spacemacs/set-leader-keys "fyp" #'projectile-copy-directory-path)
 
   ;; http://stackoverflow.com/questions/30697523/how-to-get-emacs-to-sort-lines-by-length
   (defun sort-lines-by-length (reverse beg end)

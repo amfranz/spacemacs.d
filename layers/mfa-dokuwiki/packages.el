@@ -3,7 +3,8 @@
 (defconst mfa-dokuwiki-packages '(company dokuwiki dokuwiki-mode outline-magic))
 
 (defun mfa-dokuwiki/post-init-company ()
-  (spacemacs|add-company-hook dokuwiki-mode))
+  ;; FIXME (spacemacs|add-company-hook dokuwiki-mode)
+  )
 
 (defun mfa-dokuwiki/init-dokuwiki ()
   (use-package dokuwiki

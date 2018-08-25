@@ -1,1 +1,1 @@
-(defvar editorconfig-verbose nil)
+(defvar mfa-editorconfig-verbose nil)

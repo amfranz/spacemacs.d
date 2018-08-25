@@ -1,4 +1,4 @@
-(defconst mfa-yasnippet-packages '(helm-c-yasnippet yasnippet yasnippet-classic-snippets yasnippet-snippets))
+(defconst mfa-yasnippet-packages '(helm-c-yasnippet yasnippet yasnippet-classic-snippets))
 
 (defun mfa-yasnippet/post-init-helm-c-yasnippet ()
   ;; This message displays the key binding for the snippet, but the message is
@@ -130,8 +130,4 @@ like `yas--current-key'"
 
 (defun mfa-yasnippet/init-yasnippet-classic-snippets ()
   (use-package yasnippet-classic-snippets
-    :defer t))
-
-(defun mfa-yasnippet/init-yasnippet-snippets ()
-  (use-package yasnippet-snippets
     :defer t))

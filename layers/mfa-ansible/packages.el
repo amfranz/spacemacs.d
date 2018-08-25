@@ -58,7 +58,7 @@
     (er/enable-mode-expansions 'yaml-mode #'er/add-yaml-mode-expansions)))
 
 (defun mfa-ansible/post-init-flycheck ()
-  (spacemacs/add-flycheck-hook 'yaml-mode))
+  (spacemacs/enable-flycheck 'yaml-mode))
 
 (defun mfa-ansible/init-flycheck-yamllint ()
   (use-package flycheck-yamllint

@@ -802,9 +802,11 @@ before packages are loaded."
 
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
-    (push "\\`/dev/" recentf-exclude)
-    (push "\\`/tmp/" recentf-exclude)
-    (push "\\`/var/tmp/" recentf-exclude))
+    (setq recentf-exclude
+          (append `("\\`/dev/"
+                    "\\`/tmp/"
+                    "\\`/var/tmp/")
+                  recentf-exclude)))
 
   ;; Mention the active buffer name in the title bar.
   (defun frame-title ()

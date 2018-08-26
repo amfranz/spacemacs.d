@@ -744,24 +744,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
       (add-to-list 'exec-path-from-shell-variables item)))
 
-  ;; Temporary diversions to workaround defuns and defvars renamed by the latest
-  ;; org-projectile. Will be obsolete with the next Spacemacs release.
-  (defvaralias 'org-projectile:per-repo-filename 'org-projectile-per-project-filepath)
-  (defvaralias 'org-projectile:projects-file 'org-projectile-projects-file)
-  (autoload 'org-projectile:capture-for-current-project "org-category-capture")
-  (autoload 'org-projectile:location-for-project "org-category-capture")
-  (autoload 'org-projectile:per-repo "org-category-capture")
-  (autoload 'org-projectile:project-todo-completing-read "org-category-capture")
-  (autoload 'org-projectile:project-todo-entry "org-category-capture")
-  (autoload 'org-projectile:todo-files "org-category-capture")
-  (with-eval-after-load 'org-category-capture
-    (defalias 'org-projectile:capture-for-current-project 'org-projectile-capture-for-current-project)
-    (defalias 'org-projectile:location-for-project 'org-projectile-location-for-project)
-    (defalias 'org-projectile:per-repo 'org-projectile-per-project)
-    (defalias 'org-projectile:project-todo-completing-read 'org-projectile-project-todo-completing-read)
-    (defalias 'org-projectile:project-todo-entry 'org-projectile-project-todo-entry)
-    (defalias 'org-projectile:todo-files 'org-projectile-todo-files))
-
   ;; Add this projects library directory to the load path.
   (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
 
@@ -1175,39 +1157,6 @@ potentially deletes it, after which it can not be autoloaded any more."
     (set (make-local-variable 'require-final-newline)
          mode-require-final-newline))
   (add-hook 'conf-mode-hook #'set-require-final-newline)
-
-  ;; Workaround for https://github.com/syl20bnr/spacemacs/issues/4219
-  ;; Might be obsolete in the next Spacemacs release.
-  (spacemacs|advise-commands
-   "indent" (yank yank-pop evil-paste-before evil-paste-after) around
-   "If current mode is not one of spacemacs-indent-sensitive-modes
- indent yanked text (with universal arg don't indent)."
-   (let ((prefix (ad-get-arg 0)))
-     (ad-set-arg 0 (unless (equal '(4) prefix) prefix))
-     (evil-start-undo-step)
-     ad-do-it
-     (if (and (not (equal '(4) prefix))
-              (not (member major-mode spacemacs-indent-sensitive-modes))
-              (or (derived-mode-p 'prog-mode)
-                  (member major-mode spacemacs-indent-sensitive-modes)))
-         (let ((transient-mark-mode nil)
-               (save-undo buffer-undo-list))
-           (spacemacs/yank-advised-indent-function (region-beginning)
-                                                   (region-end))))
-     (evil-end-undo-step)
-     (ad-set-arg 0 prefix)))
-
-  ;; Workaround for error about void symbol helm-bookmark-map.
-  ;; Will be obsolete with the next Spacemacs release.
-  (remove-hook 'helm-mode-hook 'simpler-helm-bookmark-keybindings)
-  (with-eval-after-load 'helm-bookmark
-    (add-hook 'helm-mode-hook #'simpler-helm-bookmark-keybindings))
-
-  ;; Workaround for broken functionality.
-  ;; Will be obsolete with the next Spacemacs release.
-  (defun org-projectile/goto-todos ()
-    (interactive)
-    (find-file (concat (projectile-project-root) "TODOs.org")))
 
   ;; Workaround for broken xterm-paste. Yank needs to be called interactively.
   (with-eval-after-load 'xterm

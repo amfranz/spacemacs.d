@@ -651,6 +651,11 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; Prefer to load non-compiled elisp files if they are newer than their
+  ;; compiled equivalents. This is a prophylactic against loading outdated
+  ;; compiled files. Requires Emacs >= 24.4.
+  (setq load-prefer-newer t)
+
   ;; Add this projects library directory to the load path.
   (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
 
@@ -659,10 +664,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)
   (seq-do #'gc-idle-exempt '(configuration-layer//install-packages
                              spacemacs/recompile-elpa))
-
-  ;; Keep customizations in a separate file that is not under version control.
-  (setq custom-file (concat dotspacemacs-directory "custom.el"))
-  (load custom-file)
 
   ;; Make frames larger than the conservative default size.
   (let ((goal-height 47)
@@ -688,15 +689,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
               (/ (frame-pixel-height) (frame-height))))))
       (set-frame-size nil goal-width goal-height)))
 
-  ;; Disable vertical scroll bars that occasionally appear on new frames.
+  ;; Disable vertical scroll bars that appear on non-initial frames.
   ;; https://emacs.stackexchange.com/questions/23773/disable-scrollbar-on-new-frame
-  (add-to-list 'default-frame-alist
-               '(vertical-scroll-bars . nil))
+  (push '(vertical-scroll-bars . nil) default-frame-alist)
 
-  ;; Prefer to load non-compiled elisp files if they are newer than their
-  ;; compiled equivalents. This is a prophylactic against loading outdated
-  ;; compiled files. Requires Emacs >= 24.4.
-  (setq load-prefer-newer t)
+  ;; Keep customizations in a separate file that is not under version control.
+  (setq custom-file (concat dotspacemacs-directory "custom.el"))
+  (load custom-file)
 
   ;; Tramp by default tries to look for the availability of various config
   ;; options by running ssh against the host `host.does.not.exist'

@@ -731,8 +731,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
+dump.")
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -928,12 +927,12 @@ before packages are loaded."
   ;; Use helm as a replacement for browse-kill-ring.
   (defadvice yank-pop (around browse-kill-ring-maybe (arg) activate)
     "If last action was not a yank, run `browse-kill-ring' instead."
-    ; yank-pop has an (interactive "*p") form which does not allow
-    ; it to run in a read-only buffer.  We want browse-kill-ring to
-    ; be allowed to run in a read only buffer, so we change the
-    ; interactive form here.  In that case, we need to
-    ; barf-if-buffer-read-only if we're going to call yank-pop with
-    ; ad-do-it
+    ;; yank-pop has an (interactive "*p") form which does not allow
+    ;; it to run in a read-only buffer.  We want browse-kill-ring to
+    ;; be allowed to run in a read only buffer, so we change the
+    ;; interactive form here.  In that case, we need to
+    ;; barf-if-buffer-read-only if we're going to call yank-pop with
+    ;; ad-do-it
     (interactive "p")
     (if (not (eq last-command 'yank))
         (helm-show-kill-ring)
@@ -942,12 +941,12 @@ before packages are loaded."
   (with-eval-after-load 'evil-common
     (defadvice evil-paste-pop (around evil-browse-kill-ring-maybe (arg) activate)
       "If last action was not a yank, run `browse-kill-ring' instead."
-      ; evil-paste-pop has an (interactive "*p") form which does not allow
-      ; it to run in a read-only buffer.  We want browse-kill-ring to
-      ; be allowed to run in a read only buffer, so we change the
-      ; interactive form here.  In that case, we need to
-      ; barf-if-buffer-read-only if we're going to call evil-paste-pop with
-      ; ad-do-it
+      ;; evil-paste-pop has an (interactive "*p") form which does not allow
+      ;; it to run in a read-only buffer.  We want browse-kill-ring to
+      ;; be allowed to run in a read only buffer, so we change the
+      ;; interactive form here.  In that case, we need to
+      ;; barf-if-buffer-read-only if we're going to call evil-paste-pop with
+      ;; ad-do-it
       (interactive "p")
       (if (not (memq last-command '(yank evil-paste-before evil-paste-pop evil-paste-after evil-visual-paste)))
           (helm-show-kill-ring)
@@ -991,7 +990,7 @@ before packages are loaded."
   When called from Lisp, this command enables the mode if the
   argument is omitted or nil, and toggles the mode if the argument
   is 'toggle."
-   nil " X" nil
+    nil " X" nil
     :global t
     (cond
      (xclip-mode
@@ -1058,11 +1057,11 @@ before packages are loaded."
           (save-excursion
             (re-search-backward "^func[ ]+\\(?:([[:alnum:]]*?[ ]?[*]?[[:alnum:]]+)[ ]+\\)?\\(\\(Test\\|Benchmark\\)[[:alnum:]_]+\\)(.*)")
             (let ((test-method
-                  (if (string= (match-string-no-properties 2) "Benchmark")
-                      "-bench"
-                    (if go-use-gocheck-for-testing
-                        "-check.f"
-                      "-run"))))
+                   (if (string= (match-string-no-properties 2) "Benchmark")
+                       "-bench"
+                     (if go-use-gocheck-for-testing
+                         "-check.f"
+                       "-run"))))
               (spacemacs/go-run-tests (concat test-method "='" (match-string-no-properties 1) "'"))))
         (message "Must be in a _test.go file to run go-run-test-current-function")))
 
@@ -1140,7 +1139,7 @@ potentially deletes it, after which it can not be autoloaded any more."
       "Handle the start of a terminal paste operation."
       (interactive)
       (let* ((pasted-text (xterm--pasted-text))
-            (interprogram-paste-function (lambda () pasted-text)))
+             (interprogram-paste-function (lambda () pasted-text)))
         (call-interactively #'yank))))
 
   (defun insert-date (arg)

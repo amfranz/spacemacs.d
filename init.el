@@ -970,11 +970,11 @@ before packages are loaded."
   (defun xclip-cut-function (text)
     (if window-system
         (x-select-text text)
-      (when (getenv "DISPLAY"))
+      (when (getenv "DISPLAY")
         (with-temp-buffer
           (insert text)
           (call-process-region (point-min) (point-max)
-                               "xsel" nil 0 nil "--input" "--clipboard"))))
+                               "xsel" nil 0 nil "--input" "--clipboard")))))
   (defun xclip-paste-function ()
     (if window-system
         (x-selection-value)

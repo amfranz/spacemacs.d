@@ -706,24 +706,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; Enables C-n and C-p to cycle through previous searches.
   ;; This needs to be set before evil is loaded or it won't take effect.
-  (setq evil-search-module 'evil-search)
-
-  ;; Do not warn about environment variables set in .zshrc / .bashrc. This
-  ;; warning gets triggered because rbenv does add its shim directory to the
-  ;; PATH in those shell files. We can ignore that, it's harmless.
-  (setq exec-path-from-shell-check-startup-files nil)
-
-  ;; Import additional variables from the shell profile.
-  (with-eval-after-load 'exec-path-from-shell
-    ;; Go
-    (dolist (item '("GOBIN" "GOPATH" "GOROOT" "GO15VENDOREXPERIMENT"))
-      (add-to-list 'exec-path-from-shell-variables item))
-    ;; RVM
-    (dolist (item '("GEM_HOME" "GEM_PATH"))
-      (add-to-list 'exec-path-from-shell-variables item))
-    ;; NVM
-    (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
-      (add-to-list 'exec-path-from-shell-variables item))))
+  (setq evil-search-module 'evil-search))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.

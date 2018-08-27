@@ -740,6 +740,19 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; This avoids graphical artifacts in the mode line with the first graphical
+  ;; client. Computing the mode line height does font measurements, which are
+  ;; not working properly until the display system is initialized.
+  (when (daemonp)
+    (defun adjust-powerline-height (frame)
+      (with-selected-frame frame
+        (when (display-graphic-p)
+          (setq powerline-height (spacemacs/compute-mode-line-height))
+          (require 'spaceline)
+          (spaceline-compile)
+          (remove-hook 'after-make-frame-functions #'adjust-powerline-height))))
+    (add-hook 'after-make-frame-functions #'adjust-powerline-height))
+
   ;; Flash the frame to indicate a bell.
   (setq visible-bell t)
 

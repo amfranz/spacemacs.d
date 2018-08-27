@@ -29,19 +29,6 @@ of the monitor."
       (round (display-pixels-per-inch) 7.38)
     13))
 
-(defun eterm-256color-package--description-file (dir)
-  "Fixes the guess of the package description file for the `eterm-256color' package.
-
-This is a replacement for `package--description-file' in `subr.el'. The only
-change is that the regular expression is anchored at the end."
-  (concat (let ((subdir (file-name-nondirectory
-                         (directory-file-name dir))))
-            (if (string-match "\\([^.].*?\\)-\\([0-9]+\\(?:[.][0-9]+\\|\\(?:pre\\|beta\\|alpha\\)[0-9]+\\)*\\)\\'" subdir)
-                (match-string 1 subdir) subdir))
-          "-pkg.el"))
-
-(advice-add 'package--description-file :override #'eterm-256color-package--description-file)
-
 (defun dotspacemacs/layers ()
   "Layer configuration:
 This function should only modify configuration layer settings."
@@ -705,7 +692,19 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; Enables C-n and C-p to cycle through previous searches.
   ;; This needs to be set before evil is loaded or it won't take effect.
-  (setq evil-search-module 'evil-search))
+  (setq evil-search-module 'evil-search)
+
+  (defun eterm-256color-package--description-file (dir)
+    "Fixes the guess of the package description file for the `eterm-256color' package.
+
+  This is a replacement for `package--description-file' in `subr.el'. The only
+  change is that the regular expression is anchored at the end."
+    (concat (let ((subdir (file-name-nondirectory
+                           (directory-file-name dir))))
+              (if (string-match "\\([^.].*?\\)-\\([0-9]+\\(?:[.][0-9]+\\|\\(?:pre\\|beta\\|alpha\\)[0-9]+\\)*\\)\\'" subdir)
+                  (match-string 1 subdir) subdir))
+            "-pkg.el"))
+  (advice-add 'package--description-file :override #'eterm-256color-package--description-file))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.

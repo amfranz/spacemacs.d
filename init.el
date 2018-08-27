@@ -176,7 +176,6 @@ This function should only modify configuration layer settings."
           org-enable-reveal-js-support t
           org-enable-org-journal-support t
           org-projectile-file "notes.org")
-     parinfer
      php
      plantuml
      prettier

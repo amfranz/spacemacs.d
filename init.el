@@ -654,34 +654,18 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; Add this projects library directory to the load path.
+  (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
+
   ;; Garbage collect only during idle times.
-  (defvar gc-idle-repeat-timer nil
-    "Timer for `gc-idle-collect' to reschedule itself, or nil.")
+  (require 'gc-idle)
+  (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)
+  (seq-do #'gc-idle-exempt '(configuration-layer//install-packages
+                             spacemacs/recompile-elpa))
 
-  (defun gc-idle-collect ()
-    "Collect garbage when the user is idle."
-    (when gc-idle-repeat-timer
-      (cancel-timer gc-idle-repeat-timer))
-    (garbage-collect)
-    (setq gc-idle-repeat-timer
-          (run-with-idle-timer (time-add (current-idle-time) 300) nil #'gc-idle-collect)))
-
-  (defun gc-idle-enable ()
-    "Configure garbage collection to occur when the user is idle."
-    (run-with-idle-timer 2 t #'gc-idle-collect))
-  (add-hook 'emacs-startup-hook #'gc-idle-enable)
-
-  ;; Turn garbage collection on while installing packages and recompiling ELPA
-  ;; packages. This avoids Emacs to hang for a long time after many packages get
-  ;; installed.
-  (defun enable-gc-around-advice (orig-fun &rest args)
-    (let ((gc-cons-threshold 16777216) ; 16 MB
-          (gc-cons-percentage 0.1))
-      (apply orig-fun args)))
-  (advice-add 'configuration-layer//install-packages
-              :around #'enable-gc-around-advice)
-  (advice-add 'spacemacs/recompile-elpa
-              :around #'enable-gc-around-advice)
+  ;; Keep customizations in a separate file that is not under version control.
+  (setq custom-file (concat dotspacemacs-directory "custom.el"))
+  (load custom-file)
 
   ;; Make frames larger than the conservative default size.
   (let ((goal-height 47)
@@ -742,14 +726,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (add-to-list 'exec-path-from-shell-variables item))
     ;; NVM
     (dolist (item '("NVM_BIN" "NVM_DIR" "NVM_PATH"))
-      (add-to-list 'exec-path-from-shell-variables item)))
-
-  ;; Add this projects library directory to the load path.
-  (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
-
-  ;; Keep customizations in a separate file that is not under version control.
-  (setq custom-file (concat dotspacemacs-directory "custom.el"))
-  (load custom-file))
+      (add-to-list 'exec-path-from-shell-variables item))))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.

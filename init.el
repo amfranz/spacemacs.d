@@ -715,8 +715,6 @@ before packages are loaded."
           (remove-hook 'after-make-frame-functions #'adjust-powerline-height))))
     (add-hook 'after-make-frame-functions #'adjust-powerline-height))
 
-  ;; Flash the frame to indicate a bell.
-  (setq visible-bell t)
 
   ;; Lets trust myself to not create problematic symlinks.
   (setq vc-follow-symlinks t)

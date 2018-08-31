@@ -667,6 +667,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq custom-file (concat dotspacemacs-directory "custom.el"))
   (load custom-file)
 
+  ;; Disable lockfiles (.#*). This needs to be set early to avoid creating lock
+  ;; files for files opened during Spacemacs startup sequence.
+  (setq create-lockfiles nil)
+
   ;; Tramp by default tries to look for the availability of various config
   ;; options by running ssh against the host `host.does.not.exist'
   ;; This can be prevented by defining the options before loading tramp.
@@ -718,9 +722,6 @@ before packages are loaded."
 
   ;; Lets trust myself to not create problematic symlinks.
   (setq vc-follow-symlinks t)
-
-  ;; Disable lockfiles (.#*).
-  (setq create-lockfiles nil)
 
   ;; Customize file backups.
   (setq backup-by-copying t

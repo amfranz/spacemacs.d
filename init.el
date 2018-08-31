@@ -631,6 +631,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (seq-do #'gc-idle-exempt '(configuration-layer//install-packages
                              spacemacs/recompile-elpa))
 
+  ;; Allow resizing frames with pixel-precision, do not enforce frame sizes to
+  ;; be multiples of character width or height.
+  (setq frame-resize-pixelwise t)
+
   ;; Make frames larger than the conservative default size.
   (let ((goal-height 47)
         (goal-width 164))

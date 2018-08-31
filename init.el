@@ -636,36 +636,29 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq frame-resize-pixelwise t)
 
   ;; Make frames larger than the conservative default size.
-  (let ((goal-height 47)
-        (goal-width 164))
-    (setq default-frame-alist `((width . ,goal-width)
-                                (height . ,goal-height)))
+  (let ((goal-width 164)
+        (goal-height 47))
+    (push `(width . ,goal-width) default-frame-alist)
+    (push `(height . ,goal-height) default-frame-alist)
     ;; Also resize the initial frame to the goal size, but enlarge the frame in
     ;; all directions so that the center of the window does remain where it is.
     (when (display-graphic-p)
-      (set-frame-position
-       nil
-       (max 0
-            (-
-             (car (frame-position))
-             (*
-              (/ (- goal-width (frame-width)) 2)
-              (/ (frame-pixel-width) (frame-width)))))
-       (max 0
-            (-
-             (cdr (frame-position))
-             (*
-              (/ (- goal-height (frame-height)) 2)
-              (/ (frame-pixel-height) (frame-height))))))
-      (set-frame-size nil goal-width goal-height)))
-
-  ;; Disable vertical scroll bars that appear on non-initial frames.
-  ;; https://emacs.stackexchange.com/questions/23773/disable-scrollbar-on-new-frame
-  (push '(vertical-scroll-bars . nil) default-frame-alist)
-
-  ;; Keep customizations in a separate file that is not under version control.
-  (setq custom-file (concat dotspacemacs-directory "custom.el"))
-  (load custom-file)
+      (let ((position (frame-position))
+            (width (frame-width))
+            (height (frame-height)))
+        (set-frame-position
+         nil
+         (max 0 (- (car position)
+                   (/ (* (frame-pixel-width) (- goal-width width))
+                      (* width 2))))
+         (max 0 (- (cdr position)
+                   (/ (* (frame-pixel-height) (- goal-height height))
+                      (* height 2))))))
+      (set-frame-size nil goal-width goal-height)
+      ;; KWin (I think) is acting strange. The request to resize the frame needs
+      ;; to be sent twice to take effect.
+      (when (/= (frame-width) goal-width)
+        (set-frame-size nil goal-width goal-height))))
 
   ;; Disable lockfiles (.#*). This needs to be set early to avoid creating lock
   ;; files for files opened during Spacemacs startup sequence.
@@ -677,17 +670,22 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq tramp-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%r@%%h:%%p' -o ControlPersist=no")
 
+  ;; TODO submit this upstream
+  ;; Fixes the guess of the package description file for the `eterm-256color' package.
+  ;; This is a replacement for `package--description-file' in `subr.el'. The only
+  ;; change is that the regular expression is anchored at the end."
   (defun eterm-256color-package--description-file (dir)
-    "Fixes the guess of the package description file for the `eterm-256color' package.
-
-  This is a replacement for `package--description-file' in `subr.el'. The only
-  change is that the regular expression is anchored at the end."
     (concat (let ((subdir (file-name-nondirectory
                            (directory-file-name dir))))
               (if (string-match "\\([^.].*?\\)-\\([0-9]+\\(?:[.][0-9]+\\|\\(?:pre\\|beta\\|alpha\\)[0-9]+\\)*\\)\\'" subdir)
                   (match-string 1 subdir) subdir))
             "-pkg.el"))
-  (advice-add 'package--description-file :override #'eterm-256color-package--description-file))
+  (advice-add 'package--description-file :override
+              #'eterm-256color-package--description-file)
+
+  ;; Keep customizations in a separate file that is not under version control.
+  (setq custom-file (concat dotspacemacs-directory "custom.el"))
+  (load custom-file))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.

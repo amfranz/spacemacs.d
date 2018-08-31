@@ -677,10 +677,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq tramp-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%r@%%h:%%p' -o ControlPersist=no")
 
-  ;; Enables C-n and C-p to cycle through previous searches.
-  ;; This needs to be set before evil is loaded or it won't take effect.
-  (setq evil-search-module 'evil-search)
-
   (defun eterm-256color-package--description-file (dir)
     "Fixes the guess of the package description file for the `eterm-256color' package.
 

@@ -623,7 +623,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq load-prefer-newer t)
 
   ;; Add this projects library directory to the load path.
-  (add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
+  (push (concat dotspacemacs-directory "lib/") load-path)
 
   ;; Garbage collect only during idle times.
   (require 'gc-idle)

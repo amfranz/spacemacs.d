@@ -2,6 +2,12 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+(defun my-assume-display-graphic-p ()
+  "My Emacs instances are dedicated to either the graphical environment or the
+terminal. My customizations differ slightly between the two. This functions
+returns whether this Emacs instance is dedicated to the graphical environment."
+  (or (display-graphic-p)
+      (string-equal (getenv "EMACS_SOCKET_NAME") "server-x")))
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -367,7 +373,9 @@ It should only modify the values of Spacemacs settings."
    ;; to create your own spaceline theme. Value can be a symbol or list with\
    ;; additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.2)
+   dotspacemacs-mode-line-theme `(spacemacs
+                                  :separator ,(if (my-assume-display-graphic-p) 'wave 'utf-8)
+                                  :separator-scale 1.0)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -498,8 +506,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil unicode symbols are displayed in the mode line.
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
-   dotspacemacs-mode-line-unicode-symbols (or (display-graphic-p)
-                                              (string-equal (getenv "EMACS_SOCKET_NAME") "server-x"))
+   dotspacemacs-mode-line-unicode-symbols (my-assume-display-graphic-p)
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point

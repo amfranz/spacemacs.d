@@ -730,7 +730,7 @@ before packages are loaded."
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
     (setq recentf-exclude
-          (append `("\\`/dev/"
+          (append `("\\`/dev/shm/"
                     "\\`/tmp/"
                     "\\`/var/tmp/")
                   recentf-exclude)))

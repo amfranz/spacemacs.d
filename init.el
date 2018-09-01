@@ -2,12 +2,11 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
-(defun my-assume-display-graphic-p ()
-  "My Emacs instances are dedicated to either the graphical environment or the
-terminal. My customizations differ slightly between the two. This functions
-returns whether this Emacs instance is dedicated to the graphical environment."
-  (or (display-graphic-p)
-      (string-equal (getenv "EMACS_SOCKET_NAME") "server-x")))
+;; Add this projects library directory to the load path.
+(push (concat dotspacemacs-directory "lib/") load-path)
+
+;; Load libraries needed by the configuration logic.
+(require 'display)
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -372,7 +371,9 @@ It should only modify the values of Spacemacs settings."
    ;; additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
    dotspacemacs-mode-line-theme `(spacemacs
-                                  :separator ,(if (my-assume-display-graphic-p) 'wave 'utf-8)
+                                  :separator ,(if (display-assume-graphic-p)
+                                                  'wave
+                                                'utf-8)
                                   :separator-scale 1.0)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
@@ -382,7 +383,9 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font `("DejaVu Sans Mono for Powerline"
-                               :size ,(* (dpi-adjusted-font-size) (display-scaling-factor))
+                               :size ,(if (display-graphic-p)
+                                          (display-adjusted-font-size)
+                                        13)
                                :weight normal
                                :width normal)
 
@@ -504,7 +507,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil unicode symbols are displayed in the mode line.
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
-   dotspacemacs-mode-line-unicode-symbols (my-assume-display-graphic-p)
+   dotspacemacs-mode-line-unicode-symbols (display-assume-graphic-p)
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
@@ -622,9 +625,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; compiled files. Requires Emacs >= 24.4.
   (setq load-prefer-newer t)
 
-  ;; Add this projects library directory to the load path.
-  (push (concat dotspacemacs-directory "lib/") load-path)
-
   ;; Garbage collect only during idle times.
   (require 'gc-idle)
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)
@@ -700,6 +700,11 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; The final order of `after-frame-functions' is important:
+  ;;   1) adjust default font size
+  ;;   2) adjust powerline height
+  ;;   3) after display system init
+
   ;; Move the logic that runs the after-display functions registered with
   ;; `spacemacs|do-after-display-system-init' from being an after-advice of
   ;; `server-create-window-system-frame' to `after-make-frame-functions'. This
@@ -720,16 +725,27 @@ before packages are loaded."
   ;; This avoids graphical artifacts in the mode line with the first graphical
   ;; client. Computing the mode line height does font measurements, which are
   ;; not working properly until the display system is initialized.
-  (when (daemonp)
+  (when (not (display-graphic-p))
     (defun adjust-powerline-height (frame)
       (with-selected-frame frame
         (when (display-graphic-p)
           (setq powerline-height (spacemacs/compute-mode-line-height))
-          (require 'spaceline)
-          (spaceline-compile)
           (remove-hook 'after-make-frame-functions #'adjust-powerline-height))))
     (add-hook 'after-make-frame-functions #'adjust-powerline-height))
 
+  ;; Adjust the font size to a HiDPI screen, if needed. This will either be done
+  ;; immediately if possible, or after the first graphical frame got created
+  ;; when this is an Emacs daemon instance.
+  (when (not (display-graphic-p))
+    (defun adjust-default-font-size-for-frame (frame)
+      (with-selected-frame frame
+        (when (display-graphic-p)
+          (setq dotspacemacs-default-font
+                (cons (car dotspacemacs-default-font)
+                      (plist-put (cdr dotspacemacs-default-font)
+                                 :size (display-adjusted-font-size))))
+          (remove-hook 'after-make-frame-functions #'adjust-default-font-size-for-frame))))
+    (add-hook 'after-make-frame-functions #'adjust-default-font-size-for-frame))
 
   ;; Lets trust myself to not create problematic symlinks.
   (setq vc-follow-symlinks t)

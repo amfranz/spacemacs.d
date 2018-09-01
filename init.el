@@ -837,6 +837,10 @@ before packages are loaded."
   ;; does less when trying to autodetect source control meta-data.
   (setq vc-handled-backends '(Git))
 
+  ;; Hide the useless helm lighter.
+  (with-eval-after-load 'helm-mode
+    (diminish 'helm-mode))
+
   ;; Hide dired-omit-mode lighter, it is distracting.
   (with-eval-after-load 'dired-x
     (defun mfa//hide-dired-omit-mode-lighter ()

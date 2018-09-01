@@ -841,6 +841,14 @@ before packages are loaded."
   (when global-hl-line-mode
     (global-hl-line-mode -1))
 
+  ;; Customize theme colors.
+  (with-eval-after-load 'zenburn-theme
+    (zenburn-with-color-variables
+      (custom-theme-set-variables
+       'zenburn
+       ;; Adjusts the rule to a brighter color.
+       `(fci-rule-color ,zenburn-bg+3))))
+
   ;; Additional miscellaneous file mode associations.
   (push '("\\.gp\\'" . gnuplot-mode) auto-mode-alist)
   (push '("\\.gpi\\'" . gnuplot-mode) auto-mode-alist)
@@ -1084,24 +1092,4 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; Ensure files visited by emacsclient a fullscreen experience.
   ;; TODO only trigger when a new frame was requested by the client.
-  (add-hook 'server-visit-hook #'delete-other-windows)
-
-  (spacemacs|use-package-add-hook fill-column-indicator
-    :post-config
-    (with-eval-after-load 'zenburn-theme
-      (zenburn-with-color-variables
-        (custom-theme-set-variables
-         'zenburn
-         ;; The choice Spacemacs makes for fci-rule-color is too dark for the
-         ;; zenburn theme, this adjusts the rule to be a brighter color.
-         `(fci-rule-color ,zenburn-bg+3)))))
-
-  (with-eval-after-load 'zenburn-theme
-    (zenburn-with-color-variables
-      (custom-theme-set-faces
-       'zenburn
-       ;; This is aliased to lazy-highlight by spacemacs, but the alias does
-       ;; only work in the initial frame. This makes it work in subsequent
-       ;; frames as well, as long as the theme is zenburn that is.
-       `(evil-search-highlight-persist-highlight-face
-         ((t (:foreground ,zenburn-yellow-2 :weight bold :background ,zenburn-bg-05))))))))
+  (add-hook 'server-visit-hook #'delete-other-windows))

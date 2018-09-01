@@ -796,10 +796,7 @@ before packages are loaded."
 
   ;; Various customization of helm.
   (setq helm-default-external-file-browser "xdg-open"
-        helm-home-url "https://www.google.com/"
-        helm-M-x-fuzzy-match t
-        helm-raise-command "wmctrl -xa %s"
-        helm-always-two-windows nil)
+        helm-raise-command "wmctrl -xa %s")
 
   ;; Enable adaptive helm sources.
   (require 'helm-adaptive)
@@ -808,8 +805,7 @@ before packages are loaded."
   (helm-adaptive-mode 1)
 
   ;; Various customization of tramp.
-  (setq tramp-default-user "maigner"
-        tramp-default-method "ssh")
+  (setq tramp-default-method "ssh")
 
   ;; Open a dired buffer when switching to a project.
   (setq projectile-switch-project-action #'projectile-dired)

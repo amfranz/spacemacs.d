@@ -720,35 +720,33 @@ before packages are loaded."
                      #'spacemacs--after-display-system-init)
         (dolist (fn (reverse spacemacs--after-display-system-init-list))
           (funcall fn)))))
-  (ad-disable-advice 'server-create-window-system-frame
-                     'after 'spacemacs-init-display)
-  (add-hook 'after-make-frame-functions
-            #'spacemacs--after-display-system-init)
+  (ad-disable-advice 'server-create-window-system-frame 'after 'spacemacs-init-display)
+  (add-hook 'after-make-frame-functions #'spacemacs--after-display-system-init)
 
   ;; This avoids graphical artifacts in the mode line with the first graphical
   ;; client. Computing the mode line height does font measurements, which are
   ;; not working properly until the display system is initialized.
-  (when (not (display-graphic-p))
-    (defun adjust-powerline-height (frame)
+  (unless (display-graphic-p)
+    (defun my--adjust-powerline-height (frame)
       (with-selected-frame frame
         (when (display-graphic-p)
           (setq powerline-height (spacemacs/compute-mode-line-height))
-          (remove-hook 'after-make-frame-functions #'adjust-powerline-height))))
-    (add-hook 'after-make-frame-functions #'adjust-powerline-height))
+          (remove-hook 'after-make-frame-functions #'my--adjust-powerline-height))))
+    (add-hook 'after-make-frame-functions#'my--adjust-powerline-height))
 
   ;; Adjust the font size to a HiDPI screen, if needed. This will either be done
   ;; immediately if possible, or after the first graphical frame got created
   ;; when this is an Emacs daemon instance.
-  (when (not (display-graphic-p))
-    (defun adjust-default-font-size-for-frame (frame)
+  (unless (display-graphic-p)
+    (defun my--adjust-default-font-size (frame)
       (with-selected-frame frame
         (when (display-graphic-p)
           (setq dotspacemacs-default-font
                 (cons (car dotspacemacs-default-font)
                       (plist-put (cdr dotspacemacs-default-font)
                                  :size (display-adjusted-font-size))))
-          (remove-hook 'after-make-frame-functions #'adjust-default-font-size-for-frame))))
-    (add-hook 'after-make-frame-functions #'adjust-default-font-size-for-frame))
+          (remove-hook 'after-make-frame-functions #'my--adjust-default-font-size))))
+    (add-hook 'after-make-frame-functions #'my--adjust-default-font-size))
 
   ;; Some glyphs in this font can cause Emacs to crash.
   ;; https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=892611
@@ -762,7 +760,7 @@ before packages are loaded."
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
     (setq recentf-exclude
-          (append `("\\`/dev/shm/"
+          (append '("\\`/dev/shm/"
                     "\\`/tmp/"
                     "\\`/var/tmp/")
                   recentf-exclude)))

@@ -855,18 +855,16 @@ before packages are loaded."
   ;; Key bindings for edit server functionality.
   (spacemacs/safe-set-leader-keys "qe" #'server-edit)
 
+  ;; Key bindings to toggle (sub|super)word-mode.
+  (spacemacs/warn-if-leader-key-bound "tj")
   (spacemacs|add-toggle subword-mode
-    :status subword-mode
-    :on (subword-mode)
-    :off (subword-mode -1)
-    :documentation "Toggle subword movement and editing (subword mode)."
+    :mode subword-mode
+    :documentation "Toggle subword movement and editing (Subword mode)."
     :evil-leader "tj")
-
+  (spacemacs/warn-if-leader-key-bound "tJ")
   (spacemacs|add-toggle superword-mode
-    :status superword-mode
-    :on (superword-mode)
-    :off (superword-mode -1)
-    :documentation "Toggle superword movement and editing (superword mode)."
+    :mode superword-mode
+    :documentation "Toggle superword movement and editing (Superword mode)."
     :evil-leader "tJ")
 
   (spacemacs/set-leader-keys "fyp" #'projectile-copy-directory-path)

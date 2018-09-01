@@ -49,6 +49,11 @@ Configure garbage collection to occur when the user is idle.
 ;;;### (autoloads nil "my-config" "my-config.el" (0 0 0 0))
 ;;; Generated autoloads from my-config.el
 
+(autoload 'spacemacs/warn-if-leader-key-bound "my-config" "\
+
+
+\(fn KEY)" nil nil)
+
 (autoload 'spacemacs/safe-set-leader-keys "my-config" "\
 Like `spacemacs/set-leader-keys' but emits a warning if the key is already bound.
 

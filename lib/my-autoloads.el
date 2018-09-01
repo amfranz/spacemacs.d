@@ -56,6 +56,26 @@ Create a scratch buffer in lisp interaction mode
 
 ;;;***
 
+;;;### (autoloads nil "my-tools" "my-tools.el" (0 0 0 0))
+;;; Generated autoloads from my-tools.el
+
+(autoload 'open-terminal "my-tools" "\
+
+
+\(fn)" t nil)
+
+(autoload 'projectile-open-terminal "my-tools" "\
+
+
+\(fn)" t nil)
+
+(autoload 'open-file-manager "my-tools" "\
+
+
+\(fn)" t nil)
+
+;;;***
+
 (provide 'my-autoloads)
 ;; Local Variables:
 ;; version-control: never

@@ -748,6 +748,35 @@ before packages are loaded."
           (remove-hook 'after-make-frame-functions #'my--adjust-default-font-size))))
     (add-hook 'after-make-frame-functions #'my--adjust-default-font-size))
 
+  ;; Customize the frame title. Also pass the customized frame title to
+  ;; terminals that support it.
+  (defun my-frame-title ()
+    (concat
+     (buffer-name)
+     (when (or buffer-file-name (derived-mode-p 'dired-mode))
+       (concat " ("
+               (string-remove-suffix "/" (abbreviate-file-name default-directory))
+               ")"))
+     " - Emacs"))
+  (setq frame-title-format
+        (setq icon-title-format
+              '((:eval (replace-regexp-in-string "%" "%%" (my-frame-title) t t)))))
+  (defun my-tty--supports-title ()
+    (and (not (display-graphic-p))
+         (let ((term (frame-parameter nil 'tty-type)))
+           (or (string-prefix-p "xterm" term)
+               (string-prefix-p "konsole" term)
+               (string-prefix-p "screen" term)
+               (string-prefix-p "tmux" term)))))
+  (defun my-tty-update-title ()
+    (when (my-tty--supports-title)
+      (let ((old-title (frame-parameter nil 'xterm-title))
+            (new-title (my-frame-title)))
+        (unless (string-equal old-title new-title)
+          (send-string-to-terminal (concat "\033]0;" new-title "\007"))
+          (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
+  (add-hook 'buffer-list-update-hook #'my-tty-update-title)
+
   ;; Some glyphs in this font can cause Emacs to crash.
   ;; https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=892611
   ;; https://github.com/syl20bnr/spacemacs/issues/10695
@@ -764,31 +793,6 @@ before packages are loaded."
                     "\\`/tmp/"
                     "\\`/var/tmp/")
                   recentf-exclude)))
-
-  ;; Mention the active buffer name in the title bar.
-  (defun frame-title ()
-    (concat
-     (buffer-name)
-     (when (or buffer-file-name (eq major-mode 'dired-mode))
-       (concat " (" (string-remove-suffix "/" (abbreviate-file-name default-directory)) ")"))
-     " - Emacs"))
-  (require 's)
-  (setq frame-title-format '((:eval (s-replace "%" "%%" (frame-title)))))
-  (defun xterm-supports-title ()
-    (and (not (display-graphic-p))
-         (let ((term (frame-parameter nil 'tty-type)))
-           (or (string-prefix-p "xterm" term)
-               (string-prefix-p "konsole" term)
-               (string-prefix-p "screen" term)
-               (string-prefix-p "tmux" term)))))
-  (defun xterm-update-title ()
-    (when (xterm-supports-title)
-      (let ((old-title (frame-parameter nil 'xterm-title))
-            (new-title (frame-title)))
-        (unless (string-equal old-title new-title)
-          (send-string-to-terminal (concat "\033]0;" new-title "\007"))
-          (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
-  (add-hook 'buffer-list-update-hook #'xterm-update-title)
 
   ;; Various customization of helm.
   (setq helm-default-external-file-browser "xdg-open"

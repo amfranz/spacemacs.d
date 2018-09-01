@@ -777,7 +777,7 @@ before packages are loaded."
           (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
   (add-hook 'buffer-list-update-hook #'my-tty-update-title)
 
-  ;; Add ~/spacemacs.d/bin/ to the executable search path.
+  ;; Add ~/.spacemacs.d/bin/ to the executable search path.
   (let ((bin-path (concat dotspacemacs-directory "bin/")))
     (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))
     (push bin-path exec-path))

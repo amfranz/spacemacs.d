@@ -852,14 +852,8 @@ before packages are loaded."
   ;; Recent files are still available via "fr".
   (spacemacs/set-leader-keys "bb" #'helm-buffers-list)
 
-  ;; Miscellaneous key bindings to built-in functions.
-  (spacemacs/set-leader-keys "qe" #'server-edit)
-
-  ;; Key bindings for auto-fill.
-  (spacemacs/declare-prefix "of" "auto-fill")
-  (spacemacs/set-leader-keys "ofa" #'auto-fill-mode)
-  (spacemacs/set-leader-keys "ofc" #'set-fill-column)
-  (spacemacs/set-leader-keys "ofp" #'set-fill-prefix)
+  ;; Key bindings for edit server functionality.
+  (spacemacs/safe-set-leader-keys "qe" #'server-edit)
 
   (spacemacs|add-toggle subword-mode
     :status subword-mode

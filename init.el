@@ -1081,15 +1081,6 @@ potentially deletes it, after which it can not be autoloaded any more."
          mode-require-final-newline))
   (add-hook 'conf-mode-hook #'set-require-final-newline)
 
-  ;; Workaround for broken xterm-paste. Yank needs to be called interactively.
-  (with-eval-after-load 'xterm
-    (defun xterm-paste ()
-      "Handle the start of a terminal paste operation."
-      (interactive)
-      (let* ((pasted-text (xterm--pasted-text))
-             (interprogram-paste-function (lambda () pasted-text)))
-        (call-interactively #'yank))))
-
   ;; Ensure files visited by emacsclient a fullscreen experience.
   ;; TODO only trigger when a new frame was requested by the client.
   (add-hook 'server-visit-hook #'delete-other-windows)

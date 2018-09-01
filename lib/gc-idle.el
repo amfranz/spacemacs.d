@@ -18,9 +18,6 @@
   "Configure garbage collection to occur when the user is idle."
   (run-with-idle-timer 2 t #'gc-idle--collect))
 
-;; Turn garbage collection on while installing packages and recompiling ELPA
-;; packages. This avoids Emacs to hang for a long time after many packages get
-;; installed.
 (defun enable-gc-around-advice (orig-fun &rest args)
   "Around advice that turns garbage collection back on while the adviced
 function is active."

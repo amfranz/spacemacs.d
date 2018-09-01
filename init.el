@@ -628,6 +628,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Garbage collect only during idle times.
   (require 'gc-idle)
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)
+
+  ;; Turn garbage collection on while installing packages and recompiling ELPA
+  ;; packages. This avoids Emacs to hang for a long time after many packages get
+  ;; installed.
   (seq-do #'gc-idle-exempt '(configuration-layer//install-packages
                              spacemacs/recompile-elpa))
 

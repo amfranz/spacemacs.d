@@ -700,6 +700,23 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; Move the logic that runs the after-display functions registered with
+  ;; `spacemacs|do-after-display-system-init' from being an after-advice of
+  ;; `server-create-window-system-frame' to `after-make-frame-functions'. This
+  ;; gets rid of some odd issues, eg. the Spacemacs buffer not being current in
+  ;; the initial frame of a daemon instance.
+  (defun spacemacs--after-display-system-init (frame)
+    (with-selected-frame frame
+      (when (display-graphic-p)
+        (remove-hook 'after-make-frame-functions
+                     #'spacemacs--after-display-system-init)
+        (dolist (fn (reverse spacemacs--after-display-system-init-list))
+          (funcall fn)))))
+  (ad-disable-advice 'server-create-window-system-frame
+                     'after 'spacemacs-init-display)
+  (add-hook 'after-make-frame-functions
+            #'spacemacs--after-display-system-init)
+
   ;; This avoids graphical artifacts in the mode line with the first graphical
   ;; client. Computing the mode line height does font measurements, which are
   ;; not working properly until the display system is initialized.

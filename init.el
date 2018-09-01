@@ -841,19 +841,34 @@ before packages are loaded."
   (when global-hl-line-mode
     (global-hl-line-mode -1))
 
-  ;; For *most* languages I work with 2 space indent is the norm.
-  (setq-default evil-shift-width 2)
-
-  ;; Additional file mode associations.
-  (add-to-list 'auto-mode-alist '("\\.gp\\'" . gnuplot-mode))
-  (add-to-list 'auto-mode-alist '("\\.gpi\\'" . gnuplot-mode))
+  ;; Additional miscellaneous file mode associations.
+  (push '("\\.gp\\'" . gnuplot-mode) auto-mode-alist)
+  (push '("\\.gpi\\'" . gnuplot-mode) auto-mode-alist)
 
   ;; Remap helm-mini to helm-buffers-list.
   ;; Recent files are still available via "fr".
   (spacemacs/set-leader-keys "bb" #'helm-buffers-list)
 
-  ;; Key bindings for edit server functionality.
-  (spacemacs/safe-set-leader-keys "qe" #'server-edit)
+  ;; Additional miscellaneous key bindings. These might conflict with key
+  ;; bindings set up by Spacemacs, so extra checks are performed to verify they
+  ;; are not yet bound.
+  (spacemacs/safe-set-leader-keys
+    "fyp" #'projectile-copy-directory-path
+    "gd" #'magit-diff-this-file
+    "id" #'insert-date
+    "qe" #'server-edit
+    "xll" #'sort-lines-by-length
+    "xln" #'sort-numeric-fields)
+
+  ;; Additional miscellaneous key bindings. These are bound under the prefix "o"
+  ;; which Spacemacs specifically reserves for use by the user, so there should
+  ;; not be any conflicts.
+  (spacemacs/declare-prefix "op" "projects")
+  (spacemacs/set-leader-keys
+    "o'" #'lisp-sandbox
+    "od" #'open-file-manager
+    "opt" #'projectile-open-terminal
+    "ot" #'open-terminal)
 
   ;; Key bindings to toggle (sub|super)word-mode.
   (spacemacs/warn-if-leader-key-bound "tj")
@@ -867,10 +882,8 @@ before packages are loaded."
     :documentation "Toggle superword movement and editing (Superword mode)."
     :evil-leader "tJ")
 
-  (spacemacs/set-leader-keys "fyp" #'projectile-copy-directory-path)
-
-  (spacemacs/set-leader-keys "xll" #'sort-lines-by-length)
-  (spacemacs/set-leader-keys "xln" #'sort-numeric-fields)
+  ;; For *most* languages I work with 2 space indent is the norm.
+  (setq-default evil-shift-width 2)
 
   ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
   (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
@@ -1037,8 +1050,6 @@ before packages are loaded."
     (spacemacs/set-leader-keys-for-major-mode 'go-mode
       "tb" #'spacemacs/go-run-package-benchmarks))
 
-  (spacemacs/set-leader-keys "gd" #'magit-diff-this-file)
-
   (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
   (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)
 
@@ -1054,16 +1065,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   (require 'ansible)
   (require 'ansible-doc)
 
-  (spacemacs/declare-prefix "op" "projects")
-  (spacemacs/set-leader-keys
-    "od" #'open-file-manager
-    "ot" #'open-terminal
-    "opt" #'projectile-open-terminal)
-
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)
-
-  (spacemacs/set-leader-keys "o'" #'lisp-sandbox)
 
   (defun set-require-final-newline ()
     (set (make-local-variable 'require-final-newline)
@@ -1078,8 +1081,6 @@ potentially deletes it, after which it can not be autoloaded any more."
       (let* ((pasted-text (xterm--pasted-text))
              (interprogram-paste-function (lambda () pasted-text)))
         (call-interactively #'yank))))
-
-  (spacemacs/safe-set-leader-keys "id" #'insert-date)
 
   ;; Ensure files visited by emacsclient a fullscreen experience.
   ;; TODO only trigger when a new frame was requested by the client.

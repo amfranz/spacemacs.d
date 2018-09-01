@@ -777,6 +777,11 @@ before packages are loaded."
           (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
   (add-hook 'buffer-list-update-hook #'my-tty-update-title)
 
+  ;; Add ~/spacemacs.d/bin/ to the executable search path.
+  (let ((bin-path (concat dotspacemacs-directory "bin/")))
+    (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))
+    (push bin-path exec-path))
+
   ;; Some glyphs in this font can cause Emacs to crash.
   ;; https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=892611
   ;; https://github.com/syl20bnr/spacemacs/issues/10695
@@ -814,8 +819,11 @@ before packages are loaded."
   ;; Tell paradox that we won't give it a GitHub token.
   (setq paradox-github-token t)
 
+  ;; Namespace window numbers by frame.
+  (setq winum-scope 'frame-local)
+
   ;; Reduce the list of supported VC backends. This improves performance as it
-  ;; does less when trying to autodetect source control meta-data.
+  ;; does less when trying to autodetect source control metadata.
   (setq vc-handled-backends '(Git))
 
   ;; Hide the useless helm lighter.
@@ -824,19 +832,14 @@ before packages are loaded."
 
   ;; Hide dired-omit-mode lighter, it is distracting.
   (with-eval-after-load 'dired-x
-    (defun mfa//hide-dired-omit-mode-lighter ()
-      (spacemacs|hide-lighter dired-omit-mode))
+    (defun dired-x--diminish-dired-omit-mode ()
+      (diminish 'dired-omit-mode))
     (advice-add 'dired-omit-startup
-                :after #'mfa//hide-dired-omit-mode-lighter))
+                :after #'dired-x--diminish-dired-omit-mode))
 
   ;; Disable highlight current line, it is distracting.
   (when global-hl-line-mode
     (global-hl-line-mode -1))
-
-  ;; Add ~/spacemacs.d/bin/ to the executable search path.
-  (let ((bin-path (concat dotspacemacs-directory "bin/")))
-    (setenv "PATH" (concat bin-path path-separator (getenv "PATH")))
-    (push bin-path exec-path))
 
   ;; For *most* languages I work with 2 space indent is the norm.
   (setq-default evil-shift-width 2)
@@ -1067,8 +1070,6 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)
-
-  (setq winum-scope 'frame-local)
 
   (spacemacs/set-leader-keys "o'" #'lisp-sandbox)
 

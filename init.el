@@ -5,8 +5,8 @@
 ;; Add this projects library directory to the load path.
 (push (concat dotspacemacs-directory "lib/") load-path)
 
-;; Load libraries needed by the configuration logic.
-(require 'display)
+;; Register autoloads for this projects library directory.
+(require 'my-autoloads)
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -626,7 +626,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq load-prefer-newer t)
 
   ;; Garbage collect only during idle times.
-  (require 'gc-idle)
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)
 
   ;; Turn garbage collection on while installing packages and recompiling ELPA

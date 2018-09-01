@@ -14,18 +14,20 @@
         (run-with-idle-timer (time-add (current-idle-time) 300)
                              nil #'gc-idle--collect)))
 
+;;;###autoload
 (defun gc-idle-enable ()
   "Configure garbage collection to occur when the user is idle."
   (run-with-idle-timer 2 t #'gc-idle--collect))
 
-(defun enable-gc-around-advice (orig-fun &rest args)
+(defun gc-idle--enable-gc-advice (orig-fun &rest args)
   "Around advice that turns garbage collection back on while the adviced
 function is active."
   (let ((gc-cons-threshold 16777216) ; 16 MB
         (gc-cons-percentage 0.1))
     (apply orig-fun args)))
 
+;;;###autoload
 (defun gc-idle-exempt (fun)
-  (advice-add fun :around #'enable-gc-around-advice))
+  (advice-add fun :around #'gc-idle--enable-gc-advice))
 
 (provide 'gc-idle)

@@ -798,9 +798,6 @@ before packages are loaded."
   (setq helm-default-external-file-browser "xdg-open"
         helm-raise-command "wmctrl -xa %s")
 
-  ;; Various customization of tramp.
-  (setq tramp-default-method "ssh")
-
   ;; Open a dired buffer when switching to a project.
   (setq projectile-switch-project-action #'projectile-dired)
 

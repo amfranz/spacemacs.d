@@ -798,12 +798,6 @@ before packages are loaded."
   (setq helm-default-external-file-browser "xdg-open"
         helm-raise-command "wmctrl -xa %s")
 
-  ;; Enable adaptive helm sources.
-  (require 'helm-adaptive)
-  (setq helm-adaptive-history-file
-        (concat spacemacs-cache-directory "helm-adaptive-history"))
-  (helm-adaptive-mode 1)
-
   ;; Various customization of tramp.
   (setq tramp-default-method "ssh")
 

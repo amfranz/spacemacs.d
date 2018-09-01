@@ -1092,4 +1092,12 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; Ensure files visited by emacsclient a fullscreen experience.
   ;; TODO only trigger when a new frame was requested by the client.
-  (add-hook 'server-visit-hook #'delete-other-windows))
+  (add-hook 'server-visit-hook #'delete-other-windows)
+
+  ;; The `my-utils' library is my place to put features that can be autoloaded
+  ;; when the user invokes them, to reduce initial startup time. This is a
+  ;; safety check that verifies that the library did not get eagerly loaded.
+  (defun my-verify-utils-lazy-load ()
+    (when (featurep 'my-utils)
+      (lwarn 'spacemacs :warning "The `my-utils' feature was loaded too early")))
+  (add-hook 'spacemacs-post-user-config-hook #'my-verify-utils-lazy-load t))

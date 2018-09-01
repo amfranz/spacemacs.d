@@ -8,7 +8,7 @@
 (defun spacemacs/warn-if-leader-key-bound (key)
   (when-let ((def (lookup-key spacemacs-default-map (kbd key))))
     (lwarn 'spacemacs :warning
-           "Warning: leader key `%s' is already bound to `%s'"
+           "Leader key `%s' is already bound to `%s'"
            key def)))
 
 ;;;###autoload

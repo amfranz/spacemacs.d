@@ -46,6 +46,16 @@ Configure garbage collection to occur when the user is idle.
 
 ;;;***
 
+;;;### (autoloads nil "my-lisp" "my-lisp.el" (0 0 0 0))
+;;; Generated autoloads from my-lisp.el
+
+(autoload 'lisp-sandbox "my-lisp" "\
+Create a scratch buffer in lisp interaction mode
+
+\(fn)" t nil)
+
+;;;***
+
 (provide 'my-autoloads)
 ;; Local Variables:
 ;; version-control: never

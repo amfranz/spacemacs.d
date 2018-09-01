@@ -759,14 +759,6 @@ before packages are loaded."
   ;; Lets trust myself to not create problematic symlinks.
   (setq vc-follow-symlinks t)
 
-  ;; Customize file backups.
-  (setq backup-by-copying t
-        backup-directory-alist `(("." . ,(concat spacemacs-cache-directory "backups/")))
-        delete-old-versions t
-        kept-new-versions 2
-        kept-old-versions 2
-        version-control t)
-
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
     (setq recentf-exclude

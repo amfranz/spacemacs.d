@@ -46,30 +46,61 @@ Configure garbage collection to occur when the user is idle.
 
 ;;;***
 
-;;;### (autoloads nil "my-lisp" "my-lisp.el" (0 0 0 0))
-;;; Generated autoloads from my-lisp.el
+;;;### (autoloads nil "my-config" "my-config.el" (0 0 0 0))
+;;; Generated autoloads from my-config.el
 
-(autoload 'lisp-sandbox "my-lisp" "\
+(autoload 'spacemacs/safe-set-leader-keys "my-config" "\
+Like `spacemacs/set-leader-keys' but emits a warning if the key is already bound.
+
+\(fn &rest BINDINGS)" nil nil)
+
+;;;***
+
+;;;### (autoloads nil "my-utils" "my-utils.el" (0 0 0 0))
+;;; Generated autoloads from my-utils.el
+
+(autoload 'insert-date "my-utils" "\
+Inserts todays date into the current buffer.
+With PREFIX time will be included as well.
+
+\(fn ARG)" t nil)
+
+(autoload 'kill-eshell "my-utils" "\
+Forces eshell to quit if it gets stuck with 'text is read-only'.
+
+\(fn)" t nil)
+
+(autoload 'lisp-sandbox "my-utils" "\
 Create a scratch buffer in lisp interaction mode
 
 \(fn)" t nil)
 
-;;;***
-
-;;;### (autoloads nil "my-tools" "my-tools.el" (0 0 0 0))
-;;; Generated autoloads from my-tools.el
-
-(autoload 'open-terminal "my-tools" "\
+(autoload 'magit-diff-this-file "my-utils" "\
 
 
 \(fn)" t nil)
 
-(autoload 'projectile-open-terminal "my-tools" "\
+(autoload 'projectile-copy-directory-path "my-utils" "\
+Show and copy the full path to the current project directory in the minibuffer.
+
+\(fn)" t nil)
+
+(autoload 'sort-lines-by-length "my-utils" "\
+Sort lines by length.
+
+\(fn REVERSE BEG END)" t nil)
+
+(autoload 'open-terminal "my-utils" "\
 
 
 \(fn)" t nil)
 
-(autoload 'open-file-manager "my-tools" "\
+(autoload 'projectile-open-terminal "my-utils" "\
+
+
+\(fn)" t nil)
+
+(autoload 'open-file-manager "my-utils" "\
 
 
 \(fn)" t nil)

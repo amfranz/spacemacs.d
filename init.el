@@ -891,27 +891,8 @@ before packages are loaded."
     :documentation "Toggle superword movement and editing (superword mode)."
     :evil-leader "tJ")
 
-  (defun projectile-copy-directory-path ()
-    "Show and copy the full path to the current project directory in the minibuffer."
-    (interactive)
-    (let ((project-root (projectile-project-root)))
-      (message "%s" (kill-new project-root))))
   (spacemacs/set-leader-keys "fyp" #'projectile-copy-directory-path)
 
-  ;; http://stackoverflow.com/questions/30697523/how-to-get-emacs-to-sort-lines-by-length
-  (defun sort-lines-by-length (reverse beg end)
-    "Sort lines by length."
-    (interactive "P\nr")
-    (save-excursion
-      (save-restriction
-        (narrow-to-region beg end)
-        (goto-char (point-min))
-        (let ;; To make `end-of-line' and etc. to ignore fields.
-            ((inhibit-field-text-motion t))
-          (sort-subr reverse 'forward-line 'end-of-line nil nil
-                     (lambda (l1 l2)
-                       (apply #'< (mapcar (lambda (range) (- (cdr range) (car range)))
-                                          (list l1 l2)))))))))
   (spacemacs/set-leader-keys "xll" #'sort-lines-by-length)
   (spacemacs/set-leader-keys "xln" #'sort-numeric-fields)
 
@@ -1043,12 +1024,6 @@ before packages are loaded."
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
 
-  ;; Force eshell to quit if it gets stuck with "text is read-only"
-  (defun kill-eshell ()
-    (interactive)
-    (let ((inhibit-read-only t))
-      (kill-this-buffer)))
-
   ;; Augment sort lines to support case insensitive sort with prefix argument.
   (defun spacemacs/sort-lines (invert-case)
     "Sort lines in region or current buffer"
@@ -1086,12 +1061,6 @@ before packages are loaded."
     (spacemacs/set-leader-keys-for-major-mode 'go-mode
       "tb" #'spacemacs/go-run-package-benchmarks))
 
-  (defun magit-diff-this-file ()
-    (interactive)
-    (let ((file-name (buffer-file-name)))
-      (if file-name
-          (magit-diff "master" nil (list buffer-file-name))
-        (error "Buffer not visiting a file"))))
   (spacemacs/set-leader-keys "gd" #'magit-diff-this-file)
 
   (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
@@ -1138,12 +1107,7 @@ potentially deletes it, after which it can not be autoloaded any more."
              (interprogram-paste-function (lambda () pasted-text)))
         (call-interactively #'yank))))
 
-  (defun insert-date (arg)
-    (interactive "P")
-    (insert (if arg
-                (format-time-string "%Y-%m-%d %H:%M:%S")
-              (format-time-string "%Y-%m-%d"))))
-  (spacemacs/set-leader-keys "id" #'insert-date)
+  (spacemacs/safe-set-leader-keys "id" #'insert-date)
 
   ;; Ensure files visited by emacsclient a fullscreen experience.
   ;; TODO only trigger when a new frame was requested by the client.

@@ -795,6 +795,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; https://lists.nongnu.org/archive/html/bug-gnu-emacs/2018-01/msg00260.html
   (push "Noto Color Emoji" face-ignored-fonts)
 
+  ;; Prevent the text selected in visual mode to automatically get copied into
+  ;; the clipboard. Without this it would be pretty cumbersome to paste text
+  ;; from external applications.
+  ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
+  (fset 'evil-visual-update-x-selection 'ignore)
+
   ;; Lets trust myself to not create problematic symlinks.
   (setq vc-follow-symlinks t)
 
@@ -904,6 +910,12 @@ potentially deletes it, after which it can not be autoloaded any more."
     :on (setq sort-fold-case t)
     :off (setq sort-fold-case nil)
     :evil-leader "tS")
+
+  ;; Require a final newline even in conf-mode (default is nil).
+  (defun set-require-final-newline ()
+    (set (make-local-variable 'require-final-newline)
+         mode-require-final-newline))
+  (add-hook 'conf-mode-hook #'set-require-final-newline)
 
   ;; For *most* languages I work with 2 space indent is the norm.
   (setq-default evil-shift-width 2)
@@ -1024,10 +1036,6 @@ potentially deletes it, after which it can not be autoloaded any more."
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
 
-  ;; Required to be able to paste from clipboard in visual mode
-  ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
-  (fset 'evil-visual-update-x-selection 'ignore)
-
   ;; Add support for running go benchmarks
   (with-eval-after-load 'go-mode
     (defun spacemacs/go-run-test-current-function ()
@@ -1060,11 +1068,6 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)
-
-  (defun set-require-final-newline ()
-    (set (make-local-variable 'require-final-newline)
-         mode-require-final-newline))
-  (add-hook 'conf-mode-hook #'set-require-final-newline)
 
   ;; Ensure files visited by emacsclient a fullscreen experience.
   ;; TODO only trigger when a new frame was requested by the client.

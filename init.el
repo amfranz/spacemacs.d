@@ -917,8 +917,7 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; Make Flycheck a little bit less eager to lint. This is mostly due to
   ;; gometalinter which is eating CPU cycles like they are candy.
-  (with-eval-after-load 'flycheck
-    (setq flycheck-check-syntax-automatically '(save mode-enabled)))
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
 
   ;; Use helm as a replacement for browse-kill-ring.
   (defadvice yank-pop (around browse-kill-ring-maybe (arg) activate)

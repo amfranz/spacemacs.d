@@ -920,9 +920,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (with-eval-after-load 'flycheck
     (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
-  ;; Scroll the compilation buffer to the first error.
-  (setq compilation-scroll-output 'first-error)
-
   ;; Support for colors with ANSI escape sequences compile output buffer.
   (with-eval-after-load 'compile
     (autoload 'ansi-color-apply-on-region "ansi-color")

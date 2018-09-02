@@ -1065,10 +1065,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)
 
-  ;; Ensure files visited by emacsclient a fullscreen experience.
-  ;; TODO only trigger when a new frame was requested by the client.
-  (add-hook 'server-visit-hook #'delete-other-windows)
-
   ;; The `my-utils' library is my place to put features that can be autoloaded
   ;; when the user invokes them, to reduce initial startup time. This is a
   ;; safety check that verifies that the library did not get eagerly loaded.

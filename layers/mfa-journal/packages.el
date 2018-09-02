@@ -5,6 +5,11 @@
 (defun mfa-journal/post-init-org-journal ()
   (setq org-journal-dir "~/Dropbox/Workspace/org/journal/"
         org-journal-file-format "%Y-%m-%d.org")
+
+  ;; When carrying over todo items from a previous journal file, save the new
+  ;; journal file immediately so the todo items are sure to not get lost.
+  (advice-add 'org-journal-carryover :after #'save-buffer)
+
   (with-eval-after-load 'org-journal
     (setq org-journal-file-pattern (org-journal-format-string->regex
                                     org-journal-file-format))))

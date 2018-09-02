@@ -920,14 +920,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (with-eval-after-load 'flycheck
     (setq flycheck-check-syntax-automatically '(save mode-enabled)))
 
-  ;; Support for colors with ANSI escape sequences compile output buffer.
-  (with-eval-after-load 'compile
-    (autoload 'ansi-color-apply-on-region "ansi-color")
-    (defun mfa-colorize-compilation-buffer ()
-      (when (eq major-mode 'compilation-mode)
-        (ansi-color-apply-on-region compilation-filter-start (point-max))))
-    (add-hook 'compilation-filter-hook #'mfa-colorize-compilation-buffer))
-
   ;; Use helm as a replacement for browse-kill-ring.
   (defadvice yank-pop (around browse-kill-ring-maybe (arg) activate)
     "If last action was not a yank, run `browse-kill-ring' instead."

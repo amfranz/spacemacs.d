@@ -1062,10 +1062,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
   (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)
 
-  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/8027
-  (require 'ansible)
-  (require 'ansible-doc)
-
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
   (setq x-gtk-use-system-tooltips nil)
 

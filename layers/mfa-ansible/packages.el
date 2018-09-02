@@ -39,10 +39,11 @@
               #'mfa-ansible//save-coord)
   (advice-add 'ansible::decrypt-buffer :after
               #'mfa-ansible//restore-coord)
-  (spacemacs/set-leader-keys-for-minor-mode 'ansible
-    "re" #'mfa-ansible/encrypt-region
-    "rd" #'mfa-ansible/decrypt-region
-    "u" #'mfa-ansible/upgrade-syntax))
+  (with-eval-after-load 'ansible
+    (spacemacs/set-leader-keys-for-minor-mode 'ansible
+      "re" #'mfa-ansible/encrypt-region
+      "rd" #'mfa-ansible/decrypt-region
+      "u" #'mfa-ansible/upgrade-syntax)))
 
 (defun mfa-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc

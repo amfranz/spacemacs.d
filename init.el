@@ -890,6 +890,14 @@ before packages are loaded."
     :documentation "Toggle superword movement and editing (Superword mode)."
     :evil-leader "tJ")
 
+  ;; Key binding to toggle sort-fold-case.
+  (spacemacs/warn-if-leader-key-bound "tS")
+  (spacemacs|add-toggle sort-fold-case
+    :status (bound-and-true-p sort-fold-case)
+    :on (setq sort-fold-case t)
+    :off (setq sort-fold-case nil)
+    :evil-leader "tS")
+
   ;; For *most* languages I work with 2 space indent is the norm.
   (setq-default evil-shift-width 2)
 
@@ -1020,16 +1028,6 @@ before packages are loaded."
           (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
-
-  ;; Augment sort lines to support case insensitive sort with prefix argument.
-  (defun spacemacs/sort-lines (invert-case)
-    "Sort lines in region or current buffer"
-    (interactive "P")
-    (require 'sort) ;; to ensure sort-fold-case is defined
-    (let ((beg (if (region-active-p) (region-beginning) (point-min)))
-          (end (if (region-active-p) (region-end) (point-max)))
-          (sort-fold-case (if invert-case (not sort-fold-case) sort-fold-case)))
-      (sort-lines nil beg end)))
 
   ;; Required to be able to paste from clipboard in visual mode
   ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard

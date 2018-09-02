@@ -748,6 +748,13 @@ before packages are loaded."
           (remove-hook 'after-make-frame-functions #'my--adjust-default-font-size))))
     (add-hook 'after-make-frame-functions #'my--adjust-default-font-size))
 
+  (defun configuration-layer//preload-restart-emacs (&rest args)
+    "Preloads the restart-emacs package before updating packages which
+potentially deletes it, after which it can not be autoloaded any more."
+    (require 'restart-emacs))
+  (advice-add 'configuration-layer/update-packages :before
+              'configuration-layer//preload-restart-emacs)
+
   ;; Customize the frame title. Also pass the customized frame title to
   ;; terminals that support it.
   (defun my-frame-title ()
@@ -1058,14 +1065,6 @@ before packages are loaded."
 
   (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
   (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)
-
-  (with-eval-after-load 'core-configuration-layer
-    (defun configuration-layer//preload-restart-emacs (&rest args)
-      "Preloads the restart-emacs package before updating packages which
-potentially deletes it, after which it can not be autoloaded any more."
-      (require 'restart-emacs))
-    (advice-add 'configuration-layer/update-packages :before
-                'configuration-layer//preload-restart-emacs))
 
   ;; workaround for https://github.com/syl20bnr/spacemacs/issues/8027
   (require 'ansible)

@@ -888,7 +888,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Additional miscellaneous key bindings. These are bound under the prefix "o"
   ;; which Spacemacs specifically reserves for use by the user, so there should
   ;; not be any conflicts.
-  (spacemacs/declare-prefix "op" "projects")
   (spacemacs/set-leader-keys
     "o'" #'lisp-sandbox
     "od" #'open-file-manager

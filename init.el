@@ -922,13 +922,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; For *most* languages I work with 2 space indent is the norm.
   (setq-default evil-shift-width 2)
 
-  ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
-  (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
-
-  ;; Disable ws-butler for go source code, go fmt will do the job instead.
-  (with-eval-after-load 'ws-butler
-    (push 'go-mode ws-butler-global-exempt-modes))
-
   ;; Make Flycheck a little bit less eager to lint. This is mostly due to
   ;; gometalinter which is eating CPU cycles like they are candy.
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -1037,29 +1030,6 @@ potentially deletes it, after which it can not be autoloaded any more."
           (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
-
-  ;; Add support for running go benchmarks
-  (with-eval-after-load 'go-mode
-    (defun spacemacs/go-run-test-current-function ()
-      (interactive)
-      (if (string-match "_test\\.go" buffer-file-name)
-          (save-excursion
-            (re-search-backward "^func[ ]+\\(?:([[:alnum:]]*?[ ]?[*]?[[:alnum:]]+)[ ]+\\)?\\(\\(Test\\|Benchmark\\)[[:alnum:]_]+\\)(.*)")
-            (let ((test-method
-                   (if (string= (match-string-no-properties 2) "Benchmark")
-                       "-bench"
-                     (if go-use-gocheck-for-testing
-                         "-check.f"
-                       "-run"))))
-              (spacemacs/go-run-tests (concat test-method "='" (match-string-no-properties 1) "'"))))
-        (message "Must be in a _test.go file to run go-run-test-current-function")))
-
-    (defun spacemacs/go-run-package-benchmarks ()
-      (interactive)
-      (spacemacs/go-run-tests "-bench=."))
-
-    (spacemacs/set-leader-keys-for-major-mode 'go-mode
-      "tb" #'spacemacs/go-run-package-benchmarks))
 
   (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
   (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)

@@ -1,14 +1,29 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst mfa-go-packages '(go-dlv go-mode flycheck prodigy projectile))
+(defconst mfa-go-packages '(go-dlv go-mode flycheck prodigy projectile ws-butler))
 
 (defun mfa-go/init-go-dlv ()
   (use-package go-dlv
     :defer t))
 
 (defun mfa-go/post-init-go-mode ()
+  ;; Recommended by the Spacemacs manual.
   (setq godoc-at-point-function 'godoc-gogetdoc
-        gofmt-command "goimports"))
+        gofmt-command "goimports")
+
+  ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
+  (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
+
+  (with-eval-after-load 'go-mode
+    ;; Define which-key prefixes when Spacemacs does not.
+    (spacemacs/declare-prefix-for-mode 'go-mode "mT" "tags")
+    (spacemacs/declare-prefix-for-mode 'go-mode "mtg" "go-gen-test")
+
+    ;; Add key bindings for running benchmarks.
+    (spacemacs/declare-prefix-for-mode 'go-mode "mb" "benchmarks")
+    (spacemacs/safe-set-leader-keys-for-major-mode 'go-mode
+      "bb" #'spacemacs/go-run-benchmark-current-function
+      "bp" #'spacemacs/go-run-package-benchmarks)))
 
 (defun mfa-go/post-init-flycheck ()
   (setq flycheck-go-build-install-deps t
@@ -33,3 +48,8 @@
                      (test-command . "go test")))
         (setq goprjtype (plist-put goprjtype (car cmd) (cdr cmd))))
       (puthash 'go goprjtype projectile-project-types))))
+
+(defun mfa-go/post-init-ws-butler ()
+  ;; Disable ws-butler for go source code, go fmt will do the job instead.
+  (with-eval-after-load 'ws-butler
+    (push 'go-mode ws-butler-global-exempt-modes)))

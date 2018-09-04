@@ -50,14 +50,26 @@ Configure garbage collection to occur when the user is idle.
 ;;; Generated autoloads from my-config.el
 
 (autoload 'spacemacs/warn-if-leader-key-bound "my-config" "\
-
+Emit a warning if the leader key is already bound.
 
 \(fn KEY)" nil nil)
 
 (autoload 'spacemacs/safe-set-leader-keys "my-config" "\
-Like `spacemacs/set-leader-keys' but emits a warning if the key is already bound.
+Like `spacemacs/set-leader-keys' but emits a warning if the key is already
+bound.
 
 \(fn &rest BINDINGS)" nil nil)
+
+(autoload 'spacemacs/warn-if-leader-key-for-major-mode-bound "my-config" "\
+Emit a warning if the leader key for a major mode is already bound.
+
+\(fn MODE KEY)" nil nil)
+
+(autoload 'spacemacs/safe-set-leader-keys-for-major-mode "my-config" "\
+Like `spacemacs/set-leader-keys-for-major-mode' but emits a warning if the
+key is already bound.
+
+\(fn MODE &rest BINDINGS)" nil nil)
 
 ;;;***
 

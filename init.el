@@ -1064,7 +1064,9 @@ potentially deletes it, after which it can not be autoloaded any more."
   (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
   (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)
 
-  ;; The GTK system tooltips do not take HiDPI into account, thus placing the tooltips incorrectly.
+  ;; The GTK system tooltips do not take HiDPI into account, thus placing the
+  ;; tooltips incorrectly. Apart from that, the Gtk tooltip looks uglier than
+  ;; its non-Gtk counterpart.
   (setq x-gtk-use-system-tooltips nil)
 
   ;; The `my-utils' library is my place to put features that can be autoloaded

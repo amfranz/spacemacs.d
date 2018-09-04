@@ -876,6 +876,7 @@ potentially deletes it, after which it can not be autoloaded any more."
     "fyp" #'projectile-copy-directory-path
     "gd" #'magit-diff-this-file
     "id" #'insert-date
+    "pt" #'projectile-open-terminal
     "qe" #'server-edit
     "xll" #'sort-lines-by-length
     "xln" #'sort-numeric-fields)
@@ -887,7 +888,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/set-leader-keys
     "o'" #'lisp-sandbox
     "od" #'open-file-manager
-    "opt" #'projectile-open-terminal
     "ot" #'open-terminal)
 
   ;; Key bindings to toggle (sub|super)word-mode.

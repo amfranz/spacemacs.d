@@ -685,6 +685,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (advice-add 'package--description-file :override
               #'eterm-256color-package--description-file)
 
+  ;; Even though Spacemacs has a theming layer that can customize theme *faces*,
+  ;; it does not have support to customize theme *variables*. We need to roll
+  ;; our own.
+  (defun my--adjust-theme-variables ()
+    (when (eq 'zenburn spacemacs--cur-theme)
+      (zenburn-with-color-variables
+        (custom-theme-set-variables
+         'zenburn
+         `(fci-rule-color ,zenburn-bg+3)))))
+  (add-hook 'spacemacs-post-theme-change-hook
+            #'my--adjust-theme-variables)
+
   ;; Keep customizations in a separate file that is not under version control.
   (setq custom-file (concat dotspacemacs-directory "custom.el"))
   (load custom-file))
@@ -852,14 +864,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Disable highlight current line, it is distracting.
   (when global-hl-line-mode
     (global-hl-line-mode -1))
-
-  ;; Customize theme colors.
-  (with-eval-after-load 'zenburn-theme
-    (zenburn-with-color-variables
-      (custom-theme-set-variables
-       'zenburn
-       ;; Adjusts the rule to a brighter color.
-       `(fci-rule-color ,zenburn-bg+3))))
 
   ;; Additional miscellaneous file mode associations.
   (push '("\\.gp\\'" . gnuplot-mode) auto-mode-alist)

@@ -955,13 +955,6 @@ potentially deletes it, after which it can not be autoloaded any more."
         (barf-if-buffer-read-only)
         ad-do-it)))
 
-  ;; Teach Emacs how to colorize Maven output.
-  (with-eval-after-load 'compile
-    (push '(maven-warning "^\\[WARN\\(?:ING\\)?\\] \\(\\(.+?\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]\\)" 2 3 4 1 1) compilation-error-regexp-alist-alist)
-    (push 'maven-warning compilation-error-regexp-alist)
-    (push '(maven-error "^\\[ERROR\\] \\(\\(.+?\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]\\)" 2 3 4 2 1) compilation-error-regexp-alist-alist)
-    (push 'maven-error compilation-error-regexp-alist))
-
   ;; X clipboard support for Emacs in terminal.
   (defvar xclip-saved-icf nil
     "Saved value of `interprogram-cut-function'.")

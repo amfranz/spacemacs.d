@@ -919,9 +919,6 @@ potentially deletes it, after which it can not be autoloaded any more."
          mode-require-final-newline))
   (add-hook 'conf-mode-hook #'set-require-final-newline)
 
-  ;; For *most* languages I work with 2 space indent is the norm.
-  (setq-default evil-shift-width 2)
-
   ;; Make Flycheck a little bit less eager to lint. This is mostly due to
   ;; gometalinter which is eating CPU cycles like they are candy.
   (setq flycheck-check-syntax-automatically '(save mode-enabled))

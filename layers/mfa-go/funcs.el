@@ -1,5 +1,14 @@
 ;; -*- lexical-binding: t -*-
 
+(defun mfa-go//shorten-vendored-package-names (packages)
+  (sort
+   (delete-dups
+    (mapcar
+     (lambda (pkg)
+       (car (last (split-string pkg "/vendor/"))))
+     packages))
+   #'string<))
+
 (defun spacemacs/go-run-benchmark-current-function ()
   (interactive)
   (if (string-match "_test\\.go" buffer-file-name)

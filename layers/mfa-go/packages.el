@@ -14,6 +14,11 @@
   ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
   (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
 
+  ;; Shorten the names of vendored packages when adding imports with
+  ;; `go-import-add'.
+  (advice-add 'go-packages :filter-return
+    #'mfa-go//shorten-vendored-package-names)
+
   (with-eval-after-load 'go-mode
     ;; Define which-key prefixes when Spacemacs does not.
     (spacemacs/declare-prefix-for-mode 'go-mode "mT" "tags")

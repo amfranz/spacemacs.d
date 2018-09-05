@@ -33,7 +33,7 @@ With PREFIX time will be included as well."
   (interactive)
   (let ((file-name (buffer-file-name)))
     (if file-name
-        (magit-diff "master" nil (list buffer-file-name))
+        (magit-diff "HEAD" nil (list buffer-file-name))
       (error "Buffer not visiting a file"))))
 
 ;;;###autoload

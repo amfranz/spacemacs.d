@@ -20,7 +20,7 @@
     :init
     (spacemacs/set-leader-keys-for-major-mode 'dired-mode "/" #'dired-narrow)))
 
-(defun mfa-dired/post-init-dired ()
+(defun mfa-dired/pre-init-dired ()
   (spacemacs|use-package-add-hook dired
     :post-config
     (progn
@@ -30,3 +30,11 @@
         (kbd "RET") #'dired-find-file-by-prefix)
       (evil-define-key 'evilified dired-mode-map
         "-" #'dired-up-directory))))
+
+(defun mfa-dired/post-init-dired ()
+  ;; Customize sort order of files in dired.
+  (setq dired-listing-switches "-ahlv --group-directories-first")
+
+  ;; Avoid unnecessary prompts by dired.
+  (setq dired-recursive-copies 'always
+        dired-recursive-deletes 'always))

@@ -8,3 +8,12 @@ Giving the command a PREFIX arg will open the index in another window."
     (if prefix
         (find-file-other-window index)
       (find-file index))))
+
+(defun mfa-org//custom-theme-set-variables ()
+  (when (eq 'zenburn spacemacs--cur-theme)
+    (zenburn-with-color-variables
+      (custom-theme-set-variables
+       'zenburn
+       `(org-priority-faces '((?A . (:foreground ,zenburn-magenta))
+                              (?B . (:foreground ,zenburn-yellow))
+                              (?C . (:foreground ,zenburn-cyan))))))))

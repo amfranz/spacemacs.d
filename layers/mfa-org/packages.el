@@ -19,6 +19,11 @@
     (spacemacs/set-leader-keys-for-major-mode 'org-mode
       "?" #'helm-orgcard)))
 
+(defun mfa-org/pre-init-org ()
+  ;; customize org priority faces.
+  (add-hook 'spacemacs-post-theme-change-hook
+            #'mfa-org//custom-theme-set-variables))
+
 (defun mfa-org/post-init-org ()
   ;; automatically indent org sections.
   (setq org-startup-indented t)
@@ -32,15 +37,6 @@
         org-refile-allow-creating-parent-nodes 'confirm
         org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-refile-use-outline-path 'file)
-
-  ;; colorize priorities.
-  (with-eval-after-load 'zenburn-theme
-    (zenburn-with-color-variables
-      (custom-theme-set-variables
-       'zenburn
-       `(org-priority-faces '((?A . (:foreground ,zenburn-magenta))
-                              (?B . (:foreground ,zenburn-yellow))
-                              (?C . (:foreground ,zenburn-cyan)))))))
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/set-leader-keys-for-major-mode 'org-mode

@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst mfa-treemacs-packages '(treemacs))
+(defconst mfa-treemacs-packages '(treemacs treemacs-evil))
 
 (defun mfa-treemacs/post-init-treemacs ()
   (with-eval-after-load 'treemacs
@@ -15,10 +15,12 @@
     (treemacs--setup-icon-background-colors)
 
     ;; Enhance the visibility of the currently selected line.
-    (treemacs-fringe-indicator-mode t)
+    (treemacs-fringe-indicator-mode t)))
 
+(defun mfa-treemacs/post-init-treemacs-evil ()
+  (with-eval-after-load 'treemacs-evil
     ;; Moving the root with h/l is non-sensical to me. This rebinds them to
     ;; functionality that, to me, seems more intuitive to be bound to those
     ;; keys.
-    (define-key evil-treemacs-state-map "l" #'treemacs-RET-action)
-    (define-key evil-treemacs-state-map "h" #'treemacs-goto-parent-node)))
+    (evil-define-key 'treemacs treemacs-mode-map (kbd "h") #'treemacs-goto-parent-node)
+    (evil-define-key 'treemacs treemacs-mode-map (kbd "l") #'treemacs-RET-action)))

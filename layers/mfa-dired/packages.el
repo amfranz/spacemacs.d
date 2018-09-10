@@ -29,7 +29,9 @@
       (evil-define-key 'evilified dired-mode-map
         (kbd "RET") #'dired-find-file-by-prefix)
       (evil-define-key 'evilified dired-mode-map
-        "-" #'dired-up-directory))))
+        "-" #'dired-up-directory
+        "gt" #'eyebrowse-next-window-config
+        "gT" #'eyebrowse-prev-window-config))))
 
 (defun mfa-dired/post-init-dired ()
   ;; Customize sort order of files in dired.

@@ -630,8 +630,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Turn garbage collection on while installing packages and recompiling ELPA
   ;; packages. This avoids Emacs to hang for a long time after many packages get
   ;; installed.
-  (seq-do #'gc-idle-exempt '(configuration-layer//install-packages
-                             spacemacs/recompile-elpa))
+  (seq-do #'gc-idle-exempt '(byte-recompile-directory
+                             configuration-layer//install-packages))
 
   ;; Allow resizing frames with pixel-precision, do not enforce frame sizes to
   ;; be multiples of character width or height.

@@ -115,7 +115,7 @@ This function should only modify configuration layer settings."
      (go :variables
          go-format-before-save t
          go-tab-width 4
-         go-use-gometalinter t)
+         go-use-golangci-lint t)
      graphviz
      (gtags :variables
             gtags-enable-by-default nil)

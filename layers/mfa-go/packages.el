@@ -31,9 +31,9 @@
       "bp" #'spacemacs/go-run-package-benchmarks)))
 
 (defun mfa-go/post-init-flycheck ()
-  (setq flycheck-go-build-install-deps t
-        flycheck-gometalinter-fast t
-        flycheck-gometalinter-vendor t))
+  ;; The dependencies need to be installed for `company-go' to be able to offer
+  ;; meaningful source code completion options.
+  (setq flycheck-go-build-install-deps t))
 
 (defun mfa-go/post-init-prodigy()
   (with-eval-after-load 'prodigy

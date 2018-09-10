@@ -3,6 +3,9 @@
 (defconst mfa-treemacs-packages '(treemacs treemacs-evil))
 
 (defun mfa-treemacs/post-init-treemacs ()
+  ;; Make the list of files a bit more tidy by default.
+  (setq treemacs-show-hidden-files nil)
+
   (with-eval-after-load 'treemacs
     ;; Adjust icon sizes to the DPI of the display.
     (spacemacs|do-after-display-system-init
@@ -23,4 +26,15 @@
     ;; functionality that, to me, seems more intuitive to be bound to those
     ;; keys.
     (evil-define-key 'treemacs treemacs-mode-map (kbd "h") #'treemacs-goto-parent-node)
-    (evil-define-key 'treemacs treemacs-mode-map (kbd "l") #'treemacs-RET-action)))
+    (evil-define-key 'treemacs treemacs-mode-map (kbd "l") #'treemacs-RET-action)
+
+    ;; Move the rename functionality from "R" to "r". This overrides the binding
+    ;; for refresh, but that is not a problem because refresh is available at
+    ;; "gr" as well. "gr" should be the canonical binding anyway, based on the
+    ;; Spacemacs key binding conventions.
+    (evil-define-key 'treemacs treemacs-mode-map (kbd "r") #'treemacs-rename)
+    (evil-define-key 'treemacs treemacs-mode-map (kbd "R") nil)
+
+    ;; evil-treemacs does not define an evil specific key for `treemacs-resort',
+    ;; so we'll define a key ourselves.
+    (evil-define-key 'treemacs treemacs-mode-map (kbd "gs") #'treemacs-resort)))

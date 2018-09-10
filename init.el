@@ -793,7 +793,7 @@ potentially deletes it, after which it can not be autoloaded any more."
         (unless (string-equal old-title new-title)
           (send-string-to-terminal (concat "\033]0;" new-title "\007"))
           (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
-  (add-hook 'buffer-list-update-hook #'my-tty-update-title)
+  (add-hook 'window-configuration-change-hook #'my-tty-update-title)
 
   ;; Add ~/.spacemacs.d/bin/ to the executable search path.
   (let ((bin-path (concat dotspacemacs-directory "bin/")))

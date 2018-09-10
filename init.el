@@ -1018,6 +1018,10 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; its non-Gtk counterpart.
   (setq x-gtk-use-system-tooltips nil)
 
+  ;; Reduce the size of the compilation window, to prevent it from taking away
+  ;; too much valuable screen estate when it pops up.
+  (setq compilation-window-height 10)
+
   ;; The `my-utils' library is my place to put features that can be autoloaded
   ;; when the user invokes them, to reduce initial startup time. This is a
   ;; safety check that verifies that the library did not get eagerly loaded.

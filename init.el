@@ -894,18 +894,6 @@ potentially deletes it, after which it can not be autoloaded any more."
     "od" #'open-file-manager
     "ot" #'open-terminal)
 
-  ;; Key bindings to toggle (sub|super)word-mode.
-  (spacemacs/warn-if-leader-key-bound "tj")
-  (spacemacs|add-toggle subword-mode
-    :mode subword-mode
-    :documentation "Toggle subword movement and editing (Subword mode)."
-    :evil-leader "tj")
-  (spacemacs/warn-if-leader-key-bound "tJ")
-  (spacemacs|add-toggle superword-mode
-    :mode superword-mode
-    :documentation "Toggle superword movement and editing (Superword mode)."
-    :evil-leader "tJ")
-
   ;; Key binding to toggle sort-fold-case.
   (spacemacs/warn-if-leader-key-bound "tS")
   (spacemacs|add-toggle sort-fold-case

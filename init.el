@@ -882,6 +882,7 @@ potentially deletes it, after which it can not be autoloaded any more."
     "id" #'insert-date
     "pt" #'projectile-open-terminal
     "qe" #'server-edit
+    "wa" #'ace-select-window
     "xll" #'sort-lines-by-length
     "xln" #'sort-numeric-fields)
 

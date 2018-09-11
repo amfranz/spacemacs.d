@@ -877,7 +877,6 @@ potentially deletes it, after which it can not be autoloaded any more."
     "fyp" #'projectile-copy-directory-path
     "gd" #'magit-diff-this-file
     "id" #'insert-date
-    "pt" #'projectile-open-terminal
     "qe" #'server-edit
     "wa" #'ace-select-window
     "xll" #'sort-lines-by-length
@@ -886,10 +885,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Additional miscellaneous key bindings. These are bound under the prefix "o"
   ;; which Spacemacs specifically reserves for use by the user, so there should
   ;; not be any conflicts.
-  (spacemacs/set-leader-keys
+  (spacemacs/declare-prefix "op" "projects")
+  (spacemacs/safe-set-leader-keys
     "o'" #'lisp-sandbox
     "od" #'open-file-manager
-    "ot" #'open-terminal)
+    "ot" #'open-terminal
+    "opt" #'projectile-open-terminal)
 
   ;; Key binding to toggle sort-fold-case.
   (spacemacs/warn-if-leader-key-bound "tS")

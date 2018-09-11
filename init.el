@@ -141,6 +141,7 @@ This function should only modify configuration layer settings."
           org-enable-reveal-js-support t
           org-enable-org-journal-support t
           org-projectile-file "notes.org")
+          org-enable-trello-support t
      php
      plantuml
      prettier
@@ -206,7 +207,6 @@ This function should only modify configuration layer settings."
      mfa-multi-line
      mfa-mwim
      mfa-org
-     mfa-org-trello
      mfa-pass
      mfa-prodigy
      mfa-projectile

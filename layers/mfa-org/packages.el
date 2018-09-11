@@ -1,4 +1,12 @@
-(defconst mfa-org-packages '(fontawesome helm-org-rifle helm-orgcard org orglink poporg))
+;; -*- lexical-binding: t -*-
+
+(defconst mfa-org-packages '(fontawesome
+                             helm-org-rifle
+                             helm-orgcard
+                             org
+                             org-trello
+                             orglink
+                             poporg))
 
 (defun mfa-org/init-fontawesome ()
   (use-package fontawesome
@@ -70,6 +78,11 @@
   (spacemacs/declare-prefix-for-mode 'org-mode "mot" "toggles")
   (spacemacs/set-leader-keys-for-major-mode 'org-mode
     "oti" #'org-toggle-inline-images))
+
+(defun mfa-org/post-init-org-trello ()
+  (setq org-trello-input-completion-mechanism 'helm)
+  (with-eval-after-load 'org-trello
+    (setq orgtrello-log-level orgtrello-log-warn)))
 
 (defun mfa-org/init-orglink ()
   (use-package orglink

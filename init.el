@@ -191,7 +191,6 @@ This function should only modify configuration layer settings."
      mfa-evil-quickscope
      mfa-evil-textobj-anyblock
      mfa-fancy-narrow
-     mfa-fill-function-arguments
      mfa-go
      mfa-google-this
      mfa-hcl

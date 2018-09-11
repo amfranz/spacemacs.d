@@ -6,25 +6,26 @@
                              org
                              org-trello
                              orglink
+                             plantuml
                              poporg))
 
 (defun mfa-org/init-fontawesome ()
   (use-package fontawesome
     :defer t
     :init
-    (spacemacs/set-leader-keys "xf" #'helm-fontawesome)))
+    (spacemacs/safe-set-leader-keys "of" #'helm-fontawesome)))
 
 (defun mfa-org/init-helm-org-rifle ()
   (use-package helm-org-rifle
     :defer t
     :init
-    (spacemacs/set-leader-keys "o/" #'helm-org-rifle-org-directory)))
+    (spacemacs/safe-set-leader-keys "o/" #'helm-org-rifle-org-directory)))
 
 (defun mfa-org/init-helm-orgcard ()
   (use-package helm-orgcard
     :defer t
     :init
-    (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
       "?" #'helm-orgcard)))
 
 (defun mfa-org/pre-init-org ()
@@ -47,7 +48,7 @@
         org-refile-use-outline-path 'file)
 
   ;; additional leader key bindings for org functionality.
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+  (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
     "oy" #'org-copy-special
     "oc" #'org-cut-special
     "op" #'org-paste-special)
@@ -57,26 +58,13 @@
     (push '(ditaa . t) org-babel-load-languages)
     (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar"))
 
-  ;; graphviz creates graphs based on descriptions.
-  (with-eval-after-load 'org
-    (push '(dot . t) org-babel-load-languages)
-    (push '("dot" . graphviz-dot) org-src-lang-modes))
-
-  ;; plantuml creates UML diagrams.
-  (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
-        plantuml-output-type "png")
-  (setq org-plantuml-jar-path plantuml-jar-path)
-  (with-eval-after-load 'org
-    (push '(plantuml . t) org-babel-load-languages)
-    (push '("plantuml" . plantuml) org-src-lang-modes))
-
   ;; configure org-download.
   (setq org-download-heading-lvl nil)
 
   ;; extra keybindings for org functionality.
-  (spacemacs/set-leader-keys "oi" #'mfa-org/org-index)
+  (spacemacs/safe-set-leader-keys "oi" #'mfa-org/org-index)
   (spacemacs/declare-prefix-for-mode 'org-mode "mot" "toggles")
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+  (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
     "oti" #'org-toggle-inline-images))
 
 (defun mfa-org/post-init-org-trello ()
@@ -89,8 +77,15 @@
     :hook (prog-mode . orglink-mode)
     :diminish))
 
+(defun mfa-org/post-init-plantuml ()
+  (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
+        org-plantuml-jar-path plantuml-jar-path
+        plantuml-output-type "png")
+  (with-eval-after-load 'org-src
+    (push '("plantuml" . plantuml) org-src-lang-modes)))
+
 (defun mfa-org/init-poporg ()
   (use-package poporg
     :defer t
     :init
-    (spacemacs/set-leader-keys "xp" #'poporg-dwim)))
+    (spacemacs/safe-set-leader-keys "xp" #'poporg-dwim)))

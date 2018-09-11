@@ -6,6 +6,9 @@
   ;; Make the list of files a bit more tidy by default.
   (setq treemacs-show-hidden-files nil)
 
+  ;; Make treemacs a bit less noisy.
+  (setq treemacs-silent-refresh t)
+
   (with-eval-after-load 'treemacs
     ;; Adjust icon sizes to the DPI of the display.
     (spacemacs|do-after-display-system-init

@@ -222,6 +222,7 @@ This function should only modify configuration layer settings."
      mfa-treemacs
      mfa-vagrant
      mfa-vdiff
+     mfa-visual-ascii-mode
      mfa-xml
      mfa-yasnippet
 

@@ -1015,9 +1015,6 @@ potentially deletes it, after which it can not be autoloaded any more."
     (advice-add 'page-break-lines--update-display-table
                 :after #'mfa//buffer-display-table-vertical-border-advice))
 
-  (push '(flycheck-clang-language-standard . "c++11") safe-local-variable-values)
-  (push '(flycheck-clang-pedantic-errors . t) safe-local-variable-values)
-
   ;; Disable automatic indentation of pasted content in `sql-mode'.
   ;; SQL indentation styles vary wide, and it always gets it wrong as I try to
   ;; stick to the particular indentation style that's used by the project I am

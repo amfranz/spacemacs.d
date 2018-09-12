@@ -949,12 +949,12 @@ potentially deletes it, after which it can not be autoloaded any more."
         (with-temp-buffer
           (insert text)
           (call-process-region (point-min) (point-max)
-                               "xsel" nil 0 nil "--input" "--clipboard")))))
+                               "xclip" nil 0 nil "-silent" "-i" "-selection" "clipboard")))))
   (defun xclip-paste-function ()
     (if window-system
         (x-selection-value)
       (when (getenv "DISPLAY")
-        (let ((xclip-output (shell-command-to-string "xsel --output --clipboard")))
+        (let ((xclip-output (shell-command-to-string "xclip -o -selection clipboard")))
           (unless (string= (car kill-ring) xclip-output)
             xclip-output)))))
   (define-minor-mode xclip-mode
@@ -991,7 +991,7 @@ potentially deletes it, after which it can not be autoloaded any more."
     :documentation "Enable X clipboard support on the terminal."
     :evil-leader "tx")
   (spacemacs|hide-lighter xclip-mode)
-  (when (and (not window-system) (getenv "DISPLAY"))
+  (unless (display-assume-graphic-p)
     (xclip-mode))
 
   ;; Use a solid bar Unicode character as vertical border.

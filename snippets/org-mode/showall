@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: startup
+# key: <su
+# --
+#+STARTUP: ${1:$$(yas-choose-value '("overview" "content" "showall" "showeverything"))}

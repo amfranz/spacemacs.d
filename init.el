@@ -717,6 +717,9 @@ before packages are loaded."
   ;; `server-create-window-system-frame' to `after-make-frame-functions'. This
   ;; gets rid of some odd issues, eg. the Spacemacs buffer not being current in
   ;; the initial frame of a daemon instance.
+  (ad-disable-advice 'server-create-window-system-frame
+                     'after 'spacemacs-init-display)
+  (ad-activate 'server-create-window-system-frame)
   (defun spacemacs--after-display-system-init (frame)
     (with-selected-frame frame
       (when (display-graphic-p)
@@ -724,7 +727,6 @@ before packages are loaded."
                      #'spacemacs--after-display-system-init)
         (dolist (fn (reverse spacemacs--after-display-system-init-list))
           (funcall fn)))))
-  (ad-disable-advice 'server-create-window-system-frame 'after 'spacemacs-init-display)
   (add-hook 'after-make-frame-functions #'spacemacs--after-display-system-init)
 
   ;; This avoids graphical artifacts in the mode line with the first graphical
@@ -736,7 +738,7 @@ before packages are loaded."
         (when (display-graphic-p)
           (setq powerline-height (spacemacs/compute-mode-line-height))
           (remove-hook 'after-make-frame-functions #'my--adjust-powerline-height))))
-    (add-hook 'after-make-frame-functions#'my--adjust-powerline-height))
+    (add-hook 'after-make-frame-functions #'my--adjust-powerline-height))
 
   ;; Adjust the font size to a HiDPI screen, if needed. This will either be done
   ;; immediately if possible, or after the first graphical frame got created

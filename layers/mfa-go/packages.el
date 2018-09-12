@@ -9,7 +9,8 @@
 (defun mfa-go/post-init-go-mode ()
   ;; Recommended by the Spacemacs manual.
   (setq godoc-at-point-function 'godoc-gogetdoc
-        gofmt-command "goimports")
+        gofmt-command "goimports"
+        gofmt-show-errors 'echo)
 
   ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
   (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)

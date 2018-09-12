@@ -1007,13 +1007,16 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; Use a solid bar Unicode character as vertical border.
   (set-display-table-slot standard-display-table 'vertical-border #x2502)
-  (with-eval-after-load 'page-break-lines
-    (defun mfa//buffer-display-table-vertical-border-advice (window)
-      (with-current-buffer (window-buffer window)
-        (when buffer-display-table
-          (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
-    (advice-add 'page-break-lines--update-display-table
-                :after #'mfa//buffer-display-table-vertical-border-advice))
+
+  ;; `page-break-lines-mode' creates an empty buffer-local display table that
+  ;; supersedes the standard display table. The following advice applies the
+  ;; vertical border customization to this buffer-local display table as well.
+  (defun mfa//buffer-display-table-vertical-border-advice (window)
+    (with-current-buffer (window-buffer window)
+      (when buffer-display-table
+        (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
+  (advice-add 'page-break-lines--update-display-table
+              :after #'mfa//buffer-display-table-vertical-border-advice)
 
   ;; Disable automatic indentation of pasted content in `sql-mode'.
   ;; SQL indentation styles vary wide, and it always gets it wrong as I try to

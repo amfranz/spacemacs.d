@@ -71,6 +71,16 @@ key is already bound.
 
 \(fn MODE &rest BINDINGS)" nil nil)
 
+(autoload 'add-lazy-hook "my-config" "\
+Like `add-hook' but also runs the hook immediately in all buffers derived
+from the given mode.
+
+This function should be used instead of `add-hook' whenever it is possible that
+buffers of that mode already exist, for example in logic that is lazy loaded via
+`with-eval-after-load' or `eval-after-load'.
+
+\(fn MODE FUN)" nil nil)
+
 ;;;***
 
 ;;;### (autoloads nil "my-utils" "my-utils.el" (0 0 0 0))

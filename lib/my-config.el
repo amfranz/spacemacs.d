@@ -50,4 +50,19 @@ key is already bound."
   (apply #'spacemacs/set-leader-keys-for-major-mode mode bindings))
 (put 'spacemacs/safe-set-leader-keys-for-major-mode 'lisp-indent-function 'defun)
 
+;;;###autoload
+(defun add-lazy-hook (mode fun)
+  "Like `add-hook' but also runs the hook immediately in all buffers derived
+from the given mode.
+
+This function should be used instead of `add-hook' whenever it is possible that
+buffers of that mode already exist, for example in logic that is lazy loaded via
+`with-eval-after-load' or `eval-after-load'."
+  (let ((hook (intern (concat (symbol-name mode) "-hook"))))
+    (add-hook hook fun))
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (derived-mode-p mode)
+        (funcall fun)))))
+
 (provide 'my-config)

@@ -994,6 +994,17 @@ potentially deletes it, after which it can not be autoloaded any more."
   (unless (display-assume-graphic-p)
     (xclip-mode))
 
+  ;; Customize evil surround pairs
+  (with-eval-after-load 'evil-surround
+    (defun my-evil-surround-pairs-c++-mode ()
+      (push '(?< . ("< " . " >")) evil-surround-pairs-alist))
+    (add-lazy-hook 'c++-mode #'my-evil-surround-pairs-c++-mode))
+
+  (with-eval-after-load 'evil-surround
+    (defun my-evil-surround-pairs-emacs-lisp-mode ()
+      (push '(?` . ("`" . "'")) evil-surround-pairs-alist))
+    (add-lazy-hook 'emacs-lisp-mode #'my-evil-surround-pairs-emacs-lisp-mode))
+
   ;; Use a solid bar Unicode character as vertical border.
   (set-display-table-slot standard-display-table 'vertical-border #x2502)
   (with-eval-after-load 'page-break-lines

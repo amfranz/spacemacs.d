@@ -17,7 +17,7 @@
   ;; Shorten the names of vendored packages when adding imports with
   ;; `go-import-add'.
   (advice-add 'go-packages :filter-return
-    #'mfa-go//shorten-vendored-package-names)
+              #'mfa-go//shorten-vendored-package-names)
 
   (with-eval-after-load 'go-mode
     ;; Define which-key prefixes when Spacemacs does not.

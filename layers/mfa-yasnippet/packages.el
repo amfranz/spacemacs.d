@@ -33,6 +33,14 @@
   (advice-add 'yas-exit-snippet :after
               #'mfa-yasnippet//exit-insert-state)
 
+  ;; Preserve the point when saving a snippet. Loading the snippet from the
+  ;; buffer causes the point to jump which is unnecessary and distracting.
+  (defun mfa-yasnippet//preserve-point (orig-fun &rest args)
+    (save-excursion
+      (apply orig-fun args)))
+  (advice-add 'yas-maybe-load-snippet-buffer
+              :around #'mfa-yasnippet//preserve-point)
+
   ;; The following patch fixes these issues in helm-c-yasnippet: (1) evaluate
   ;; the `expand-env` attribute in snippets, (2) filter the list of snippets by
   ;; their conditions, and (3) if a region is selected it will be used for the

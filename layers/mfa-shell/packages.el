@@ -8,7 +8,15 @@
                 :commit "dab96af559deb443c4c9c00e23389926e1607192"
                 :files (:defaults
                         "eterm-256color.ti")))
+    eshell
     term))
+
+(defun mfa-shell/post-init-eshell ()
+  (with-eval-after-load 'eshell
+    (spacemacs/declare-prefix-for-mode 'eshell-mode "mi" "insert")
+    (spacemacs/set-leader-keys-for-major-mode 'eshell-mode
+      "ib" #'eshell-insert-buffer-name
+      "ie" #'eshell-insert-envvar)))
 
 (defun mfa-shell/init-eterm-256color ()
   (use-package eterm-256color

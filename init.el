@@ -1048,6 +1048,12 @@ potentially deletes it, after which it can not be autoloaded any more."
      (evil-end-undo-step)
      (ad-set-arg 0 prefix)))
 
+  ;; Configure `helm' to never pop up in a separate frame nor to excessively
+  ;; alter the window configuration to force two windows only. This was a
+  ;; problem with `helm-eshell' history completion.
+  (setq helm-always-two-windows nil
+        helm-show-completion-display-function #'spacemacs//display-helm-window)
+
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the
   ;; tooltips incorrectly. Apart from that, the Gtk tooltip looks uglier than
   ;; its non-Gtk counterpart.

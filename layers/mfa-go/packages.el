@@ -1,6 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst mfa-go-packages '(go-dlv go-mode flycheck prodigy projectile ws-butler))
+(defconst mfa-go-packages '(compile go-dlv go-mode flycheck prodigy projectile ws-butler))
+
+(defun mfa-go/post-init-compile ()
+  (with-eval-after-load 'compile
+    (add-to-list 'compilation-error-regexp-alist-alist
+                 '(go-testify "^    \\(\\([a-zA-Z0-9_-]+\\.go\\):\\([0-9]+\\):\\) $" 2 3 nil nil 1))
+    (add-to-list 'compilation-error-regexp-alist 'go-testify)))
 
 (defun mfa-go/init-go-dlv ()
   (use-package go-dlv

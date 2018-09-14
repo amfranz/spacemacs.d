@@ -691,8 +691,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             #'my--adjust-theme-variables)
 
   ;; Keep customizations in a separate file that is not under version control.
-  (setq custom-file (concat dotspacemacs-directory "custom.el"))
-  (load custom-file))
+  ;; This needs to be set in `dotspacemacs/user-init' to prevent Spacemacs
+  ;; copying the custom settings back into this file.
+  (setq custom-file (concat spacemacs-cache-directory "custom.el")))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -1069,4 +1070,16 @@ potentially deletes it, after which it can not be autoloaded any more."
   (defun my-verify-utils-lazy-load ()
     (when (featurep 'my-utils)
       (lwarn 'spacemacs :warning "The `my-utils' feature was loaded too early")))
-  (add-hook 'spacemacs-post-user-config-hook #'my-verify-utils-lazy-load t))
+  (add-hook 'spacemacs-post-user-config-hook #'my-verify-utils-lazy-load t)
+
+  (defun my-find-custom-file ()
+    (interactive)
+    (find-file-existing custom-file))
+  (spacemacs/safe-set-leader-keys "fec" #'my-find-custom-file)
+
+  ;; Apply persisted custom settings. This needs to be the very last step to
+  ;; make sure that any customization applied by the custom file will not get
+  ;; undone by later stages of the Emacs startup sequence.
+  (defun my-load-custom-file ()
+    (load custom-file))
+  (add-hook 'spacemacs-post-user-config-hook #'my-load-custom-file t))

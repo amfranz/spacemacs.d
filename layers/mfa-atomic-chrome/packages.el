@@ -4,7 +4,7 @@
   (use-package atomic-chrome
     :defer t
     :init
-    (when (daemonp)
+    (when (and (daemonp) (display-assume-graphic-p))
       (add-hook 'emacs-startup-hook #'atomic-chrome-start-server))
     :config
     (setq atomic-chrome-buffer-open-style 'frame

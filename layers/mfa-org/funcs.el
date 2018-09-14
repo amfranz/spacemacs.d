@@ -17,3 +17,7 @@ Giving the command a PREFIX arg will open the index in another window."
        `(org-priority-faces '((?A . (:foreground ,zenburn-magenta))
                               (?B . (:foreground ,zenburn-yellow))
                               (?C . (:foreground ,zenburn-cyan))))))))
+
+(defun mfa-org//org-show-entry (&rest ignore)
+  (when (derived-mode-p 'org-mode)
+    (org-show-entry)))

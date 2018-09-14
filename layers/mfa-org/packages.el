@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst mfa-org-packages '(fontawesome
+                             helm-ag
                              helm-org-rifle
                              helm-orgcard
                              org
@@ -14,6 +15,11 @@
     :defer t
     :init
     (spacemacs/safe-set-leader-keys "of" #'helm-fontawesome)))
+
+(defun mfa-org/post-init-helm-ag ()
+  ;; Automatically unfold the `org-mode' section at point after following a
+  ;; match found by `helm-ag'.
+  (advice-add 'helm-ag--find-file-action :after #'mfa-org//org-show-entry))
 
 (defun mfa-org/init-helm-org-rifle ()
   (use-package helm-org-rifle

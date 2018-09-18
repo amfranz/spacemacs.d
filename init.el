@@ -109,8 +109,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      erlang
      evil-snipe
-     (git :variables
-          git-magit-status-fullscreen t)
+     git
      github
      (go :variables
          go-format-before-save t

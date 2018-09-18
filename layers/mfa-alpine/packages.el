@@ -1,7 +1,9 @@
+;; -*- lexical-binding: t -*-
+
 (defconst mfa-alpine-packages '(sh-script))
 
 (defun mfa-alpine/post-init-sh-script ()
-  (dolist (item '(("APKBUILD\\'" . sh-mode)
+  (dolist (elem '(("APKBUILD\\'" . sh-mode)
                   ("\\.confd\\'" . sh-mode)
                   ("\\.initd\\'" . sh-mode)
                   ("\\.pre-install\\'" . sh-mode)
@@ -10,4 +12,4 @@
                   ("\\.post-upgrade\\'" . sh-mode)
                   ("\\.pre-deinstall\\'" . sh-mode)
                   ("\\.post-deinstall\\'" . sh-mode)))
-    (push item auto-mode-alist)))
+    (add-to-list 'auto-mode-alist elem)))

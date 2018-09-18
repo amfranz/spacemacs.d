@@ -1081,5 +1081,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.
   (defun my-load-custom-file ()
-    (load custom-file))
+    (when (file-exists-p custom-file)
+      (load custom-file)))
   (add-hook 'spacemacs-post-user-config-hook #'my-load-custom-file t))

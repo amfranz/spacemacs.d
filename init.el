@@ -176,7 +176,6 @@ This function should only modify configuration layer settings."
      mfa-artist
      mfa-atomic-chrome
      mfa-bookmarks
-     mfa-checkbashisms
      mfa-dash
      mfa-devdocs
      mfa-diff

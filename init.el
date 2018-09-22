@@ -199,6 +199,7 @@ This function should only modify configuration layer settings."
      mfa-journal
      mfa-json
      mfa-lice
+     mfa-lisp
      mfa-magit
      mfa-make-mode
      mfa-markdown

@@ -868,6 +868,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Recent files are still available via "fr".
   (spacemacs/set-leader-keys "bb" #'helm-buffers-list)
 
+  ;; Move `other-frame' to a less easy-to-reach key because I hardly ever need
+  ;; it and bind its key to `ace-select-window' instead, which is more useful.
+  (spacemacs/set-leader-keys
+    "wo" #'ace-select-window
+    "wO" #'other-frame)
+
   ;; Additional miscellaneous key bindings. These might conflict with key
   ;; bindings set up by Spacemacs, so extra checks are performed to verify they
   ;; are not yet bound.
@@ -876,7 +882,6 @@ potentially deletes it, after which it can not be autoloaded any more."
     "gd" #'magit-diff-this-file
     "id" #'insert-date
     "qe" #'server-edit
-    "wa" #'ace-select-window
     "xll" #'sort-lines-by-length
     "xln" #'sort-numeric-fields)
 

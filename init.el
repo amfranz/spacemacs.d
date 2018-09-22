@@ -1071,6 +1071,11 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; too much valuable screen estate when it pops up.
   (setq compilation-window-height 10)
 
+  ;; Commands like `evil-show-registers' pop up a window but leave it opened
+  ;; when you quit the buffer using "q". This binding alters that behavior so
+  ;; that the window will get closed in addition to killing the buffer.
+  (define-key evil-list-view-mode-map "q" #'kill-buffer-and-window)
+
   ;; The `my-utils' library is my place to put features that can be autoloaded
   ;; when the user invokes them, to reduce initial startup time. This is a
   ;; safety check that verifies that the library did not get eagerly loaded.

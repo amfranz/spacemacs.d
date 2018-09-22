@@ -996,12 +996,15 @@ potentially deletes it, after which it can not be autoloaded any more."
   (unless (display-assume-graphic-p)
     (xclip-mode))
 
-  ;; Customize evil surround pairs
+  ;; In `c++-mode' the HTML tag surround pair is pretty much useless. It is far
+  ;; more useful to have angle bracket surround pairs.
   (with-eval-after-load 'evil-surround
     (defun my-evil-surround-pairs-c++-mode ()
       (push '(?< . ("< " . " >")) evil-surround-pairs-alist))
     (add-lazy-hook 'c++-mode #'my-evil-surround-pairs-c++-mode))
 
+  ;; `evil-surround' should use "'" as end delimiter for "`" in lisp modes. This
+  ;; brings it in line with the behavior of `smartparens', which does the same.
   (with-eval-after-load 'evil-surround
     (defun my-evil-surround-pairs-emacs-lisp-mode ()
       (push '(?` . ("`" . "'")) evil-surround-pairs-alist))

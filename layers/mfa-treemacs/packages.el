@@ -28,16 +28,19 @@
     ;; Moving the root with h/l is non-sensical to me. This rebinds them to
     ;; functionality that, to me, seems more intuitive to be bound to those
     ;; keys.
-    (evil-define-key 'treemacs treemacs-mode-map (kbd "h") #'treemacs-goto-parent-node)
-    (evil-define-key 'treemacs treemacs-mode-map (kbd "l") #'treemacs-RET-action)
+    (evil-define-key 'treemacs treemacs-mode-map
+      (kbd "h") #'treemacs-goto-parent-node
+      (kbd "l") #'treemacs-RET-action)
 
     ;; Move the rename functionality from "R" to "r". This overrides the binding
     ;; for refresh, but that is not a problem because refresh is available at
     ;; "gr" as well. "gr" should be the canonical binding anyway, based on the
     ;; Spacemacs key binding conventions.
-    (evil-define-key 'treemacs treemacs-mode-map (kbd "r") #'treemacs-rename)
-    (evil-define-key 'treemacs treemacs-mode-map (kbd "R") nil)
+    (evil-define-key 'treemacs treemacs-mode-map
+      (kbd "r") #'treemacs-rename
+      (kbd "R") nil)
 
     ;; evil-treemacs does not define an evil specific key for `treemacs-resort',
     ;; so we'll define a key ourselves.
-    (evil-define-key 'treemacs treemacs-mode-map (kbd "gs") #'treemacs-resort)))
+    (evil-define-key 'treemacs treemacs-mode-map
+      (kbd "gs") #'treemacs-resort)))

@@ -1074,6 +1074,11 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; too much valuable screen estate when it pops up.
   (setq compilation-window-height 10)
 
+  ;; Disable undo/redo-in-region, it occasionally exhibits buggy behavior and
+  ;; not useful enough to justify having to deal with the issues.
+  ;; See https://emacs.stackexchange.com/questions/37393/disable-undo-tree-on-a-region-of-text
+  (setq undo-tree-enable-undo-in-region nil)
+
   ;; Commands like `evil-show-registers' pop up a window but leave it opened
   ;; when you quit the buffer using "q". This binding alters that behavior so
   ;; that the window will get closed in addition to killing the buffer.

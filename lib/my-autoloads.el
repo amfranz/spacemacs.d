@@ -125,7 +125,7 @@ Create a scratch buffer in lisp interaction mode
 
 \(fn)" t nil)
 
-(autoload 'projectile-copy-directory-path "my-utils" "\
+(autoload 'projectile-copy-project-path "my-utils" "\
 Show and copy the full path to the current project directory in the minibuffer.
 
 \(fn)" t nil)

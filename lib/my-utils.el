@@ -43,7 +43,7 @@ With PREFIX time will be included as well."
       (error "Buffer not visiting a file"))))
 
 ;;;###autoload
-(defun projectile-copy-directory-path ()
+(defun projectile-copy-project-path ()
   "Show and copy the full path to the current project directory in the minibuffer."
   (interactive)
   (let ((project-root (projectile-project-root)))

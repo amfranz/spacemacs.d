@@ -887,7 +887,7 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; bindings set up by Spacemacs, so extra checks are performed to verify they
   ;; are not yet bound.
   (spacemacs/safe-set-leader-keys
-    "fyp" #'projectile-copy-directory-path
+    "fyp" #'projectile-copy-project-path
     "gd" #'magit-diff-this-file
     "id" #'insert-date
     "qe" #'server-edit

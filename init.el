@@ -216,7 +216,7 @@ This function should only modify configuration layer settings."
      mfa-shell-scripts
      mfa-string-edit
      mfa-tmux
-     mfa-sqlformat
+     mfa-sql
      mfa-treemacs
      mfa-vagrant
      mfa-vdiff

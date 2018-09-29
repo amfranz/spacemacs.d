@@ -1097,6 +1097,14 @@ potentially deletes it, after which it can not be autoloaded any more."
     (find-file-existing custom-file))
   (spacemacs/safe-set-leader-keys "fec" #'my-find-custom-file)
 
+  ;; Customize Evil to use the Emacs heuristics for recording undoable changes,
+  ;; instead of trying to emulate Vim exactly. The Emacs heuristics are more
+  ;; useful, they make it possible to undo buffer changes that happened during
+  ;; an insert state partially. The Vim behavior would be to undo all the
+  ;; changes of an insert state session in one step.
+  ;; See https://emacs.stackexchange.com/questions/3358/how-can-i-get-undo-behavior-in-evil-similar-to-vims
+  (setq evil-want-fine-undo t)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

@@ -22,6 +22,10 @@ This will return 2 on Hi-DPI displays, 1 otherwise."
      (string-to-number
       (shell-command-to-string
        "dconf read /org/cinnamon/active-display-scale")))
+    ("gnome"
+     (string-to-number
+      (shell-command-to-string
+       "dconf read /org/gnome/desktop/interface/scaling-factor | awk '{ print $2 }'")))
     (_ 1)))
 
 (defun display--pixels-per-inch ()

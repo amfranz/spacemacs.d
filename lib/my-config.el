@@ -5,6 +5,28 @@
 ;;
 
 ;;;###autoload
+(defun my-load-custom-file ()
+  "Load and apply persisted custom settings.
+
+This function is supposed to be invoked only once, at the very end of the Emacs
+startup sequence. It is possible that additional packages have been installed
+earlier during startup sequence, in which case `package-selected-packages' has
+already been customized. Its value is important for `package-autoremove' to be
+able to function correctly.
+
+For this reason, if the variable `package-selected-packages' has a value, the
+current value will be preserved even if the custom file contains another value
+for it. Additionally, the custom file will be updated with this new value."
+  (setq custom-file (concat spacemacs-cache-directory "custom.el"))
+  (when (file-exists-p custom-file)
+    (let ((selected-pkgs package-selected-packages))
+      (load custom-file)
+      (when selected-pkgs
+        (setq package-selected-packages selected-pkgs)
+        (let ((save-silently t))
+          (customize-save-variable 'package-selected-packages package-selected-packages))))))
+
+;;;###autoload
 (defun spacemacs/warn-if-leader-key-bound (key)
   "Emit a warning if the leader key is already bound."
   (when-let* ((def (lookup-key spacemacs-default-map (kbd key)))

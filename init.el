@@ -688,10 +688,20 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (add-hook 'spacemacs-post-theme-change-hook
             #'my--adjust-theme-variables)
 
-  ;; Keep customizations in a separate file that is not under version control.
-  ;; This needs to be set in `dotspacemacs/user-init' to prevent Spacemacs
-  ;; copying the custom settings back into this file.
-  (setq custom-file (concat spacemacs-cache-directory "custom.el")))
+  ;; `custom-file' needs to be set in `dotspacemacs/user-init' to prevent
+  ;; Spacemacs copying custom settings back into this file.
+  ;;
+  ;; The reason it is set to a garbage file instead of the real custom file is
+  ;; to avoid the real custom file to get reset to an empty state. This will
+  ;; happen when new packages get installed, because that mechanism will call
+  ;; `custom-save-all' to persist the new value of `package-selected-packages'.
+  ;; If at that time the custom file was not loaded yet, it will get overwritten
+  ;; with an essentially empty custom file.
+  ;;
+  ;; To avoid this, we will initally set `custom-file' to a garbage file. When
+  ;; new packages get installed, `custom-save-all' will overwrite the garbage
+  ;; file instead of the real custom file.
+  (setq custom-file (concat spacemacs-cache-directory "garbage.el")))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -1092,11 +1102,6 @@ potentially deletes it, after which it can not be autoloaded any more."
       (lwarn 'spacemacs :warning "The `my-utils' feature was loaded too early")))
   (add-hook 'spacemacs-post-user-config-hook #'my-verify-utils-lazy-load t)
 
-  (defun my-find-custom-file ()
-    (interactive)
-    (find-file-existing custom-file))
-  (spacemacs/safe-set-leader-keys "fec" #'my-find-custom-file)
-
   ;; Customize Evil to use the Emacs heuristics for recording undoable changes,
   ;; instead of trying to emulate Vim exactly. The Emacs heuristics are more
   ;; useful, they make it possible to undo buffer changes that happened during
@@ -1105,10 +1110,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; See https://emacs.stackexchange.com/questions/3358/how-can-i-get-undo-behavior-in-evil-similar-to-vims
   (setq evil-want-fine-undo t)
 
+  ;; Provide a key binding to edit the `custom-file' which mirrors the
+  ;; keybindings to edit the `user-init-file' ("SPC f e i") and the
+  ;; `dotspacemacs-filepath' ("SPC f e d").
+  (spacemacs/safe-set-leader-keys "fec" #'my-find-custom-file)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.
-  (defun my-load-custom-file ()
-    (when (file-exists-p custom-file)
-      (load custom-file)))
   (add-hook 'spacemacs-post-user-config-hook #'my-load-custom-file t))

@@ -6,6 +6,12 @@
 ;;
 
 ;;;###autoload
+(defun my-find-custom-file ()
+  "Edit the `custom-file', in the current window."
+  (interactive)
+  (find-file-existing custom-file))
+
+;;;###autoload
 (defun insert-date (arg)
   "Inserts todays date into the current buffer.
 With PREFIX time will be included as well."

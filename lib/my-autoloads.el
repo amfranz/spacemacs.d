@@ -49,6 +49,21 @@ Configure garbage collection to occur when the user is idle.
 ;;;### (autoloads nil "my-config" "my-config.el" (0 0 0 0))
 ;;; Generated autoloads from my-config.el
 
+(autoload 'my-load-custom-file "my-config" "\
+Load and apply persisted custom settings.
+
+This function is supposed to be invoked only once, at the very end of the Emacs
+startup sequence. It is possible that additional packages have been installed
+earlier during startup sequence, in which case `package-selected-packages' has
+already been customized. Its value is important for `package-autoremove' to be
+able to function correctly.
+
+For this reason, if the variable `package-selected-packages' has a value, the
+current value will be preserved even if the custom file contains another value
+for it. Additionally, the custom file will be updated with this new value.
+
+\(fn)" nil nil)
+
 (autoload 'spacemacs/warn-if-leader-key-bound "my-config" "\
 Emit a warning if the leader key is already bound.
 
@@ -85,6 +100,11 @@ buffers of that mode already exist, for example in logic that is lazy loaded via
 
 ;;;### (autoloads nil "my-utils" "my-utils.el" (0 0 0 0))
 ;;; Generated autoloads from my-utils.el
+
+(autoload 'my-find-custom-file "my-utils" "\
+Edit the `custom-file', in the current window.
+
+\(fn)" t nil)
 
 (autoload 'insert-date "my-utils" "\
 Inserts todays date into the current buffer.

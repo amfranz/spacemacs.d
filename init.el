@@ -1066,6 +1066,10 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; its non-Gtk counterpart.
   (setq x-gtk-use-system-tooltips nil)
 
+  ;; Do not automatically hide the tooltip containing the message by flycheck.
+  ;; The default was to hide it after 5 seconds.
+  (setq flycheck-pos-tip-timeout -1)
+
   ;; Reduce the size of the compilation window, to prevent it from taking away
   ;; too much valuable screen estate when it pops up.
   (setq compilation-window-height 10)

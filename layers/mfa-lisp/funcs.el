@@ -1,5 +1,19 @@
 ;; -*- lexical-binding: t -*-
 
+(defun mfa-lisp/insert-at-beginning-of-sexp ()
+  "Go to the character following the previous opening parenthesis and enter
+insert state."
+  (interactive)
+  (lisp-state-prev-opening-paren)
+  (forward-char)
+  (evil-insert-state))
+
+(defun mfa-lisp/insert-at-end-of-sexp ()
+  "Go to the next closing parenthesis and enter insert state."
+  (interactive)
+  (lisp-state-next-closing-paren)
+  (evil-insert-state))
+
 (defun mfa-lisp/mark-emacs-lisp-list-with-prefix ()
   "Mark pairs (as defined by the mode), including pair chars and emacs lisp list
 prefixes."

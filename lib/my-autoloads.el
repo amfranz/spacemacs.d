@@ -20,12 +20,10 @@ This will return 2 on Hi-DPI displays, 1 otherwise.
 \(fn)" nil nil)
 
 (autoload 'display-adjusted-font-size "display" "\
-Calculates a recommended size in pixels for the default font based on the DPI
-of the monitor.
+Returns my preferred font size of 14 point multiplied by the screen scaling
+factor set by the desktop environment.
 
 \(fn)" nil nil)
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "display" '("display--pixels-per-inch")))
 
 ;;;***
 

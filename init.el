@@ -367,7 +367,7 @@ It should only modify the values of Spacemacs settings."
                                   :separator ,(if (display-assume-graphic-p)
                                                   'wave
                                                 'utf-8)
-                                  :separator-scale 1.0)
+                                  :separator-scale 1.2)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -378,7 +378,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font `("DejaVu Sans Mono for Powerline"
                                :size ,(if (display-graphic-p)
                                           (display-adjusted-font-size)
-                                        13)
+                                        14)
                                :weight normal
                                :width normal)
 

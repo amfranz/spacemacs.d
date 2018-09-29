@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst mfa-lice-packages '(lice))
 
 (defun mfa-lice/init-lice ()

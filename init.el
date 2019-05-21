@@ -2,10 +2,10 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
-;; Add this projects library directory to the load path.
-(push (concat dotspacemacs-directory "lib/") load-path)
+;; Add this projects shared library directory to the load path.
+(add-to-list 'load-path (concat dotspacemacs-directory "lib/"))
 
-;; Register autoloads for this projects library directory.
+;; Register autoloads for this projects shared library directory.
 (require 'my-autoloads)
 
 (defun dotspacemacs/layers ()

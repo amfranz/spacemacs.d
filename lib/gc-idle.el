@@ -17,10 +17,10 @@
 ;;;###autoload
 (defun gc-idle-enable ()
   "Configure garbage collection to occur when the user is idle."
-  (run-with-idle-timer 2 t #'gc-idle--collect))
+  (run-with-idle-timer 1 t #'gc-idle--collect))
 
 (defun gc-idle--enable-gc-advice (orig-fun &rest args)
-  "Around advice that turns garbage collection back on while the adviced
+  "Around advice that turns regular garbage collection back on while the adviced
 function is active."
   (let ((gc-cons-threshold 16777216) ; 16 MB
         (gc-cons-percentage 0.1))

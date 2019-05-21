@@ -134,6 +134,7 @@ like `yas--current-key'"
 
 (defun mfa-yasnippet/post-init-yasnippet()
   (setq yas-snippet-dirs (delete 'yas-installed-snippets-dir yas-snippet-dirs))
+  (add-hook 'text-mode-hook #'spacemacs/load-yasnippet)
   (autoload 'yas-hippie-try-expand "yasnippet"))
 
 (defun mfa-yasnippet/init-yasnippet-classic-snippets ()

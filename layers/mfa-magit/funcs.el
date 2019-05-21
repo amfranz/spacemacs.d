@@ -26,3 +26,26 @@
 
 (defun postpone-auto-revert-buffers-off (&rest args)
   (setq postpone-auto-revert-buffers nil))
+
+(defun auto-revert-handler--ad-bug21559 (orig-fun)
+  "Backport https://debbugs.gnu.org/cgi/bugreport.cgi?bug=21559."
+  (let ((revert-buffer-in-progress-p t))
+    (funcall orig-fun)))
+
+(defun vc-git--ad-bug21559 (orig-fn &rest args)
+  "Backport https://debbugs.gnu.org/cgi/bugreport.cgi?bug=21559."
+  (let ((process-environment process-environment))
+    (when revert-buffer-in-progress-p
+      (push "GIT_OPTIONAL_LOCKS=0" process-environment))
+    (apply orig-fn args)))
+
+(defun mfa-magit//adjust-diff-theme-faces ()
+  (when (memq 'zenburn custom-enabled-themes)
+    (custom-theme-set-faces
+     'zenburn
+     `(magit-diff-added-highlight ((t (:inherit diff-added))))
+     `(magit-diff-removed-highlight ((t (:inherit diff-removed)))))))
+
+(defun ad-use-vdiff-instead-of-ediff (orig-fun &rest args)
+  (cl-letf (((symbol-function 'ediff-files) #'vdiff-files))
+    (apply orig-fun args)))

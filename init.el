@@ -164,7 +164,8 @@ This function should only modify configuration layer settings."
      typescript
      vimscript
      vinegar
-     version-control
+     (version-control :variables
+                      version-control-diff-tool 'diff-hl)
      yaml
 
      ;; my custom layers
@@ -175,7 +176,6 @@ This function should only modify configuration layer settings."
      mfa-atomic-chrome
      mfa-bookmarks
      mfa-dash
-     mfa-diff
      mfa-dired
      mfa-direnv
      mfa-dokuwiki
@@ -218,7 +218,6 @@ This function should only modify configuration layer settings."
      mfa-sql
      mfa-treemacs
      mfa-vagrant
-     mfa-vdiff
      mfa-visual-ascii-mode
      mfa-xml
      mfa-yasnippet)
@@ -887,8 +886,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; are not yet bound.
   (spacemacs/safe-set-leader-keys
     "fyp" #'projectile-copy-project-path
-    "gd" #'magit-diff-this-file
     "id" #'insert-date
+    "gd" #'magit-diff-buffer-file
     "qe" #'server-edit
     "xll" #'sort-lines-by-length
     "xln" #'sort-numeric-fields)

@@ -35,14 +35,6 @@ With PREFIX time will be included as well."
   (lisp-interaction-mode))
 
 ;;;###autoload
-(defun magit-diff-this-file ()
-  (interactive)
-  (let ((file-name (buffer-file-name)))
-    (if file-name
-        (magit-diff "HEAD" nil (list buffer-file-name))
-      (error "Buffer not visiting a file"))))
-
-;;;###autoload
 (defun projectile-copy-project-path ()
   "Show and copy the full path to the current project directory in the minibuffer."
   (interactive)

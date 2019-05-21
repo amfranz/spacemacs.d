@@ -157,8 +157,7 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-shell 'eshell)
      shell-scripts
-     (sql :variables
-          sql-capitalize-keywords t)
+     sql
      syntax-checking
      systemd
      treemacs

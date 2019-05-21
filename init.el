@@ -175,7 +175,6 @@ This function should only modify configuration layer settings."
      mfa-atomic-chrome
      mfa-bookmarks
      mfa-dash
-     mfa-devdocs
      mfa-diff
      mfa-dired
      mfa-direnv

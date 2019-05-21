@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst mfa-shell-packages
   '((eterm-256color
      :location (recipe
@@ -9,6 +11,7 @@
                 :files (:defaults
                         "eterm-256color.ti")))
     eshell
+    shell-pop
     term))
 
 (defun mfa-shell/post-init-eshell ()
@@ -42,7 +45,14 @@
            "#FEFEFE"]   ; white
           eterm-256color-disable-bold nil)))
 
+(defun mfa-shell/post-init-shell-pop ()
+  ;; Do not kill shell buffers when the words 'finished' or 'exited' appear in
+  ;; the output of a process (who thought this is a good idea?).
+  (remove-hook 'term-mode-hook 'ansi-term-handle-close))
+
 (defun mfa-shell/post-init-term ()
   (with-eval-after-load 'term
-    (evil-set-initial-state 'term-mode 'emacs)
-    (define-key term-raw-map (kbd "s-v") #'term-paste)))
+    (evil-collection-init 'term)
+    (evil-define-key 'insert 'term-raw-map (kbd "C-c C-e") #'term-send-esc)
+    (dolist (mode '(term-mode-map term-raw-map))
+      (evil-define-key 'insert term-mode-map (kbd "s-v") #'term-paste))))

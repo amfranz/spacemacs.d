@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(defun mfa-shell-scripts//indent-tabs-mode ()
+(defun mfa-shell-scripts//adjust-indentation ()
   (setq indent-tabs-mode t
-        tab-width sh-indentation))
+        tab-width sh-basic-offset))

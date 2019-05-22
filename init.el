@@ -134,6 +134,7 @@ This function should only modify configuration layer settings."
      (markdown :variables
                markdown-live-preview-engine 'vmd)
      ;; mu4e
+     multiple-cursors
      nginx
      (org :variables
           org-enable-bootstrap-support t
@@ -185,7 +186,6 @@ This function should only modify configuration layer settings."
      mfa-el-patch
      mfa-environment
      mfa-evil
-     mfa-evil-mc
      mfa-evil-quickscope
      mfa-evil-textobj-anyblock
      mfa-fancy-narrow

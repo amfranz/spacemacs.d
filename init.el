@@ -824,7 +824,7 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=892611
   ;; https://github.com/syl20bnr/spacemacs/issues/10695
   ;; https://lists.nongnu.org/archive/html/bug-gnu-emacs/2018-01/msg00260.html
-  (push "Noto Color Emoji" face-ignored-fonts)
+  (add-to-list 'face-ignored-fonts "Noto Color Emoji")
 
   ;; Prevent the text selected in visual mode to automatically get copied into
   ;; the clipboard. Without this it would be pretty cumbersome to paste text
@@ -879,8 +879,8 @@ potentially deletes it, after which it can not be autoloaded any more."
     (global-hl-line-mode -1))
 
   ;; Additional miscellaneous file mode associations.
-  (push '("\\.gp\\'" . gnuplot-mode) auto-mode-alist)
-  (push '("\\.gpi\\'" . gnuplot-mode) auto-mode-alist)
+  (add-to-list 'auto-mode-alist '("\\.gp\\'" . gnuplot-mode))
+  (add-to-list 'auto-mode-alist '("\\.gpi\\'" . gnuplot-mode))
 
   ;; Remap helm-mini to helm-buffers-list.
   ;; Recent files are still available via "fr".

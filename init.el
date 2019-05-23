@@ -196,6 +196,7 @@ This function should only modify configuration layer settings."
      mfa-go
      mfa-google-this
      mfa-hcl
+     mfa-help
      mfa-highlight-symbols
      mfa-javascript
      mfa-journal

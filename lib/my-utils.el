@@ -15,20 +15,17 @@
   (find-file-existing custom-file))
 
 ;;;###autoload
-(defun insert-date (arg)
-  "Inserts todays date into the current buffer.
-With PREFIX time will be included as well."
-  (interactive "P")
-  (insert (if arg
-              (format-time-string "%Y-%m-%d %H:%M:%S")
-            (format-time-string "%Y-%m-%d"))))
+(defun my-insert-date-or-time ()
+  "Inserts the current time and/or date into the current buffer.
 
-;;;###autoload
-(defun kill-eshell ()
-  "Forces eshell to quit if it gets stuck with 'text is read-only'."
+The timestamp will be formatted by `format-time-string'. The user will be asked
+which format string to use."
   (interactive)
-  (let ((inhibit-read-only t))
-    (kill-this-buffer)))
+  (barf-if-buffer-read-only)
+  (insert (format-time-string (completing-read "Format string: "
+                                               '("%m/%d/%y"
+                                                 "%Y-%m-%d"
+                                                 "%Y-%m-%d %H:%M:%S")))))
 
 ;;;###autoload
 (defun lisp-sandbox ()

@@ -1160,6 +1160,15 @@ potentially deletes it, after which it can not be autoloaded any more."
     (find-file-existing user-emacs-directory))
   (spacemacs/safe-set-leader-keys "fes" #'my-find-spacemacs-dir)
 
+  ;; Workaround for display issues with squished font glyphs in tooltip windows.
+  (setq pos-tip-border-width 0)
+  (with-eval-after-load 'tooltip
+    (setcdr (assq 'border-width tooltip-frame-parameters) 0))
+
+  ;; Enable tooltips in graphical environments.
+  (spacemacs|do-after-display-system-init
+   (tooltip-mode))
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

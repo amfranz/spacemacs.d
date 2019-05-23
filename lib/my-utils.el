@@ -5,6 +5,9 @@
 ;; initiates a functionality implemented here.
 ;;
 
+(eval-when-compile
+  (require 'subr-x))
+
 ;;;###autoload
 (defun my-find-custom-file ()
   "Edit the `custom-file', in the current window."
@@ -58,6 +61,40 @@ With PREFIX time will be included as well."
                                         (list l1 l2)))))))))
 
 ;;;###autoload
+(defun sort-lines-insert (value)
+  (interactive "sInsert: ")
+  (let* ((prefix (buffer-substring-no-properties (point-at-bol)
+                                                 (point)))
+         (prefix-len (length prefix)))
+    ;; Walk lines backwards to find the first line with this prefix.
+    (let ((beginning-of-list (point-at-bol)))
+      (forward-line -1)
+      (while (and (not (bobp))
+                  (let ((line (buffer-substring-no-properties (point)
+                                                              (point-at-eol))))
+                    (string-prefix-p prefix line)))
+        (setq beginning-of-list (point))
+        (forward-line -1))
+      (goto-char beginning-of-list))
+    ;; Walk lines forwards to find the first line that is not less than the value.
+    (while (and (not (eobp))
+                (let ((line (buffer-substring-no-properties (point)
+                                                            (point-at-eol))))
+                  (and (string-prefix-p prefix line)
+                       (let ((suffix (substring-no-properties line prefix-len)))
+                         (string-lessp suffix value)))))
+      (forward-line))
+    ;; If we are not at the beginning of a line, then that means `forward-line'
+    ;; encountered the last line of the buffer and it was missing a newline. The
+    ;; point is now at the end of the last line of the buffer. We need to add
+    ;; the missing newline for the following insertion to behave sanely.
+    (unless (bolp)
+      (insert "\n"))
+    (insert prefix value "\n")
+    (forward-line -1)
+    (forward-char prefix-len)))
+
+;;;###autoload
 (defun open-terminal ()
   (interactive)
   (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))
@@ -74,5 +111,23 @@ With PREFIX time will be included as well."
   (interactive)
   (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))
     (call-process "xdg-open" nil 0 nil (expand-file-name default-directory))))
+
+;;;###autoload
+(defun renumber-list (start end)
+  "Renumber the list items in the current region."
+  (interactive "*r")
+  (save-excursion
+    (goto-char start)
+    (when (re-search-forward "[0-9]+" end t)
+      (let ((guide (match-string-no-properties 0))
+            (end-mark (copy-marker end)))
+        (unwind-protect
+            (let ((num (string-to-number guide))
+                  (fmt (format "%%0%dd" (length guide))))
+              (while (and (re-search-forward "^" end-mark t)
+                          (re-search-forward "[0-9]+" end-mark t))
+                (setq num (1+ num))
+                (replace-match (format fmt num))))
+          (set-marker end-mark nil))))))
 
 (provide 'my-utils)

@@ -130,6 +130,11 @@ Sort lines by length.
 
 \(fn REVERSE BEG END)" t nil)
 
+(autoload 'sort-lines-insert "my-utils" "\
+
+
+\(fn VALUE)" t nil)
+
 (autoload 'open-terminal "my-utils" "\
 
 
@@ -144,6 +149,13 @@ Sort lines by length.
 
 
 \(fn)" t nil)
+
+(autoload 'renumber-list "my-utils" "\
+Renumber the list items in the current region.
+
+\(fn START END)" t nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-utils" '(#("lisp-sandbox-buffer-name" 0 24 (face font-lock-variable-name-face fontified nil)))))
 
 ;;;***
 

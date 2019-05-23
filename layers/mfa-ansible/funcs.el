@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defun mfa-ansible//ansible-company-maybe-enable ()
   (when (spacemacs//ansible-should-enable?)
     (setq-local company-backends '(company-files
@@ -73,7 +75,9 @@
       (activate-mark))))
 
 (defun mfa-ansible//quote-yaml (input)
-  (if (string-prefix-p "{" input)
+  (if (or (zerop (length input))
+          (memq (string-to-char input)
+                (list ?# ?{ ?* ?!)))
       (concat "'" input "'")
     input))
 
@@ -109,8 +113,8 @@
         (needle2 " *- *\\([a-zA-Z0-9_\\-\\.]+:\\)?"))
     (beginning-of-line)
     (while (not (or (eq (point) (point-min))
-                    (looking-at needle1)
-                    (looking-at needle2)))
+                    (looking-at-p needle1)
+                    (looking-at-p needle2)))
       (forward-line -1))
     (when (or (looking-at needle1)
               (looking-at needle2))

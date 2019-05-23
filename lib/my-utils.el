@@ -106,7 +106,8 @@ minibuffer."
 (defun open-terminal ()
   (interactive)
   (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))
-    (call-process "konsole" nil 0 nil "--workdir" (expand-file-name default-directory))))
+    (call-process "konsole" nil 0 nil
+                  "--workdir" (expand-file-name default-directory))))
 
 ;;;###autoload
 (defun projectile-open-terminal ()

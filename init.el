@@ -1089,28 +1089,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; working on.
   (add-to-list 'spacemacs-indent-sensitive-modes 'sql-mode)
 
-  ;; Fix for paste with prefix argument, which per documentation is supposed to
-  ;; turn off auto-indent for the paste, but that doesn't work since a while.
-  ;; https://github.com/syl20bnr/spacemacs/issues/4219#issuecomment-246074883
-  (spacemacs|advise-commands
-   "indent" (yank yank-pop evil-paste-before evil-paste-after) around
-   "If current mode is not one of spacemacs-indent-sensitive-modes
- indent yanked text (with universal arg don't indent)."
-   (let ((prefix (ad-get-arg 0)))
-     (ad-set-arg 0 (unless (equal '(4) prefix) prefix))
-     (evil-start-undo-step)
-     ad-do-it
-     (if (and (not (equal '(4) prefix))
-              (not (member major-mode spacemacs-indent-sensitive-modes))
-              (or (derived-mode-p 'prog-mode)
-                  (member major-mode spacemacs-indent-sensitive-modes)))
-         (let ((transient-mark-mode nil)
-               (save-undo buffer-undo-list))
-           (spacemacs/yank-advised-indent-function (region-beginning)
-                                                   (region-end))))
-     (evil-end-undo-step)
-     (ad-set-arg 0 prefix)))
-
   ;; Configure `helm' to never pop up in a separate frame nor to excessively
   ;; alter the window configuration to force two windows only. This was a
   ;; problem with `helm-eshell' history completion.

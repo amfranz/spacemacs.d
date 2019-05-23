@@ -911,26 +911,29 @@ potentially deletes it, after which it can not be autoloaded any more."
   (add-to-list 'auto-mode-alist '("\\.gp\\'" . gnuplot-mode))
   (add-to-list 'auto-mode-alist '("\\.gpi\\'" . gnuplot-mode))
 
-  ;; Remap helm-mini to helm-buffers-list.
   ;; Recent files are still available via "fr".
-  (spacemacs/set-leader-keys "bb" #'helm-buffers-list)
+  (spacemacs/replace-leader-key "bb" #'lazy-helm/helm-mini #'helm-buffers-list)
 
-  ;; Move `other-frame' to a less easy-to-reach key because I hardly ever need
-  ;; it and bind its key to `ace-select-window' instead, which is more useful.
-  (spacemacs/set-leader-keys
-    "wo" #'ace-select-window
-    "wO" #'other-frame)
+  ;; The latter, to me, makes more sense to be at that key binding. The former
+  ;; also already has another binding ("SPC F o").
+  (spacemacs/replace-leader-key "wo" #'other-frame #'ace-select-window)
+
+  ;; This binding is a good mnemonic for this function. The former also already
+  ;; has another binding ("SPC w F").
+  (spacemacs/replace-leader-key "Fn" #'make-frame #'select-frame-by-name)
 
   ;; Additional miscellaneous key bindings. These might conflict with key
   ;; bindings set up by Spacemacs, so extra checks are performed to verify they
   ;; are not yet bound.
   (spacemacs/safe-set-leader-keys
-    "fyp" #'projectile-copy-project-path
-    "id" #'insert-date
+    "fyp" #'projectile-copy-project-root
     "gd" #'magit-diff-buffer-file
+    "id" #'my-insert-date-or-time
     "qe" #'server-edit
+    "xli" #'sort-lines-insert
     "xll" #'sort-lines-by-length
-    "xln" #'sort-numeric-fields)
+    "xln" #'sort-numeric-fields
+    "xlr" #'renumber-list)
 
   ;; Additional miscellaneous key bindings. These are bound under the prefix "o"
   ;; which Spacemacs specifically reserves for use by the user, so there should
@@ -939,11 +942,13 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/safe-set-leader-keys
     "o'" #'lisp-sandbox
     "od" #'open-file-manager
-    "ot" #'open-terminal
-    "opt" #'projectile-open-terminal)
+    "oT" #'open-terminal
+    "ot" #'spacemacs/shell-pop-ansi-term
+    "opT" #'projectile-open-terminal
+    "opt" #'projectile-open-shell)
 
   ;; Key binding to toggle sort-fold-case.
-  (spacemacs/warn-if-leader-key-bound "tS")
+  (spacemacs/warn-if-leader-key-bound "tS" #'spacemacs/toggle-sort-fold-case)
   (spacemacs|add-toggle sort-fold-case
     :status (bound-and-true-p sort-fold-case)
     :on (setq sort-fold-case t)

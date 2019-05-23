@@ -1206,6 +1206,28 @@ potentially deletes it, after which it can not be autoloaded any more."
   (with-eval-after-load 'evil-vars
     (add-to-list 'evil-change-commands 'evil-iedit-state/evil-change))
 
+  (defun my-projectile-goto-notes (&optional arg)
+    (interactive "P")
+    (if-let (project-path (projectile-project-root))
+        (let ((notes-org (concat project-path "notes.org")))
+          (if arg
+              (find-file-other-window notes-org)
+            (find-file notes-org)))
+      (message "WARNING: Current buffer is not part of a project!")))
+  (spacemacs/safe-set-leader-keys "pn" #'my-projectile-goto-notes)
+
+  (defun my-projectile-goto-git-info-exclude (&optional arg)
+    (interactive "P")
+    (if-let (project-path (projectile-project-root))
+        (let ((git-info-exclude (concat project-path ".git/info/exclude")))
+          (if (file-exists-p git-info-exclude)
+              (if arg
+                  (find-file-other-window git-info-exclude)
+                (find-file git-info-exclude))
+            (message "WARNING: Current project is not managed by git!")))
+      (message "WARNING: Current buffer is not part of a project!")))
+  (spacemacs/safe-set-leader-keys "pi" #'my-projectile-goto-git-info-exclude)
+
   ;; Workaround for display issues with squished font glyphs in tooltip windows.
   (setq pos-tip-border-width 0)
   (with-eval-after-load 'tooltip

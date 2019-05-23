@@ -867,8 +867,27 @@ potentially deletes it, after which it can not be autoloaded any more."
   (setq-default truncate-lines t)
 
   ;; Adjust thresholds for sensible window splitting.
-  (setq split-height-threshold 40
-        split-width-threshold 120)
+  ;; Typical dimensions of a full-frame window: 240x59
+  (setq split-height-threshold 30
+        split-width-threshold 140)
+
+  ;; Prefer horizontal splits over vertical ones.
+  (defun my-ad-split-window-sensibly (orig-fun &optional window)
+    (let ((window (or window (selected-window))))
+      (or (and (window-splittable-p window t)
+	             ;; Split window horizontally.
+	             (with-selected-window window
+	               (split-window-right)))
+	        (and (window-splittable-p window)
+	             ;; Split window vertically.
+	             (with-selected-window window
+	               (split-window-below)))
+          ;; For all other cases, fall back
+          ;; to the logic built into Emacs.
+          (funcall orig-fun window))))
+  ;; Can't simply set `split-window-preferred-function' because of
+  ;; `markdown-mode', `graphviz-dot-mode', `window-purpose-mode', et al
+  (advice-add 'split-window-sensibly :around #'my-ad-split-window-sensibly)
 
   ;; Tell paradox that we won't give it a GitHub token.
   (setq paradox-github-token t)

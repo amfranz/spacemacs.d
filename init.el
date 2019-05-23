@@ -127,6 +127,8 @@ This function should only modify configuration layer settings."
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
      imenu-list
+     (java :variables
+           java-backend 'lsp)
      (javascript :variables
                  javascript-fmt-tool 'prettier
                  js-indent-level 2)
@@ -196,6 +198,7 @@ This function should only modify configuration layer settings."
      mfa-hcl
      mfa-help
      mfa-highlight-symbols
+     mfa-java
      mfa-javascript
      mfa-journal
      mfa-json

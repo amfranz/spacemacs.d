@@ -696,7 +696,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; it does not have support to customize theme *variables*. We need to roll
   ;; our own.
   (defun my--adjust-theme-variables ()
-    (when (eq 'zenburn spacemacs--cur-theme)
+    (when (memq 'zenburn custom-enabled-themes)
       (zenburn-with-color-variables
         (custom-theme-set-variables
          'zenburn

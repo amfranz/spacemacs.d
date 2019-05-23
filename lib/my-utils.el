@@ -27,12 +27,21 @@ which format string to use."
                                                  "%Y-%m-%d"
                                                  "%Y-%m-%d %H:%M:%S")))))
 
+(defconst lisp-sandbox-buffer-name "*lisp-sandbox*")
+
 ;;;###autoload
 (defun lisp-sandbox ()
-  "Create a scratch buffer in lisp interaction mode"
+  "Switch to a scratch buffer with major mode `lisp-interaction-mode.'"
   (interactive)
-  (switch-to-buffer (get-buffer-create "*lisp-sandbox*"))
-  (lisp-interaction-mode))
+  (let ((buffer (get-buffer lisp-sandbox-buffer-name)))
+    (unless buffer
+      (setq buffer (get-buffer-create lisp-sandbox-buffer-name))
+      (with-current-buffer buffer
+        (let ((buffer-undo-list t))
+          (insert ";; -*- lexical-binding: t -*-\n"))
+        (lisp-interaction-mode)
+        (setq lexical-binding t)))
+    (switch-to-buffer buffer)))
 
 ;;;###autoload
 (defun projectile-copy-project-path ()

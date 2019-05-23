@@ -167,7 +167,6 @@ This function should only modify configuration layer settings."
      treemacs
      typescript
      vimscript
-     vinegar
      (version-control :variables
                       version-control-diff-tool 'diff-hl)
      yaml
@@ -861,13 +860,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Hide the useless helm lighter.
   (with-eval-after-load 'helm-mode
     (diminish 'helm-mode))
-
-  ;; Hide dired-omit-mode lighter, it is distracting.
-  (with-eval-after-load 'dired-x
-    (defun dired-x--diminish-dired-omit-mode ()
-      (diminish 'dired-omit-mode))
-    (advice-add 'dired-omit-startup
-                :after #'dired-x--diminish-dired-omit-mode))
 
   ;; Disable highlight current line, it is distracting.
   (when global-hl-line-mode

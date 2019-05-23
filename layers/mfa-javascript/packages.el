@@ -1,10 +1,13 @@
-(defvar mfa-javascript-packages '(coffee-mode compile flycheck nvm js-mode js2-mode projectile))
+;; -*- lexical-binding: t -*-
+
+(defconst mfa-javascript-packages '(coffee-mode compile flycheck nvm js-mode js2-mode projectile))
 
 (defun mfa-javascript/pre-init-coffee-mode ()
   (setq iced-coffee-cs-keywords '("async" "await" "defer")))
 
 (defun mfa-javascript/post-init-coffee-mode ()
   (with-eval-after-load 'flycheck
+    ;; TODO use flycheck-def-executable-var
     (setq flycheck-coffee-executable "nvpm-exec-coffee"
           flycheck-coffee-coffeelint-executable "nvpm-exec-coffeelint"))
 
@@ -28,23 +31,23 @@
 
   (with-eval-after-load 'coffee-mode
     ;; Smartparens is bad at triple quoted strings, electric pair mode handles them better.
-    ;(add-hook 'coffee-mode-hook (lambda ()
-    ;  (smartparens-mode -1)
-    ;  (electric-pair-mode t)))
+    ;; (add-hook 'coffee-mode-hook (lambda ()
+    ;;   (smartparens-mode -1)
+    ;;   (electric-pair-mode t)))
 
     (setq coffee-tab-width 2
           coffee-args-compile '("-c" "--bare"))
 
     (add-hook 'coffee-mode-hook (lambda ()
-      (subword-mode t)
-      (indent-guide-mode t)))
+                                  (subword-mode t)
+                                  (indent-guide-mode t)))
 
     ;;
     ;; More colors, more fun (edit: this fun is distracting...)
     ;;
-    ;(add-hook 'coffee-mode-hook (lambda ()
-    ;  (if (fboundp 'rainbow-identifiers-mode)
-    ;    (rainbow-identifiers-mode 1))))
+                                        ;(add-hook 'coffee-mode-hook (lambda ()
+                                        ;  (if (fboundp 'rainbow-identifiers-mode)
+                                        ;    (rainbow-identifiers-mode 1))))
 
     ;;
     ;; Fixed Spacemacs integration.
@@ -141,19 +144,20 @@ comma or dot."
   ;; This is a copy of Flychecks built-in gjslint checker - but this one
   ;; supports versions of gjslint that prefix error codes with "New Error ",
   ;; as well as negative error codes.
-  (with-eval-after-load 'flycheck
-    (flycheck-define-checker javascript-gjslint
-      "A Javascript syntax and style checker using Closure Linter.
+  (when nil  ;; FIXME causes issues in SPC e v
+    (with-eval-after-load 'flycheck
+      (flycheck-define-checker javascript-gjslint
+        "A Javascript syntax and style checker using Closure Linter.
 
 See URL `https://developers.google.com/closure/utilities'."
-      :command ("gjslint" "--unix_mode"
-                (config-file "--flagfile" flycheck-gjslintrc)
-                source)
-      :error-patterns ((warning
-                        line-start (file-name) ":" line ":(" (optional "New Error ")
-                        (id (optional "-") (one-or-more digit)) ") " (message) line-end))
-      :modes (js-mode js2-mode js3-mode)
-      :next-checkers ((warning . javascript-jscs)))))
+        :command ("gjslint" "--unix_mode"
+                  (config-file "--flagfile" flycheck-gjslintrc)
+                  source)
+        :error-patterns ((warning
+                          line-start (file-name) ":" line ":(" (optional "New Error ")
+                          (id (optional "-") (one-or-more digit)) ") " (message) line-end))
+        :modes (js-mode js2-mode js3-mode)
+        :next-checkers ((warning . javascript-jscs))))))
 
 (defun mfa-javascript/init-nvm ()
   (use-package nvm

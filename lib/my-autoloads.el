@@ -113,24 +113,22 @@ Edit the `custom-file', in the current window.
 
 \(fn)" t nil)
 
-(autoload 'insert-date "my-utils" "\
-Inserts todays date into the current buffer.
-With PREFIX time will be included as well.
+(autoload 'my-insert-date-or-time "my-utils" "\
+Inserts the current time and/or date into the current buffer.
 
-\(fn ARG)" t nil)
-
-(autoload 'kill-eshell "my-utils" "\
-Forces eshell to quit if it gets stuck with 'text is read-only'.
+The timestamp will be formatted by `format-time-string'. The user will be asked
+which format string to use.
 
 \(fn)" t nil)
 
 (autoload 'lisp-sandbox "my-utils" "\
-Create a scratch buffer in lisp interaction mode
+Switch to a scratch buffer with major mode `lisp-interaction-mode.'
 
 \(fn)" t nil)
 
-(autoload 'projectile-copy-project-path "my-utils" "\
-Show and copy the full path to the current project directory in the minibuffer.
+(autoload 'projectile-copy-project-root "my-utils" "\
+Show and copy the full path to the current project directory in the
+minibuffer.
 
 \(fn)" t nil)
 

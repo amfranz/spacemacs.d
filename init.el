@@ -201,6 +201,7 @@ This function should only modify configuration layer settings."
      mfa-javascript
      mfa-journal
      mfa-json
+     mfa-layouts
      mfa-lice
      mfa-lisp
      mfa-magit

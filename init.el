@@ -235,7 +235,8 @@ This function should only modify configuration layer settings."
      mfa-unbound
      mfa-visual-ascii-mode
      mfa-xml
-     mfa-yasnippet)
+     mfa-yasnippet
+     mfa-yequake)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these

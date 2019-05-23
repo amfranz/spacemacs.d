@@ -1215,6 +1215,20 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs|do-after-display-system-init
    (tooltip-mode))
 
+  ;; Add a keybinding to open magit configured to manage the yadm repository.
+  (with-eval-after-load 'tramp
+    (add-to-list 'tramp-methods
+                 '("yadm"
+                   (tramp-login-program "yadm")
+                   (tramp-login-args (("enter")))
+                   (tramp-login-env (("SHELL") ("/bin/sh")))
+                   (tramp-remote-shell "/bin/sh")
+                   (tramp-remote-shell-args ("-c")))))
+  (defun yadm-magit-status ()
+    (interactive)
+    (magit-status "/yadm::"))
+  (spacemacs/safe-set-leader-keys "oy" #'yadm-magit-status)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

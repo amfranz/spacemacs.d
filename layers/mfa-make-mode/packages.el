@@ -1,15 +1,18 @@
-(defconst mfa-make-mode-packages '(make-mode))
+;; -*- lexical-binding: t -*-
 
-(defun mfa-make-mode/post-init-make-mode ()
-  (with-eval-after-load 'make-mode
-    ;; Make tabs visible in Makefiles.
-    (add-hook 'makefile-mode-hook
-              (lambda ()
-                (require 'whitespace)
-                (setq buffer-display-table (or buffer-display-table (make-display-table)))
-                (aset buffer-display-table ?\t (vconcat (vector (make-glyph-code ?» 'whitespace-tab)) (make-vector (1- tab-width) ? ))))
-              t)
+(defconst mfa-make-mode-packages '(company
+                                   (make-mode :location built-in)))
 
-    ;; Adjust Makefile indentation.
-    (add-hook 'makefile-mode-hook (lambda ()
-                                    (setq tab-width 4)))))
+(defun mfa-make-mode/post-init-company ()
+  (add-hook 'makefile-mode-hook #'company-mode))
+
+(defun mfa-make-mode/init-make-mode ()
+  (use-package make-mode
+    :defer t
+    :config
+    (progn
+      ;; Adjust `tab-width'.
+      (add-hook 'makefile-mode-hook #'mfa-make-mode//adjust-tab-width)
+
+      ;; Adjust `evil-shift-width'.
+      (push '(makefile-mode . tab-width) spacemacs--indent-variable-alist))))

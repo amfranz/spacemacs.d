@@ -676,6 +676,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq tramp-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%r@%%h:%%p' -o ControlPersist=no")
 
+  ;; evil-collection will complain if this is not set before evil is loaded.
+  (setq evil-want-keybinding nil)
+
   ;; TODO submit this upstream
   ;; Fixes the guess of the package description file for the `eterm-256color' package.
   ;; This is a replacement for `package--description-file' in `subr.el'. The only

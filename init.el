@@ -1154,6 +1154,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; `dotspacemacs-filepath' ("SPC f e d").
   (spacemacs/safe-set-leader-keys "fec" #'my-find-custom-file)
 
+  (defun my-find-spacemacs-dir ()
+    "Edit the `user-emacs-directory', in the current window."
+    (interactive)
+    (find-file-existing user-emacs-directory))
+  (spacemacs/safe-set-leader-keys "fes" #'my-find-spacemacs-dir)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

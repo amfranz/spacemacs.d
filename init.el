@@ -107,6 +107,7 @@ This function should only modify configuration layer settings."
      copy-as-format
      cscope
      csv
+     dap
      (dash :variables
            helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
      docker
@@ -134,6 +135,9 @@ This function should only modify configuration layer settings."
                  js-indent-level 2)
      (json :variables
            json-fmt-tool 'prettier)
+     (lsp :variables
+          lsp-ui-doc-enable nil
+          lsp-ui-sideline-enable nil)
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)
@@ -157,6 +161,7 @@ This function should only modify configuration layer settings."
            ruby-test-runner 'rspec
            ruby-version-manager 'rbenv)
      (rust :variables
+           rust-backend 'lsp
            rust-format-on-save t)
      search-engine
      (shell :variables
@@ -206,6 +211,7 @@ This function should only modify configuration layer settings."
      mfa-layouts
      mfa-lice
      mfa-lisp
+     mfa-lsp
      mfa-magit
      mfa-make-mode
      mfa-markdown

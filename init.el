@@ -1228,6 +1228,12 @@ potentially deletes it, after which it can not be autoloaded any more."
       (message "WARNING: Current buffer is not part of a project!")))
   (spacemacs/safe-set-leader-keys "pi" #'my-projectile-goto-git-info-exclude)
 
+  (defun my-select-mru-window ()
+    (interactive)
+    (when-let ((window (get-mru-window nil t t)))
+      (select-window window)))
+  (spacemacs/set-leader-keys "ww" #'my-select-mru-window)
+
   ;; Workaround for display issues with squished font glyphs in tooltip windows.
   (setq pos-tip-border-width 0)
   (with-eval-after-load 'tooltip

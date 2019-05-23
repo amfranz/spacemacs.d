@@ -885,7 +885,7 @@ potentially deletes it, after which it can not be autoloaded any more."
     (diminish 'helm-mode))
 
   ;; Disable highlight current line, it is distracting.
-  (when global-hl-line-mode
+  (when (bound-and-true-p global-hl-line-mode)
     (global-hl-line-mode -1))
 
   ;; Additional miscellaneous file mode associations.

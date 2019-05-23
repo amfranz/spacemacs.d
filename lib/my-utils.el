@@ -119,6 +119,13 @@ With PREFIX time will be included as well."
     (call-process "xdg-open" nil 0 nil (expand-file-name default-directory))))
 
 ;;;###autoload
+(defun dedup-safe-local-variables ()
+  (let ((dedup (copy-list safe-local-variable-values)))
+    (delete-dups dedup)
+    (unless (eq (length dedup) (length safe-local-variable-values))
+      (customize-save-variable 'safe-local-variable-values dedup))))
+
+;;;###autoload
 (defun renumber-list (start end)
   "Renumber the list items in the current region."
   (interactive "*r")

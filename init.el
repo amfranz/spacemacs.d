@@ -1092,14 +1092,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; that the window will get closed in addition to killing the buffer.
   (define-key evil-list-view-mode-map "q" #'kill-buffer-and-window)
 
-  ;; The `my-utils' library is my place to put features that can be autoloaded
-  ;; when the user invokes them, to reduce initial startup time. This is a
-  ;; safety check that verifies that the library did not get eagerly loaded.
-  (defun my-verify-utils-lazy-load ()
-    (when (featurep 'my-utils)
-      (lwarn 'spacemacs :warning "The `my-utils' feature was loaded too early")))
-  (add-hook 'spacemacs-post-user-config-hook #'my-verify-utils-lazy-load t)
-
   ;; Customize Evil to use the Emacs heuristics for recording undoable changes,
   ;; instead of trying to emulate Vim exactly. The Emacs heuristics are more
   ;; useful, they make it possible to undo buffer changes that happened during

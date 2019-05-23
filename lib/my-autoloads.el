@@ -62,25 +62,32 @@ for it. Additionally, the custom file will be updated with this new value.
 
 \(fn)" nil nil)
 
-(autoload 'spacemacs/warn-if-leader-key-bound "my-config" "\
-Emit a warning if the leader key is already bound.
+(autoload 'spacemacs/replace-leader-key "my-config" "\
+Similar to `spacemacs/set-leader-keys' for a single binding, but emits a
+warning if the key is bound to neither ORIG nor DEF.
 
-\(fn KEY)" nil nil)
+\(fn KEY ORIG DEF)" nil nil)
+
+(autoload 'spacemacs/warn-if-leader-key-bound "my-config" "\
+Emit a warning if the leader key is already bound to a different defun.
+
+\(fn KEY DEF)" nil nil)
 
 (autoload 'spacemacs/safe-set-leader-keys "my-config" "\
 Like `spacemacs/set-leader-keys' but emits a warning if the key is already
-bound.
+bound to a different defun.
 
 \(fn &rest BINDINGS)" nil nil)
 
 (autoload 'spacemacs/warn-if-leader-key-for-major-mode-bound "my-config" "\
-Emit a warning if the leader key for a major mode is already bound.
+Emit a warning if the leader key for a major mode is already bound to a
+different defun.
 
-\(fn MODE KEY)" nil nil)
+\(fn MODE KEY DEF)" nil nil)
 
 (autoload 'spacemacs/safe-set-leader-keys-for-major-mode "my-config" "\
 Like `spacemacs/set-leader-keys-for-major-mode' but emits a warning if the
-key is already bound.
+key is already bound to a different defun.
 
 \(fn MODE &rest BINDINGS)" nil nil)
 
@@ -93,6 +100,8 @@ buffers of that mode already exist, for example in logic that is lazy loaded via
 `with-eval-after-load' or `eval-after-load'.
 
 \(fn MODE FUN)" nil nil)
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-config" '("spacemacs//lookup-leader-key")))
 
 ;;;***
 
@@ -154,6 +163,11 @@ Sort lines by length.
 
 
 \(fn)" t nil)
+
+(autoload 'dedup-safe-local-variables "my-utils" "\
+
+
+\(fn)" nil nil)
 
 (autoload 'renumber-list "my-utils" "\
 Renumber the list items in the current region.

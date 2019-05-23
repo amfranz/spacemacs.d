@@ -1,4 +1,15 @@
-(defconst mfa-bookmarks-packages '(bm helm-bm))
+;; -*- lexical-binding: t -*-
+
+;; TODO Spacemacs has a `bm' layer now
+(defconst mfa-bookmarks-packages '(bm
+                                   (bookmark+ :location (recipe :fetcher wiki
+                                                                :files ("bookmark+-1.el"
+                                                                        "bookmark+-bmu.el"
+                                                                        "bookmark+-key.el"
+                                                                        "bookmark+-lit.el"
+                                                                        "bookmark+-mac.el"
+                                                                        "bookmark+.el")))
+                                   helm-bm))
 
 (defun mfa-bookmarks/post-init-bm ()
   (setq bm-cycle-all-buffers nil
@@ -26,8 +37,11 @@
     '(("p" #'bm-previous)))
 
   ;; Eagerly load bookmarks when Emacs starts.
-  (add-hook 'spacemacs-post-user-config-hook
-            (lambda () (require 'bm)))
+  ;; TODO maybe this could be moved to a `find-file' advice or some file open
+  ;;      hook. The purpose is to make the bookmarks appear even without having
+  ;;      to trigger the load of `bm' by invoking one of the "ab?" key bindings.
+  ;; (add-hook 'spacemacs-post-user-config-hook
+  ;;           (lambda () (require 'bm)))
 
   ;; This advice is unnecessary when bookmarks are loaded eagerly.
   (advice-remove 'spacemacs/bm-transient-state/body #'bm-buffer-restore)
@@ -41,6 +55,10 @@
     "k" #'bm-show-prev
     "v" #'bm-show-bookmark
     (kbd "RET") #'bm-show-goto-bookmark))
+
+(defun mfa-bookmarks/init-bookmark+ ()
+  (use-package bookmark+
+    :defer t))
 
 (defun mfa-bookmarks/init-helm-bm ()
   (use-package helm-bm

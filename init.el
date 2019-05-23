@@ -1161,6 +1161,12 @@ potentially deletes it, after which it can not be autoloaded any more."
     (find-file-existing user-emacs-directory))
   (spacemacs/safe-set-leader-keys "fes" #'my-find-spacemacs-dir)
 
+  ;; cw (change word) in iedit-mode swallows whitespace after word. causes
+  ;; iedit-mode to quit. normal mode does not exhibit this behavior.
+  ;; https://github.com/emacs-evil/evil/blob/dc936936666595afdbdbb4cc44c1f82e74c6802c/evil-commands.el#L309-L311
+  (with-eval-after-load 'evil-vars
+    (add-to-list 'evil-change-commands 'evil-iedit-state/evil-change))
+
   ;; Workaround for display issues with squished font glyphs in tooltip windows.
   (setq pos-tip-border-width 0)
   (with-eval-after-load 'tooltip

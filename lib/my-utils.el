@@ -44,11 +44,13 @@ which format string to use."
     (switch-to-buffer buffer)))
 
 ;;;###autoload
-(defun projectile-copy-project-path ()
-  "Show and copy the full path to the current project directory in the minibuffer."
+(defun projectile-copy-project-root ()
+  "Show and copy the full path to the current project directory in the
+minibuffer."
   (interactive)
-  (let ((project-root (projectile-project-root)))
-    (message "%s" (kill-new project-root))))
+  (if-let (project-root (projectile-project-root))
+      (message "%s" (kill-new project-root))
+    (message "WARNING: Current buffer is not part of a project!")))
 
 ;; http://stackoverflow.com/questions/30697523/how-to-get-emacs-to-sort-lines-by-length
 ;;;###autoload

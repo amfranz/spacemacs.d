@@ -232,6 +232,7 @@ This function should only modify configuration layer settings."
      mfa-sql
      mfa-treemacs
      mfa-vagrant
+     mfa-unbound
      mfa-visual-ascii-mode
      mfa-xml
      mfa-yasnippet)

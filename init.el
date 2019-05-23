@@ -847,6 +847,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   (setq helm-default-external-file-browser "xdg-open"
         helm-raise-command "wmctrl -xa %s")
 
+  ;; This is reported to speed up helm frames under Emacs 26.x, for details see
+  ;; https://github.com/emacs-helm/helm/issues/1976. A user reports that this
+  ;; makes Emacs on Windows unusable, so we'll restrict this to Linux.
+  (when (and (= emacs-major-version 26) (string-equal system-type "gnu/linux"))
+    (setq x-wait-for-event-timeout nil))
+
   ;; Open a dired buffer when switching to a project.
   (setq projectile-switch-project-action #'projectile-dired)
 

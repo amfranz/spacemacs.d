@@ -1161,6 +1161,20 @@ potentially deletes it, after which it can not be autoloaded any more."
     (find-file-existing user-emacs-directory))
   (spacemacs/safe-set-leader-keys "fes" #'my-find-spacemacs-dir)
 
+  ;; The first call to `completing-read' might not use helm because it is not
+  ;; loaded yet due to the lazy-load mechanics. This forces helm to be loaded
+  ;; before the first load to `completing-read'.
+  (defun my-require-before-call (feat func)
+    (unless (featurep feat)
+      (let ((req-func (intern (concat (symbol-name func) "--require-"
+                                      (symbol-name feat)))))
+        (fset req-func (lambda (&rest ignore) (require feat)))
+        (advice-add func :before req-func)
+        (with-eval-after-load feat
+          (advice-remove func req-func)
+          (fmakunbound req-func)))))
+  (my-require-before-call 'helm 'completing-read)
+
   ;; cw (change word) in iedit-mode swallows whitespace after word. causes
   ;; iedit-mode to quit. normal mode does not exhibit this behavior.
   ;; https://github.com/emacs-evil/evil/blob/dc936936666595afdbdbb4cc44c1f82e74c6802c/evil-commands.el#L309-L311

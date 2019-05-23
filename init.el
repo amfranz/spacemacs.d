@@ -143,7 +143,6 @@ This function should only modify configuration layer settings."
           org-enable-reveal-js-support t
           org-projectile-file "notes.org"
           org-want-todo-bindings t)
-     php
      plantuml
      prettier
      prodigy

@@ -1112,6 +1112,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   (setq helm-always-two-windows nil
         helm-show-completion-display-function #'spacemacs//display-helm-window)
 
+  ;; set to t by helm-read-file-name-handler-1
+  (defun my-helm-always-two-windows-off (orig-fun &rest args)
+    (let (helm-always-two-windows)
+      (apply orig-fun args)))
+  (advice-add 'helm-read-file-name :around #'my-helm-always-two-windows-off)
+
   ;; The GTK system tooltips do not take HiDPI into account, thus placing the
   ;; tooltips incorrectly. Apart from that, the Gtk tooltip looks uglier than
   ;; its non-Gtk counterpart.

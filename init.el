@@ -98,7 +98,10 @@ This function should only modify configuration layer settings."
      bm
      (c-c++ :variables
             c-c++-enable-c++11 t
-            c-c++-enable-clang-support t)
+            c-c++-enable-clang-format-on-save t
+            c-c++-default-mode-for-headers 'c++-mode
+            c-c++-backend 'lsp-ccls
+            c-c++-lsp-cache-dir (concat spacemacs-cache-directory "lsp-ccls"))
      clojure
      colors
      copy-as-format
@@ -175,6 +178,7 @@ This function should only modify configuration layer settings."
      mfa-artist
      mfa-atomic-chrome
      mfa-bookmarks
+     mfa-cpp
      mfa-dash
      mfa-dired
      mfa-direnv
@@ -1013,6 +1017,9 @@ potentially deletes it, after which it can not be autoloaded any more."
     (defun my-evil-surround-pairs-c++-mode ()
       (push '(?< . ("< " . " >")) evil-surround-pairs-alist))
     (add-lazy-hook 'c++-mode #'my-evil-surround-pairs-c++-mode))
+
+  ;; QMake C++ project UI designer files.
+  (add-to-list 'auto-mode-alist '("\\.ui\\'" . nxml-mode))
 
   ;; `evil-surround' should use "'" as end delimiter for "`" in lisp modes. This
   ;; brings it in line with the behavior of `smartparens', which does the same.

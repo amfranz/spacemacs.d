@@ -1166,6 +1166,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   (advice-add 'evil-delete :filter-args
               #'evil-delete--kill-on-visual-paste)
 
+  ;; Make paste via Super-v work. I configured my terminal program with the same
+  ;; key binding. This makes Super-v a universal paste, which I hope will lead
+  ;; less mental overhead for such a common operation.
+  (define-key evil-normal-state-map (kbd "s-v") #'evil-paste-before)
+  (define-key evil-insert-state-map (kbd "s-v") #'evil-paste-before)
+
   ;; Provide a key binding to edit the `custom-file' which mirrors the
   ;; keybindings to edit the `user-init-file' ("SPC f e i") and the
   ;; `dotspacemacs-filepath' ("SPC f e d").

@@ -121,8 +121,6 @@ This function should only modify configuration layer settings."
          go-tab-width 4
          go-use-golangci-lint t)
      graphviz
-     (gtags :variables
-            gtags-enable-by-default nil)
      helm
      (html :variables
            web-fmt-tool 'prettier)

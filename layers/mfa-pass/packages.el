@@ -12,13 +12,13 @@
   (use-package helm-pass
     :defer t
     :init
-    (spacemacs/set-leader-keys "ou" #'helm-pass)))
+    (spacemacs/set-leader-keys "oapy" #'helm-pass)))
 
 (defun mfa-pass/init-pass ()
   (use-package pass
     :defer t
     :init
-    (spacemacs/set-leader-keys "oU" #'pass)
+    (spacemacs/set-leader-keys "oapp" #'pass)
     :config
     (progn
       ;; Evil-friendly key bindings.

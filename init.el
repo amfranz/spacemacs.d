@@ -1262,6 +1262,10 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs|do-after-display-system-init
    (tooltip-mode))
 
+  (spacemacs/safe-set-leader-keys
+    "px" #'projectile-run-project
+    "fa" #'ff-find-other-file)
+
   ;; Add a keybinding to open magit configured to manage the yadm repository.
   (with-eval-after-load 'tramp
     (add-to-list 'tramp-methods

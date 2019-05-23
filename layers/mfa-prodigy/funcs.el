@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defun mfa-prodigy//load-private-directory ()
+(defun mfa-prodigy//load-services ()
   "Loads prodigy service definitions in ~/.emacs.d/private/prodigy/*.el"
   (let ((prodigy-directory (concat spacemacs-private-directory "prodigy/")))
     (when (file-directory-p prodigy-directory)

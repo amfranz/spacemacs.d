@@ -4,6 +4,8 @@
 
 (defun mfa-prodigy/post-init-prodigy ()
   (with-eval-after-load 'prodigy
-    (evilified-state-evilify prodigy-view-mode prodigy-view-mode-map
-      "K" #'prodigy-view-clear-buffer)
-    (mfa-prodigy//load-private-directory)))
+    ;; TODO submit this fix upstream
+    (evil-define-key 'evilified prodigy-mode-map "c" nil)
+    (evil-define-key 'evilified prodigy-view-mode-map
+      "c" #'prodigy-view-clear-buffer)
+    (mfa-prodigy//load-services)))

@@ -1262,6 +1262,10 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs|do-after-display-system-init
    (tooltip-mode))
 
+  (defun mfa-rust//sync-fill-column-with-rustcmd ()
+    (setq fill-column 100))
+  (add-hook 'rust-mode-hook #'mfa-rust//sync-fill-column-with-rustcmd)
+
   (spacemacs/safe-set-leader-keys
     "px" #'projectile-run-project
     "fa" #'ff-find-other-file)

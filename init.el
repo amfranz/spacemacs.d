@@ -853,6 +853,10 @@ potentially deletes it, after which it can not be autoloaded any more."
   (when (and (= emacs-major-version 26) (string-equal system-type "gnu/linux"))
     (setq x-wait-for-event-timeout nil))
 
+  ;; Draw block cursor as wide as the glyph under it. This makes it obvious
+  ;; whether the cursor is currently over a TAB or a SPC character.
+  (setq x-stretch-cursor t)
+
   ;; Open a dired buffer when switching to a project.
   (setq projectile-switch-project-action #'projectile-dired)
 

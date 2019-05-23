@@ -20,3 +20,13 @@
 (defun spacemacs/go-run-package-benchmarks ()
   (interactive)
   (spacemacs/go-run-tests "-bench=."))
+
+(defun mfa-go//disable-eldoc ()
+  (eldoc-mode -1))
+
+(defun my--ad-save-match-data (orig-fun &rest args)
+  (save-match-data
+    (apply orig-fun args)))
+
+(defun mfa-go--ffa-trailing-separator ()
+  (setq-local fill-function-arguments-trailing-separator t))

@@ -102,7 +102,7 @@ This function should only modify configuration layer settings."
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-backend 'lsp-ccls
             c-c++-lsp-cache-dir (concat spacemacs-cache-directory "lsp-ccls"))
-     clojure
+     (clojure :packages (not clojure-cheatsheet))
      colors
      copy-as-format
      cscope

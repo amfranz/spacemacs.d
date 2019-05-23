@@ -1154,6 +1154,18 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; See https://emacs.stackexchange.com/questions/3358/how-can-i-get-undo-behavior-in-evil-similar-to-vims
   (setq evil-want-fine-undo t)
 
+  ;; Several paste operations in a row with an active visual selection should
+  ;; paste the same text. This is the most intuitive behavior for me, and I use
+  ;; this operation pretty often. For swapping text there is is still 'gx'.
+  (setq evil-kill-on-visual-paste nil)
+  (defun evil-delete--kill-on-visual-paste (args)
+    (if (and (not evil-kill-on-visual-paste)
+             (eq this-command 'evil-visual-paste))
+        (append args '(?_))
+      args))
+  (advice-add 'evil-delete :filter-args
+              #'evil-delete--kill-on-visual-paste)
+
   ;; Provide a key binding to edit the `custom-file' which mirrors the
   ;; keybindings to edit the `user-init-file' ("SPC f e i") and the
   ;; `dotspacemacs-filepath' ("SPC f e d").

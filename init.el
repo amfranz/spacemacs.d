@@ -231,7 +231,6 @@ This function should only modify configuration layer settings."
      mfa-tmux
      mfa-sql
      mfa-treemacs
-     mfa-vagrant
      mfa-unbound
      mfa-visual-ascii-mode
      mfa-xml

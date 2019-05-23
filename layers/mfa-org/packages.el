@@ -8,7 +8,8 @@
                              org-trello
                              orglink
                              plantuml
-                             poporg))
+                             poporg
+                             side-notes))
 
 (defun mfa-org/init-fontawesome ()
   (use-package fontawesome
@@ -21,11 +22,8 @@
   ;; match found by `helm-ag'.
   (advice-add 'helm-ag--find-file-action :after #'mfa-org//org-show-entry))
 
-(defun mfa-org/init-helm-org-rifle ()
-  (use-package helm-org-rifle
-    :defer t
-    :init
-    (spacemacs/safe-set-leader-keys "o/" #'helm-org-rifle-org-directory)))
+(defun mfa-org/post-init-helm-org-rifle ()
+  (spacemacs/safe-set-leader-keys "o/" #'helm-org-rifle-org-directory))
 
 (defun mfa-org/init-helm-orgcard ()
   (use-package helm-orgcard
@@ -40,11 +38,15 @@
             #'mfa-org//custom-theme-set-variables))
 
 (defun mfa-org/post-init-org ()
+  ;; share org files over Syncthing.
+  (setq org-directory "~/Sync/org/")
+
+  ;; Spacemacs sets this before knowing our value for `org-directory',
+  ;; therefore we are correcting it here.
+  (setq org-default-notes-file (expand-file-name "notes.org" org-directory))
+
   ;; automatically indent org sections.
   (setq org-startup-indented t)
-
-  ;; share org files over Dropbox.
-  (setq org-directory "~/Dropbox/Workspace/org/")
 
   ;; set up agendas.
   (setq org-agenda-files (list (concat org-directory "agenda/"))
@@ -52,6 +54,23 @@
         org-refile-allow-creating-parent-nodes 'confirm
         org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-refile-use-outline-path 'file)
+
+  (setq org-use-sub-superscripts '{}
+        org-export-with-sub-superscripts '{})
+
+  (setq org-hide-emphasis-markers t
+        org-pretty-entities t)
+
+  ;; Warn about editing an invisible (folded) area.
+  (setq org-catch-invisible-edits 'show-and-error)
+
+  ;; customize org source block editing.
+  (setq org-src-window-setup 'current-window
+        org-src-preserve-indentation t)
+
+  ;; TODO https://emacs.stackexchange.com/questions/20574/default-inline-image-background-in-org-mode?rq=1
+
+  ;; TODO ob-blockdiag: --no-transparency --antialias -T (type)
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
@@ -68,10 +87,20 @@
   (setq org-download-heading-lvl nil)
 
   ;; extra keybindings for org functionality.
-  (spacemacs/safe-set-leader-keys "oi" #'mfa-org/org-index)
-  (spacemacs/declare-prefix-for-mode 'org-mode "mot" "toggles")
+  (spacemacs/declare-prefix "oo" "org")
+  (spacemacs/safe-set-leader-keys
+    "ooa" #'mfa-org/org-agenda
+    "oob" #'mfa-org/org-backlog
+    "ooi" #'mfa-org/org-index)
   (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
-    "oti" #'org-toggle-inline-images))
+    "or" #'org-redisplay-inline-images
+    "oe" #'counsel-org-entity)
+
+  (advice-add 'er/expand-region :around
+              #'mfa-org//ad-preserve-outline-visibility)
+
+  ;; Automatically redisplay inline images.
+  (add-hook 'org-babel-after-execute-hook #'org-display-inline-images))
 
 (defun mfa-org/post-init-org-trello ()
   (setq org-trello-input-completion-mechanism 'helm)
@@ -95,3 +124,12 @@
     :defer t
     :init
     (spacemacs/safe-set-leader-keys "xp" #'poporg-dwim)))
+
+(defun mfa-org/init-side-notes ()
+  (use-package side-notes
+    :defer t
+    :init
+    (progn
+      (setq-default side-notes-file "notes.org")
+      (spacemacs/safe-set-leader-keys "on" #'side-notes-toggle-notes)
+      (autoload 'side-notes-toggle-notes "side-notes"))))

@@ -145,6 +145,11 @@ Sort lines by length.
 
 \(fn)" t nil)
 
+(autoload 'projectile-open-shell "my-utils" "\
+
+
+\(fn)" t nil)
+
 (autoload 'open-file-manager "my-utils" "\
 
 

@@ -107,6 +107,12 @@ With PREFIX time will be included as well."
     (open-terminal)))
 
 ;;;###autoload
+(defun projectile-open-shell ()
+  (interactive)
+  (projectile-with-default-dir (projectile-project-root)
+    (call-interactively 'spacemacs/shell-pop-ansi-term)))
+
+;;;###autoload
 (defun open-file-manager ()
   (interactive)
   (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))

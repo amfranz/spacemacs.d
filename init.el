@@ -1228,6 +1228,46 @@ potentially deletes it, after which it can not be autoloaded any more."
       (message "WARNING: Current buffer is not part of a project!")))
   (spacemacs/safe-set-leader-keys "pi" #'my-projectile-goto-git-info-exclude)
 
+  (with-eval-after-load 'org-projectile
+    (setq org-projectile-capture-template "* TODO %?\n%a"))
+  (autoload 'org-projectile-project-todo-entry "org-projectile")
+  (with-eval-after-load 'org-capture
+    (add-to-list 'org-capture-templates (org-projectile-project-todo-entry)))
+
+  (autoload 'org-projectile-todo-files "org-projectile")
+  (with-eval-after-load 'org-agenda
+    (dolist (file (org-projectile-todo-files))
+      (when (file-exists-p file)
+        (push file org-agenda-files))))
+
+  (defun my-ad-save-window-excursion (orig-fun &rest args)
+    (save-window-excursion
+      (apply orig-fun args)))
+  (advice-add 'org-capture-set-target-location
+              :around #'my-ad-save-window-excursion)
+
+  (with-eval-after-load 'window-purpose-configuration
+    (setq purpose-user-mode-purposes '((org-mode . doc)
+                                       (markdown-mode . doc)))
+    (setq purpose-user-regexp-purposes '(("CAPTURE-" . capture)))
+    (purpose-compile-user-configuration))
+
+  (with-eval-after-load 'spacemacs-purpose-popwin
+    (add-to-list 'popwin:special-display-config
+                 '("CAPTURE-" :position bottom :stick t :height 10))
+    (add-to-list 'popwin:special-display-config
+                 '("*Org-Babel Error Output*" :position bottom :noselect t :height 10))
+    (pupo/update-purpose-config))
+
+  (defun my-capture-switch-to-buffer (buffer)
+    (select-window (pupo/display-function buffer nil) t))
+  (defun my-ad-ignore-delete-other-windows (orig-fun &rest args)
+    (cl-letf (((symbol-function 'delete-other-windows) #'ignore)
+              ((symbol-function 'org-switch-to-buffer-other-window) #'my-capture-switch-to-buffer))
+      (apply orig-fun args)))
+  (advice-add 'org-capture-place-template
+              :around #'my-ad-ignore-delete-other-windows)
+
   (defun my-select-mru-window ()
     (interactive)
     (when-let ((window (get-mru-window nil t t)))

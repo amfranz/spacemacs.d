@@ -54,7 +54,7 @@
   (setq dired-hide-details-hide-symlink-targets nil)
 
   ;; Bind a key to open dired in the users home directory.
-  (spacemacs/safe-set-leader-keys "j~" #'mfa-dired/dired-user-home-directory)
+  (spacemacs/safe-set-leader-keys "j~" #'dired-home)
 
   ;; An easy to reach binding to enter `dired-mode' in `default-directory'.
   (define-key evil-motion-state-map (kbd "-") #'dired-jump)
@@ -82,7 +82,7 @@
       (kbd "C-k") #'diredp-visit-previous-file
       "]]" #'diredp-next-subdir
       "[[" #'diredp-prev-subdir
-      "~" #'mfa-dired/dired-user-home-directory
+      "~" #'dired-home
       "f" (if (configuration-layer/layer-used-p 'ivy)
               #'counsel-find-file
             #'helm-find-files)

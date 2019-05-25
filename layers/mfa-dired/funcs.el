@@ -3,8 +3,8 @@
 (defun mfa-dired//require-dired+ ()
   (require 'dired+))
 
-(defun mfa-dired/dired-user-home-directory ()
-  "Open a dired buffer in the users home directory."
+(defun dired-home ()
+  "Open a dired buffer in `user-home-directory'."
   (interactive)
   (dired user-home-directory))
 

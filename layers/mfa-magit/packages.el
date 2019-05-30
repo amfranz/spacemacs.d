@@ -40,6 +40,11 @@
   ;; Always show word-granularity differences within diff hunks.
   (setq magit-diff-refine-hunk 'all)
 
+  ;; Keep the cursor vertically centered in the status buffer. It avoids the
+  ;; unexpected and visually scarring scrolling of the buffer content when hunks
+  ;; are (un-)staged.
+  (add-hook 'magit-status-mode-hook #'centered-cursor-mode)
+
   ;; Theme diff faces.
   (with-eval-after-load 'magit-diff
     (add-hook 'spacemacs-post-theme-change-hook

@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst mfa-magit-packages '(diffview
+(defconst mfa-magit-packages '((diff-mode :location built-in)
+                               diffview
                                evil-collection
                                magit
                                magit-gitflow
@@ -8,6 +9,16 @@
                                vdiff
                                vdiff-magit
                                whitespace))
+
+(defun mfa-magit/post-init-diff-mode ()
+  ;; Do not automatically trim trailing whitespace when saving edited diff
+  ;; buffers, in those buffers whitespace is significant.
+  (with-eval-after-load 'ws-butler
+    (push 'diff-mode ws-butler-global-exempt-modes))
+
+  ;; Granted there is no correct tab width for diff buffers, but arguably
+  ;; the default width of 2 is too short.
+  (add-hook 'diff-mode-hook #'mfa-magit//set-diff-tab-width))
 
 (defun mfa-magit/init-diffview ()
   (use-package diffview

@@ -49,3 +49,6 @@
 (defun ad-use-vdiff-instead-of-ediff (orig-fun &rest args)
   (cl-letf (((symbol-function 'ediff-files) #'vdiff-files))
     (apply orig-fun args)))
+
+(defun mfa-magit//set-diff-tab-width ()
+  (setq tab-width 4))

@@ -1,4 +1,10 @@
-(defconst mfa-ruby-packages '(rubocop ruby-mode))
+;; -*- lexical-binding: t -*-
+
+(defconst mfa-ruby-packages '(rbenv rubocop ruby-mode))
+
+(defun mfa-ruby/post-init-rbenv ()
+  ;; It is unnecessary for rbenv to show the Ruby version in the modeline.
+  (setq rbenv-show-active-ruby-in-modeline nil))
 
 (defun mfa-ruby/post-init-rubocop ()
   (spacemacs|hide-lighter rubocop-mode))
@@ -19,7 +25,4 @@
   (add-to-list 'auto-mode-alist '("Vagrantfile\\'" . ruby-mode))
 
   ;; Additional interpreter associations.
-  (add-to-list 'interpreter-mode-alist '("rake" . ruby-mode))
-
-  ;; It is unnecessary for rbenv to show the Ruby version in the modeline.
-  (setq rbenv-show-active-ruby-in-modeline nil))
+  (add-to-list 'interpreter-mode-alist '("rake" . ruby-mode)))

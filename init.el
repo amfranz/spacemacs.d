@@ -898,6 +898,9 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; does less when trying to autodetect source control metadata.
   (setq vc-handled-backends '(Git))
 
+  ;; Display a fringe indicator as hint that lines are wrapped.
+  (setq visual-line-fringe-indicators '(nil right-curly-arrow))
+
   ;; Hide the useless helm lighter.
   (with-eval-after-load 'helm-mode
     (diminish 'helm-mode))

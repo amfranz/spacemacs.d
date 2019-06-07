@@ -7,6 +7,7 @@
                              org
                              org-trello
                              orglink
+                             ox-gfm
                              plantuml
                              poporg
                              side-notes))
@@ -114,6 +115,31 @@
   (use-package orglink
     :hook (prog-mode . orglink-mode)
     :diminish))
+
+(defun mfa-org/post-init-ox-gfm ()
+  (el-patch-feature ox-gfm)
+  (with-eval-after-load 'ox-gfm
+    (defvar org-gfm-src-lang-overrides '(("conf-javaprop" . "properties"))
+      "An association list that maps language names as specified in the first
+argument of an org mode source block to language names as specified in the
+beginning of a Markdown fenced code block. For languages that have no entry in
+this list the language is name is passed on from Org to Markdown as-is.")
+
+    (defun org-gfm-src-block-lang (src-block)
+      (when-let (lang (org-element-property :language src-block))
+        (alist-get lang org-gfm-src-lang-overrides lang nil #'string=)))
+
+    (with-eval-after-load 'ox-gfm
+      (el-patch-defun org-gfm-src-block (src-block contents info)
+        "Transcode SRC-BLOCK element into Github Flavored Markdown
+format. CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+        (let* ((lang (el-patch-swap (org-element-property :language src-block)
+                                    (org-gfm-src-block-lang src-block)))
+               (code (org-export-format-code-default src-block info))
+               (prefix (concat "```" lang "\n"))
+               (suffix "```"))
+          (concat prefix code suffix))))))
 
 (defun mfa-org/post-init-plantuml ()
   (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"

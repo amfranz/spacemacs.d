@@ -49,10 +49,6 @@
       (goto-char (point-max))
       (list (cons "Heading" (mfa-dokuwiki//imenu-create-index-function-parser 6 nil nil nil))))))
 
-(defun mfa-dokuwiki//configure-line-wrap ()
-  (setq truncate-lines nil
-        word-wrap t))
-
 (defun mfa-dokuwiki//configure-imenu-index ()
   (setq imenu-create-index-function #'mfa-dokuwiki//imenu-create-index-function))
 

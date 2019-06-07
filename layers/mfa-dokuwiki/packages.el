@@ -3,8 +3,7 @@
 (defconst mfa-dokuwiki-packages '(company dokuwiki dokuwiki-mode outline-magic))
 
 (defun mfa-dokuwiki/post-init-company ()
-  ;; FIXME (spacemacs|add-company-hook dokuwiki-mode)
-  )
+  (spacemacs|add-company-backends :modes dokuwiki-mode))
 
 (defun mfa-dokuwiki/init-dokuwiki ()
   (use-package dokuwiki
@@ -33,7 +32,7 @@
     :mode "\\.dwiki\\'"
     :config
     (progn
-      (add-hook 'dokuwiki-mode-hook #'mfa-dokuwiki//configure-line-wrap)
+      (add-hook 'dokuwiki-mode-hook #'spacemacs/toggle-visual-line-navigation-on)
       (add-hook 'dokuwiki-mode-hook #'mfa-dokuwiki//configure-imenu-index))))
 
 (defun mfa-dokuwiki/init-outline-magic ()

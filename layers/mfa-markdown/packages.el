@@ -9,4 +9,4 @@
     (flycheck-add-next-checker 'markdown-markdownlint-cli 'proselint)))
 
 (defun mfa-markdown/post-init-markdown-mode ()
-  (add-hook 'markdown-mode-hook #'auto-fill-mode))
+  (add-hook 'markdown-mode-hook #'spacemacs/toggle-visual-line-navigation-on))

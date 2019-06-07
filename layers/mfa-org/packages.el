@@ -68,6 +68,9 @@
   (setq org-src-window-setup 'current-window
         org-src-preserve-indentation t)
 
+  ;; Wrap long lines by default.
+  (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)
+
   ;; TODO https://emacs.stackexchange.com/questions/20574/default-inline-image-background-in-org-mode?rq=1
 
   ;; TODO ob-blockdiag: --no-transparency --antialias -T (type)

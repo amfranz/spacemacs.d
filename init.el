@@ -115,7 +115,6 @@ This function should only modify configuration layer settings."
      erlang
      evil-snipe
      git
-     github
      (go :variables
          go-backend 'lsp
          go-format-before-save t

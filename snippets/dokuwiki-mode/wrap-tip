@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Wrap tip
+# key: wtip
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+<WRAP center round tip 60%>
+`yas-selected-text`$0
+</WRAP>

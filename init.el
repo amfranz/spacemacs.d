@@ -1317,4 +1317,4 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.
-  (add-hook 'spacemacs-post-user-config-hook #'my-load-custom-file t))
+  (add-hook 'spacemacs-post-user-config-hook #'my-load-custom-file 'append))

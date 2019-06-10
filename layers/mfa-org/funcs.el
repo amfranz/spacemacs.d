@@ -37,7 +37,6 @@ Giving the command a PREFIX arg will open the index in another window."
       (find-file index))))
 
 (defun mfa-org//custom-theme-set-variables ()
-  ;; (when (eq 'zenburn spacemacs--cur-theme)
   (when (memq 'zenburn custom-enabled-themes)
     (zenburn-with-color-variables
       (custom-theme-set-variables

@@ -4,5 +4,5 @@
 # expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
 # --
 <code>
-`(string-trim-right yas-selected-text)`$0
+`yas-selected-text`$0
 </code>

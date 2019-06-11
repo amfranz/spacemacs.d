@@ -63,3 +63,8 @@
       (dokuwiki-open-page (string-remove-suffix ".dwiki" name))
       (set-window-start nil prev-window-start)
       (goto-char prev-point))))
+
+(defun mfa-dokuwiki//customize-export-backend-ad (args)
+  (when (eq 'wk (car args))
+    (setcar (plist-get args :menu-entry) ?d))
+  args)

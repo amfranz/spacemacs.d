@@ -66,7 +66,7 @@ This function should only modify configuration layer settings."
               ;;
               ;; We do not really turn off automatic decryption of the vault
               ;; files, we just don't let Spacemacs register the hooks and
-              ;; instead we'll do it ourselves in the mfa-ansible layer.
+              ;; instead we'll do it ourselves in the my-ansible layer.
               ;;
               ;; We do it ourselves because Spacemacs is hooking the initial
               ;; automatic decryption into the activation of ansible mode. This
@@ -176,65 +176,65 @@ This function should only modify configuration layer settings."
      yaml
 
      ;; my custom layers
-     mfa-alpine
-     mfa-angularjs
-     mfa-ansible
-     mfa-artist
-     mfa-atomic-chrome
-     mfa-bookmarks
-     mfa-bpr
-     mfa-company
-     mfa-cpp
-     mfa-dash
-     mfa-dired
-     mfa-direnv
-     mfa-dokuwiki
-     mfa-dtrt-indent
-     mfa-dynamic-ruler
-     mfa-editorconfig
-     mfa-el-patch
-     mfa-environment
-     mfa-evil
-     mfa-evil-quickscope
-     mfa-evil-textobj-anyblock
-     mfa-fancy-narrow
-     mfa-go
-     mfa-google-this
-     mfa-hcl
-     mfa-help
-     mfa-highlight-symbols
-     mfa-java
-     mfa-javascript
-     mfa-journal
-     mfa-json
-     mfa-layouts
-     mfa-lice
-     mfa-lisp
-     mfa-lsp
-     mfa-magit
-     mfa-make-mode
-     mfa-markdown
-     ;; mfa-mu4e
-     mfa-multi-line
-     mfa-mwim
-     mfa-org
-     mfa-pass
-     mfa-prodigy
-     mfa-projectile
-     mfa-python
-     mfa-quickrun
-     mfa-ruby
-     mfa-shell
-     mfa-shell-scripts
-     mfa-string-edit
-     mfa-tmux
-     mfa-sql
-     mfa-treemacs
-     mfa-visual-ascii-mode
-     mfa-xml
-     mfa-yadm
-     mfa-yasnippet
-     mfa-yequake)
+     my-alpine
+     my-angularjs
+     my-ansible
+     my-artist
+     my-atomic-chrome
+     my-bookmarks
+     my-bpr
+     my-company
+     my-cpp
+     my-dash
+     my-dired
+     my-direnv
+     my-dokuwiki
+     my-dtrt-indent
+     my-dynamic-ruler
+     my-editorconfig
+     my-el-patch
+     my-environment
+     my-evil
+     my-evil-quickscope
+     my-evil-textobj-anyblock
+     my-fancy-narrow
+     my-go
+     my-google-this
+     my-hcl
+     my-help
+     my-highlight-symbols
+     my-java
+     my-javascript
+     my-journal
+     my-json
+     my-layouts
+     my-lice
+     my-lisp
+     my-lsp
+     my-magit
+     my-make-mode
+     my-markdown
+     ;; my-mu4e
+     my-multi-line
+     my-mwim
+     my-org
+     my-pass
+     my-prodigy
+     my-projectile
+     my-python
+     my-quickrun
+     my-ruby
+     my-shell
+     my-shell-scripts
+     my-string-edit
+     my-tmux
+     my-sql
+     my-treemacs
+     my-visual-ascii-mode
+     my-xml
+     my-yadm
+     my-yasnippet
+     my-yequake)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -1078,12 +1078,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; `page-break-lines-mode' creates an empty buffer-local display table that
   ;; supersedes the standard display table. The following advice applies the
   ;; vertical border customization to this buffer-local display table as well.
-  (defun mfa//buffer-display-table-vertical-border-advice (window)
+  (defun my//buffer-display-table-vertical-border-advice (window)
     (with-current-buffer (window-buffer window)
       (when buffer-display-table
         (set-display-table-slot buffer-display-table 'vertical-border #x2502))))
   (advice-add 'page-break-lines--update-display-table
-              :after #'mfa//buffer-display-table-vertical-border-advice)
+              :after #'my//buffer-display-table-vertical-border-advice)
 
   ;; Disable automatic indentation of pasted content in `sql-mode'.
   ;; SQL indentation styles vary wide, and it always gets it wrong as I try to
@@ -1292,9 +1292,9 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs|do-after-display-system-init
    (tooltip-mode))
 
-  (defun mfa-rust//sync-fill-column-with-rustcmd ()
+  (defun my-rust//sync-fill-column-with-rustcmd ()
     (setq fill-column 100))
-  (add-hook 'rust-mode-hook #'mfa-rust//sync-fill-column-with-rustcmd)
+  (add-hook 'rust-mode-hook #'my-rust//sync-fill-column-with-rustcmd)
 
   (spacemacs/safe-set-leader-keys
     "px" #'projectile-run-project

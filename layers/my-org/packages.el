@@ -87,6 +87,10 @@
     (push '(ditaa . t) org-babel-load-languages)
     (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar"))
 
+  ;; calc for evaluating formulas
+  (with-eval-after-load 'org
+    (push '(calc . t) org-babel-load-languages))
+
   ;; configure org-download.
   (setq org-download-heading-lvl nil)
 

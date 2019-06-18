@@ -1,14 +1,14 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-magit-packages '((diff-mode :location built-in)
-                               diffview
-                               evil-collection
-                               magit
-                               magit-gitflow
-                               magit-todos
-                               vdiff
-                               vdiff-magit
-                               whitespace))
+                              diffview
+                              evil-collection
+                              magit
+                              magit-gitflow
+                              magit-todos
+                              vdiff
+                              vdiff-magit
+                              whitespace))
 
 (defun my-magit/post-init-diff-mode ()
   ;; Do not automatically trim trailing whitespace when saving edited diff

@@ -8,4 +8,4 @@
   (advice-add 'hack-local-variables
               :before #'run-before-hack-local-variables-hook)
   (add-hook 'editorconfig-mode-hook #'my-editorconfig//mode-hook)
-  (add-hook 'editorconfig-custom-hooks #'my-editorconfig//custom-hook))
+  (add-hook 'editorconfig-after-apply-functions #'my-editorconfig//custom-hook))

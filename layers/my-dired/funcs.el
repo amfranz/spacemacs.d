@@ -8,6 +8,12 @@
   (interactive)
   (dired user-home-directory))
 
+(defun my-dired//diff-files (file1 file2)
+  (if (and (file-directory-p file1)
+           (file-directory-p file2))
+      (ztree-diff file1 file2)
+    (ediff-files file1 file2)))
+
 ;; This is not my creation, it was sourced from the accepted answer of this Stackoverflow question:
 ;; https://stackoverflow.com/questions/18121808/emacs-ediff-marked-files-in-different-dired-buffers
 (defun my-dired/ediff-marked-pair ()
@@ -23,12 +29,12 @@
                                   (with-current-buffer (window-buffer other-win)
                                     (dired-get-marked-files nil)))))
     (cond ((= (length marked-files) 2)
-           (ediff-files (nth 0 marked-files)
-                        (nth 1 marked-files)))
+           (my-dired//diff-files (nth 0 marked-files)
+                                 (nth 1 marked-files)))
           ((and (= (length marked-files) 1)
                 (= (length other-marked-files) 1))
-           (ediff-files (nth 0 marked-files)
-                        (nth 0 other-marked-files)))
+           (my-dired//diff-files (nth 0 marked-files)
+                                 (nth 0 other-marked-files)))
           (t (error "mark exactly 2 files, at least 1 locally")))))
 
 ;; TODO submit this upstream

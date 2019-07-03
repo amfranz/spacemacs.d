@@ -223,6 +223,7 @@ This function should only modify configuration layer settings."
      my-projectile
      my-python
      my-quickrun
+     my-restclient
      my-ruby
      my-shell
      my-shell-scripts

@@ -31,7 +31,7 @@
                 "host_vars/.+\\|"
                 "plays/.+\\)"))
   (with-eval-after-load 'ansible
-    (add-to-list 'ansible::playbook-font-lock
+    (add-to-list 'ansible-playbook-font-lock
                  '("\\({%\\)\\(.*?\\)\\(%}\\)"
                    (1 font-lock-builtin-face t)
                    (2 font-lock-function-name-face t)
@@ -41,11 +41,11 @@
               #'my-ansible//update-imenu-expression)
     (add-hook 'yaml-mode-local-vars-hook
               #'my-ansible//auto-decrypt-encrypt-vault))
-  (advice-add 'ansible::vault :around
+  (advice-add 'ansible-vault :around
               #'my-ansible//vault-encrypt-advice)
-  (advice-add 'ansible::encrypt-buffer :before
+  (advice-add 'ansible-encrypt-buffer :before
               #'my-ansible//save-coord)
-  (advice-add 'ansible::decrypt-buffer :after
+  (advice-add 'ansible-decrypt-buffer :after
               #'my-ansible//restore-coord)
   (with-eval-after-load 'ansible
     (spacemacs/set-leader-keys-for-minor-mode 'ansible

@@ -14,13 +14,13 @@
   (when (and ansible
              (string-match-p "\\`\$ANSIBLE_VAULT;[0-9]+\.[0-9]+"
                              (buffer-substring-no-properties (point-min) (point-max))))
-    (ansible::auto-decrypt-encrypt)
+    (ansible-auto-decrypt-encrypt)
     (add-hook 'ws-butler-mode-hook #'my-ansible//fix-ws-butler-decrypt-order t t)))
 
 (defun my-ansible//fix-ws-butler-decrypt-order ()
-  (when (and ws-butler-mode (memq #'ansible::encrypt-buffer before-save-hook))
-    (remove-hook 'before-save-hook #'ansible::encrypt-buffer t)
-    (add-hook 'before-save-hook #'ansible::encrypt-buffer t t)))
+  (when (and ws-butler-mode (memq #'ansible-encrypt-buffer before-save-hook))
+    (remove-hook 'before-save-hook #'ansible-encrypt-buffer t)
+    (add-hook 'before-save-hook #'ansible-encrypt-buffer t t)))
 
 (defun my-ansible//update-imenu-expression ()
   (when ansible
@@ -47,7 +47,7 @@
 (defun my-ansible/encrypt-region (beginning end)
   (interactive "r")
   (when (use-region-p)
-    (let ((output (ansible::vault "encrypt" (buffer-substring-no-properties beginning end))))
+    (let ((output (ansible-vault "encrypt" (buffer-substring-no-properties beginning end))))
       (delete-region beginning end)
       (insert "!vault |\n")
       (indent-according-to-mode)
@@ -66,7 +66,7 @@
     (let ((input (buffer-substring-no-properties beginning end)))
       (setq input (replace-regexp-in-string "\\`!vault |\n" "" input))
       (setq input (replace-regexp-in-string "^ +" "" input))
-      (let ((output (ansible::vault "decrypt" input)))
+      (let ((output (ansible-vault "decrypt" input)))
         (delete-region beginning end)
         (insert output))
       (deactivate-mark)

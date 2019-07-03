@@ -24,12 +24,9 @@
     "pws" #'treemacs-switch-workspace)
 
   (with-eval-after-load 'treemacs
-    ;; FIXME it resizes automatically now? or is double the size?
     ;; Adjust icon sizes to the DPI of the display.
     (spacemacs|do-after-display-system-init
      (treemacs-resize-icons (* 22 (display-scaling-factor))))
-    ;; (spacemacs|do-after-display-system-init
-    ;;  (treemacs-resize-icons (* 11 (display-scaling-factor))))
 
     ;; Hide files that are ignored by Git.
     (add-to-list 'treemacs-pre-file-insert-predicates
@@ -43,12 +40,6 @@
     ;; Override the key binding for `delete-other-windows' with an
     ;; implementation that avoids deleting the treemacs window as well.
     (spacemacs/set-leader-keys "wm" #'my-treemacs/toggle-maximize-buffer)
-
-    ;; Fixes icon background color. It's broken because Treemacs only adjusts it
-    ;; by adding a hook to `enable-theme', but due to lazy loading the theme the
-    ;; hook will have fired long before treemacs gets loaded. See also:
-    ;; https://github.com/Alexander-Miller/treemacs/issues/148
-    (treemacs--setup-icon-background-colors)
 
     ;; Enhance the visibility of the currently selected line.
     (treemacs-fringe-indicator-mode t)))

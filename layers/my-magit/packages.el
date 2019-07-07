@@ -5,9 +5,11 @@
                               evil-collection
                               magit
                               magit-gitflow
+                              ;; NOTE: Emacs 27: can't load module
                               magit-libgit
                               magit-todos
                               vdiff
+                              ;; NOTE: Emacs 27: Symbol’s function definition is void: transient-suffix-put
                               vdiff-magit
                               whitespace))
 

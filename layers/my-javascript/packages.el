@@ -7,7 +7,7 @@
 
 (defun my-javascript/post-init-coffee-mode ()
   (with-eval-after-load 'flycheck
-    ;; TODO use flycheck-def-executable-var
+    ;; TODO: use flycheck-def-executable-var
     (setq flycheck-coffee-executable "nvpm-exec-coffee"
           flycheck-coffee-coffeelint-executable "nvpm-exec-coffeelint"))
 
@@ -144,7 +144,7 @@ comma or dot."
   ;; This is a copy of Flychecks built-in gjslint checker - but this one
   ;; supports versions of gjslint that prefix error codes with "New Error ",
   ;; as well as negative error codes.
-  (when nil  ;; FIXME causes issues in SPC e v
+  (when nil  ;; FIXME: causes issues in SPC e v
     (with-eval-after-load 'flycheck
       (flycheck-define-checker javascript-gjslint
         "A Javascript syntax and style checker using Closure Linter.

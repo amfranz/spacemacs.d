@@ -71,9 +71,9 @@
   ;; Wrap long lines by default.
   (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)
 
-  ;; TODO https://emacs.stackexchange.com/questions/20574/default-inline-image-background-in-org-mode?rq=1
+  ;; TODO: https://emacs.stackexchange.com/questions/20574/default-inline-image-background-in-org-mode?rq=1
 
-  ;; TODO ob-blockdiag: --no-transparency --antialias -T (type)
+  ;; TODO: ob-blockdiag: --no-transparency --antialias -T (type)
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode

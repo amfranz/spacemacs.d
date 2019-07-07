@@ -37,7 +37,7 @@
                                  (nth 0 other-marked-files)))
           (t (error "mark exactly 2 files, at least 1 locally")))))
 
-;; TODO submit this upstream
+;; TODO: submit this upstream
 ;; An altered version of `all-the-icons-dired--display' that doesn't add an icon
 ;; to files that already have one. This makes it possible to call it multiple
 ;; times on the same dired buffer, which eases integration with `dired-subtree'.

@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (with-eval-after-load 'auth-source-pass
-  ;; FIXME this is hacky - find a sensible way to reorganize the password wallet
+  ;; FIXME: this is hacky - find a sensible way to reorganize the password wallet
   (defun auth-source-pass--find-match-with-port (host port user)
     (if (not (string-equal port "sudo"))
         (auth-source-pass--find-match host user)

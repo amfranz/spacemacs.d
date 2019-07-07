@@ -694,7 +694,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; evil-collection will complain if this is not set before evil is loaded.
   (setq evil-want-keybinding nil)
 
-  ;; TODO submit this upstream
+  ;; TODO: submit this upstream
   ;; Fixes the guess of the package description file for the `eterm-256color' package.
   ;; This is a replacement for `package--description-file' in `subr.el'. The only
   ;; change is that the regular expression is anchored at the end."

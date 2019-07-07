@@ -101,7 +101,7 @@
       (setq indent (my-yaml--any-indent-backwards)))
     indent))
 
-;; TODO handle comments as well as other block literal types
+;; TODO: handle comments as well as other block literal types
 (defun my-yaml--looking-at-block-start-p ()
   (seq-some #'looking-at-p '(" *[a-zA-Z0-9_\\-\\.]+: |"
                              " *- *\\(?:[a-zA-Z0-9_\\-\\.]+:\\)? |")))

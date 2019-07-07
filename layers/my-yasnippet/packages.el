@@ -29,7 +29,7 @@
   (defun my-yasnippet//exit-insert-state (&rest ignored)
     (unless undo-in-progress ;; required?
       (when (evil-insert-state-p)
-        ;; FIXME breaks company completion
+        ;; FIXME: breaks company completion
         ;; (evil-normal-state)
         )))
   (advice-add 'yas-exit-snippet :after

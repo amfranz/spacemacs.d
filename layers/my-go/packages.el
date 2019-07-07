@@ -91,7 +91,7 @@
 
 (defun my-go/post-init-projectile ()
   ;; Customize the default build and test commands for Go projects.
-  (when nil ;; FIXME broken
+  (when nil ;; FIXME: broken
     (with-eval-after-load 'projectile
       (let ((goprjtype (gethash 'go projectile-project-types)))
         (dolist (cmd '((compile-command . "go build -i")

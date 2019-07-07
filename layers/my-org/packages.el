@@ -6,7 +6,6 @@
                              helm-orgcard
                              org
                              org-trello
-                             orglink
                              ox-gfm
                              plantuml
                              poporg
@@ -114,11 +113,6 @@
   (setq org-trello-input-completion-mechanism 'helm)
   (with-eval-after-load 'org-trello
     (setq orgtrello-log-level orgtrello-log-warn)))
-
-(defun my-org/init-orglink ()
-  (use-package orglink
-    :hook (prog-mode . orglink-mode)
-    :diminish))
 
 (defun my-org/post-init-ox-gfm ()
   (el-patch-feature ox-gfm)

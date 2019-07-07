@@ -6,7 +6,6 @@
                                  expand-region
                                  flycheck
                                  flycheck-yamllint
-                                 orglink
                                  yaml-mode))
 
 (defun my-ansible/post-init-ansible ()
@@ -254,14 +253,12 @@
   ;; (push #'my-ansible//font-lock-extend-region font-lock-extend-region-functions)
   )
 
-(defun my-ansible/post-init-orglink ()
-  ;; Fontify URLs in Ansible buffers and make them interactive.
-  (add-hook 'ansible-hook #'orglink-mode))
-
 (defun my-ansible/post-init-yaml-mode ()
   (add-to-list 'auto-mode-alist '("\\.yamllint\\'" . yaml-mode))
   ;; Attempt to fix syntax highlighting of multi-line Jinja expressions.
   (add-hook 'yaml-mode-hook #'my-ansible//font-lock-setup)
+  ;; Fontify URLs in Ansible buffers and make them interactive.
+  (add-hook 'yaml-mode-hook #'goto-address-prog-mode)
   (with-eval-after-load 'yaml-mode
     (spacemacs/declare-prefix-for-mode 'yaml-mode "mr" "region")
     (spacemacs/set-leader-keys-for-major-mode 'yaml-mode

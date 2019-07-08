@@ -890,13 +890,13 @@ potentially deletes it, after which it can not be autoloaded any more."
   (defun my-ad-split-window-sensibly (orig-fun &optional window)
     (let ((window (or window (selected-window))))
       (or (and (window-splittable-p window t)
-	             ;; Split window horizontally.
-	             (with-selected-window window
-	               (split-window-right)))
-	        (and (window-splittable-p window)
-	             ;; Split window vertically.
-	             (with-selected-window window
-	               (split-window-below)))
+               ;; Split window horizontally.
+               (with-selected-window window
+                 (split-window-right)))
+          (and (window-splittable-p window)
+               ;; Split window vertically.
+               (with-selected-window window
+                 (split-window-below)))
           ;; For all other cases, fall back
           ;; to the logic built into Emacs.
           (funcall orig-fun window))))

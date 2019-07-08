@@ -78,9 +78,38 @@
 
 The hook is added or removed, depending on whether `all-the-icons-dired-mode' is
 currently enabled or not."
-  (if (bound-and-true-p all-the-icons-dired-mode)
+  (if all-the-icons-dired-mode
       (add-hook 'dired-subtree-after-insert-hook #'all-the-icons-dired--display t t)
     (remove-hook 'dired-subtree-after-insert-hook #'all-the-icons-dired--display t)))
+
+(defun treemacs-icons-dired--display-subtree ()
+  "Display the icons of files in a subtree of the dired buffer."
+  (when (display-graphic-p)
+    (treemacs-with-writable-buffer
+     (save-excursion
+       (pcase-dolist (`(,path . ,pos) dired-subdir-alist)
+         (goto-char pos)
+         (forward-line 2)
+         (treemacs-block
+          (while (not (eobp))
+            (if (dired-move-to-filename nil)
+                (let* ((file (dired-get-filename nil t))
+                       (icon (if (file-directory-p file)
+                                 treemacs-icon-dir-closed
+                               (treemacs-icon-for-file file))))
+                  (unless (or (bolp) (get-text-property (- (point) 1) 'icon))
+                    (insert (propertize icon 'icon t))))
+              (treemacs-return nil))
+            (forward-line 1))))))))
+
+(defun my-dired//dired-subtree--insert-treemacs-icons ()
+  "Registers a hook to add icons to the files inserted by `dired-subtree'.
+
+The hook is added or removed, depending on whether `treemacs-icons-dired-mode' is
+currently enabled or not."
+  (if treemacs-icons-dired-mode
+      (add-hook 'dired-subtree-after-insert-hook #'treemacs-icons-dired--display-subtree t)
+    (remove-hook 'dired-subtree-after-insert-hook #'treemacs-icons-dired--display-subtree)))
 
 (defun my-dired/find-file-horizontal-split (&optional arg)
   "Open the file at point by horizontally splitting `next-window'.

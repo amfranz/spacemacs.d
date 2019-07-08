@@ -2,6 +2,7 @@
 
 (defconst my-dired-packages '(all-the-icons
                                ;; all-the-icons-dired  ;; replaced by treemacs-icons-dired
+                               treemacs-icons-dired
                                ;; diff-hl
                                (dired :location built-in)
                                (dired+ :location (recipe :fetcher wiki
@@ -32,6 +33,29 @@
     :init
     (advice-add 'all-the-icons-dired--display
                 :override #'my-dired//all-the-icons-dired--display)))
+
+(defun my-dired/post-init-treemacs-icons-dired ()
+  (el-patch-feature treemacs-icons-dired)
+  (with-eval-after-load 'treemacs-icons-dired
+    (eval
+     '(el-patch-defun treemacs-icons-dired--display-icons-for-subdir (path pos)
+        "Display icons for subdir PATH at given POS."
+        (unless (member path treemacs-icons-dired--covered-subdirs)
+          (add-to-list 'treemacs-icons-dired--covered-subdirs path)
+          (treemacs-with-writable-buffer
+           (save-excursion
+             (goto-char pos)
+             (forward-line 2)
+             (treemacs-block
+              (while (not (eobp))
+                (if (dired-move-to-filename nil)
+                    (let* ((file (dired-get-filename nil t))
+                           (icon (if (file-directory-p file)
+                                     treemacs-icon-dir-closed
+                                   (treemacs-icon-for-file file))))
+                      (insert (el-patch-swap icon (propertize icon 'icon t))))
+                  (treemacs-return nil))
+                (forward-line 1))))))))))
 
 ;; Disabled because it triggers an error every time after a directory is created
 ;; in dired:
@@ -159,8 +183,12 @@ the customization to `dired-filter-prefix' did not take effect."))
     :defer t
     :init
     (progn
-      (add-hook 'all-the-icons-dired-mode-hook
-                #'my-dired//dired-subtree--insert-all-the-icons)
+      (when (configuration-layer/package-used-p 'all-the-icons-dired)
+        (add-hook 'all-the-icons-dired-mode-hook
+                  #'my-dired//dired-subtree--insert-all-the-icons))
+      (when (configuration-layer/package-used-p 'treemacs-icons-dired)
+        (add-hook 'treemacs-icons-dired-mode-hook
+                  #'my-dired//dired-subtree--insert-treemacs-icons))
       (with-eval-after-load 'dired
         (evil-define-key 'evilified dired-mode-map
           (kbd "TAB") #'dired-subtree-toggle)))

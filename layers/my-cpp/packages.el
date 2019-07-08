@@ -4,7 +4,8 @@
                             cmake-mode
                             eldoc-cmake
                             lsp-mode
-                            qt-pro-mode))
+                            qt-pro-mode
+                            yaml-mode))
 
 (defun my-cpp/init-eldoc-cmake ()
   (use-package eldoc-cmake
@@ -27,3 +28,6 @@
 (defun my-cpp/init-qt-pro-mode ()
   (use-package qt-pro-mode
     :mode ("\\.pro\\'" "\\.pri\\'")))
+
+(defun my-cpp/post-init-yaml-mode ()
+  (add-to-list 'auto-mode-alist '("\\.clang-format\\'" . yaml-mode)))

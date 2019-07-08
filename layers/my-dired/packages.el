@@ -129,6 +129,11 @@
     (spacemacs/declare-prefix-for-mode 'dired-mode "g" "tags")
     (spacemacs/declare-prefix-for-mode 'dired-mode "T" "toggle")
 
+    (spacemacs/declare-prefix-for-mode 'dired-mode "ms" "subdir")
+    (spacemacs/set-leader-keys-for-major-mode 'dired-mode
+      "sj" #'dired-goto-subdir
+      "sd" #'my-dired/kill-subdir)
+
     (spacemacs/declare-prefix-for-mode 'dired-mode "ma" "attrs")
     (spacemacs/set-leader-keys-for-major-mode 'dired-mode
       "ag" #'dired-do-chgrp

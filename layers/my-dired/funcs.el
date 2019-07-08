@@ -179,3 +179,10 @@ Stay in current window with a prefix argument ARG."
                                        (find-file-existing file)))
                                    (unless arg
                                      (select-window new-window)))))))
+
+(defun my-dired/kill-subdir (&optional arg)
+  "Remove all lines of current subdirectory.
+Lower levels are unaffected. Moves point to the previous subdir."
+  (interactive)
+  (dired-kill-subdir)
+  (diredp-next-subdir -1))

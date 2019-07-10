@@ -1328,6 +1328,30 @@ potentially deletes it, after which it can not be autoloaded any more."
     "px" #'projectile-run-project
     "fa" #'ff-find-other-file)
 
+  (defun first-error-no-select (&optional n)
+    "Move point to the first error in the `next-error' buffer and highlight match.
+With prefix arg N, visit the Nth error.
+Finds and highlights the source line like \\[first-error], but does not
+select the source buffer."
+    (interactive "p")
+    (let ((next-error-highlight next-error-highlight-no-select))
+      (next-error n t))
+    (pop-to-buffer next-error-last-buffer))
+
+  (spacemacs|define-transient-state goto-error
+    :title "Goto Error Transient State"
+    :doc "
+ [_f_] first error [_n_] next error [_p_] previous error [_q_] quit"
+    :on-enter
+    (first-error-no-select)
+    :bindings
+    ("f" first-error-no-select)
+    ("n" next-error-no-select)
+    ("p" previous-error-no-select)
+    ("q" quit-window :exit t))
+  (spacemacs/safe-set-leader-keys
+    "je" #'spacemacs/goto-error-transient-state/body)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

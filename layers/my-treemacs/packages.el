@@ -41,6 +41,12 @@
     ;; implementation that avoids deleting the treemacs window as well.
     (spacemacs/set-leader-keys "wm" #'my-treemacs/toggle-maximize-buffer)
 
+    ;; Fixes icon background color. It's broken because Treemacs only adjusts it
+    ;; by adding a hook to `enable-theme', but due to lazy loading the theme the
+    ;; hook will have fired long before treemacs gets loaded. See also:
+    ;; https://github.com/Alexander-Miller/treemacs/issues/148
+    (treemacs--setup-icon-background-colors)
+
     ;; Enhance the visibility of the currently selected line.
     (treemacs-fringe-indicator-mode t)))
 

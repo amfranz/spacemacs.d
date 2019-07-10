@@ -1341,16 +1341,61 @@ select the source buffer."
   (spacemacs|define-transient-state goto-error
     :title "Goto Error Transient State"
     :doc "
- [_f_] first error [_n_] next error [_p_] previous error [_q_] quit"
+ [_f_] first error [_n_] next error [_N_/_p_] previous error [_q_] quit"
     :on-enter
     (first-error-no-select)
     :bindings
     ("f" first-error-no-select)
     ("n" next-error-no-select)
+    ("N" previous-error-no-select)
     ("p" previous-error-no-select)
     ("q" quit-window :exit t))
   (spacemacs/safe-set-leader-keys
     "je" #'spacemacs/goto-error-transient-state/body)
+
+  ;; https://emacs.stackexchange.com/questions/62/hide-compilation-window
+  (defcustom compilation-auto-quit-window-delay 1
+    "Time in seconds before auto closing the window."
+    :group 'compilation
+    :type 'number)
+
+  (defun compilation-auto-quit-window-finish-function (buffer status)
+    "Quit the *compilation* window if it went well."
+    (let ((window (get-buffer-window buffer)))
+      (when (and (equal status "finished\n")
+                 (compilation-no-warnings-or-errors-p))
+        (run-with-timer
+         (or compilation-auto-quit-window-delay 0) nil
+         (lambda nil
+           (when (and (window-live-p window)
+                      (eq (window-buffer window)
+                          buffer)
+                      (not (eq (selected-window)
+                               window)))
+             (save-selected-window
+               (quit-window nil window))))))))
+
+  (define-minor-mode compilation-auto-quit-window
+    "Automatically close the *compilation* window if it went well."
+    :global t
+    (cond (compilation-auto-quit-window
+           (add-hook 'compilation-finish-functions
+                     'compilation-auto-quit-window-finish-function))
+          (t
+           (remove-hook 'compilation-finish-functions
+                        'compilation-auto-quit-window-finish-function))))
+
+  (defun compilation-no-warnings-or-errors-p (&optional buffer)
+    "Return t, if no gotoable output appeared."
+    (with-current-buffer (or buffer (current-buffer))
+      (save-excursion
+        (goto-char (point-min))
+        (let ((compilation-skip-threshold 1))
+          (not (ignore-errors
+                 (compilation-next-error 1)
+                 t))))))
+
+  (compilation-auto-quit-window)
 
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get

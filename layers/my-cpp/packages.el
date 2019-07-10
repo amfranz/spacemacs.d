@@ -1,11 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-cpp-packages '(cmake-font-lock
+(defconst my-cpp-packages '(cc-mode
+                            cmake-font-lock
                             cmake-mode
                             eldoc-cmake
                             lsp-mode
                             qt-pro-mode
                             yaml-mode))
+
+(defun my-cpp/post-init-cc-mode ()
+  (spacemacs/add-to-hooks #'my-cpp//disable-escape-quotes-after-insert
+                          c-c++-mode-hooks))
 
 (defun my-cpp/init-eldoc-cmake ()
   (use-package eldoc-cmake

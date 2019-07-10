@@ -28,3 +28,7 @@ To activate this every time a CMake file is opened, use the following:
               (lambda (_workspace) lsp-ccls-library-directories))
        `((client . ,client)))))
   args)
+
+;; See https://github.com/Fuco1/smartparens/issues/783
+(defun my-cpp//disable-escape-quotes-after-insert ()
+  (setq-local sp-escape-quotes-after-insert nil))

@@ -940,11 +940,20 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; has another binding ("SPC w F").
   (spacemacs/replace-leader-key "Fn" #'make-frame #'select-frame-by-name)
 
+  (defun spacemacs/first-error (&optional n)
+    "Dispatch to flycheck or standard emacs error."
+    (interactive "P")
+    (let ((sys (spacemacs/error-delegate)))
+      (cond
+       ((eq 'flycheck sys) (call-interactively 'flycheck-first-error))
+       ((eq 'emacs sys) (call-interactively 'first-error)))))
+
   ;; Additional miscellaneous key bindings. These might conflict with key
   ;; bindings set up by Spacemacs, so extra checks are performed to verify they
   ;; are not yet bound.
   (spacemacs/safe-set-leader-keys
     "fyp" #'projectile-copy-project-root
+    "ef" #'spacemacs/first-error
     "gd" #'magit-diff-buffer-file
     "id" #'my-insert-date-or-time
     "qe" #'server-edit

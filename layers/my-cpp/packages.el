@@ -5,6 +5,7 @@
                             cmake-mode
                             eldoc-cmake
                             lsp-mode
+                            modern-cpp-font-lock
                             qt-pro-mode
                             yaml-mode))
 
@@ -29,6 +30,11 @@
 (defun my-cpp/post-init-lsp-mode ()
   (advice-add 'lsp-register-client :filter-args
               #'my-lsp//ccls-add-library-folders-fn))
+
+(defun my-cpp/init-modern-cpp-font-lock ()
+  (use-package modern-cpp-font-lock
+    :hook (c++-mode . modern-c++-font-lock-mode)
+    :diminish modern-c++-font-lock-mode))
 
 (defun my-cpp/init-qt-pro-mode ()
   (use-package qt-pro-mode

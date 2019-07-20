@@ -12,7 +12,9 @@
 
 (defun my-cpp/post-init-cc-mode ()
   (spacemacs/add-to-hooks #'my-cpp//disable-escape-quotes-after-insert
-                          c-c++-mode-hooks))
+                          c-c++-mode-hooks)
+  (with-eval-after-load 'cc-mode
+    (setf (alist-get 'other c-default-style) "linux")))
 
 (defun my-cpp/post-init-ccls ()
   (spacemacs/add-to-hooks #'my-cpp//ccls-use-project-build-directory

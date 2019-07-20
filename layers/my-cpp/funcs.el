@@ -15,6 +15,16 @@ To activate this every time a CMake file is opened, use the following:
     (font-lock-mode -1)
     (font-lock-mode 1)))
 
+(defun my-cpp//ccls-use-project-build-directory ()
+  "If a project build folder exists with a compilation database exists, store
+the build cache there and make use of the compilation datbase."
+  (when-let ((root-dir (projectile-project-root)))
+    (let ((build-dir (concat root-dir "build/")))
+      (when (file-exists-p (concat build-dir "compile_commands.json"))
+        (setq-local ccls-initialization-options
+                    (list :cache '(:directory "build/.ccls-cache")
+                          :compilationDatabaseDirectory "build"))))))
+
 (defun my-lsp//ccls-add-library-folders-fn (args)
   "Set library-folders-fn in the CCLS lsp-client definition."
   (let ((client (car args)))

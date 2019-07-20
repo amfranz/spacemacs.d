@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-cpp-packages '(cc-mode
+                            ccls
                             cmake-font-lock
                             cmake-mode
                             eldoc-cmake
@@ -11,6 +12,10 @@
 
 (defun my-cpp/post-init-cc-mode ()
   (spacemacs/add-to-hooks #'my-cpp//disable-escape-quotes-after-insert
+                          c-c++-mode-hooks))
+
+(defun my-cpp/post-init-ccls ()
+  (spacemacs/add-to-hooks #'my-cpp//ccls-use-project-build-directory
                           c-c++-mode-hooks))
 
 (defun my-cpp/init-eldoc-cmake ()

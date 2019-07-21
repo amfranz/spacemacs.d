@@ -21,6 +21,14 @@ the build cache there and make use of the compilation datbase."
   (when-let ((root-dir (projectile-project-root)))
     (let ((build-dir (concat root-dir "build/")))
       (when (file-exists-p (concat build-dir "compile_commands.json"))
+        ;; The `use-package' config hook that Spacemacs installs sets the
+        ;; default value of `ccls-initialization-options' with `setq'. If at
+        ;; that point the variable is buffer-local this would set the
+        ;; buffer-local value instead of the default value. The purpose of the
+        ;; `require' is to force the `use-package' config hook to run first
+        ;; which will `setq' the default value, afterwards we can safely make
+        ;; the variable buffer-local.
+        (require 'ccls)
         (setq-local ccls-initialization-options
                     (list :cache '(:directory "build/.ccls-cache")
                           :compilationDatabaseDirectory "build"))))))

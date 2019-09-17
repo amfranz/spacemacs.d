@@ -1142,7 +1142,7 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; Reduce the size of the compilation window, to prevent it from taking away
   ;; too much valuable screen estate when it pops up.
-  (setq compilation-window-height 10)
+  (setq compilation-window-height 15)
 
   ;; Disable undo/redo-in-region, it occasionally exhibits buggy behavior and
   ;; not useful enough to justify having to deal with the issues.

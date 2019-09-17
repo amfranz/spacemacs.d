@@ -10,8 +10,7 @@
       (add-hook 'spacemacs-post-user-config-hook #'atomic-chrome-start-server))
     :config
     (progn
-      (setq atomic-chrome-buffer-open-style 'frame
-            atomic-chrome-extension-type-list '(atomic-chrome))
+      (setq atomic-chrome-buffer-open-style 'frame)
 
       (when (configuration-layer/package-used-p 'markdown-mode)
         (add-to-list 'atomic-chrome-url-major-mode-alist '("github" . gfm-mode)))

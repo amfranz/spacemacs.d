@@ -68,3 +68,16 @@
   (when (eq 'wk (car args))
     (setcar (plist-get args :menu-entry) ?d))
   args)
+
+(defun my-dokuwiki/diff-page ()
+  (interactive)
+  (let ((name (buffer-name)))
+    (unless (and (eq major-mode 'dokuwiki-mode)
+                 (string-suffix-p ".dwiki" name))
+      (user-error "Not a dokuwiki page"))
+    (let* ((page-name (string-remove-suffix ".dwiki" name))
+           (upstream-name (concat page-name ".upstream.dwiki"))
+           (upstream-buffer (get-buffer-create upstream-name)))
+      (with-current-buffer upstream-buffer
+        (dokuwiki-open-page page-name)) ;; todo needs buffer arg
+      (ediff-buffers name upstream-name))))

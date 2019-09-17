@@ -719,6 +719,17 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (add-hook 'spacemacs-post-theme-change-hook
             #'my--adjust-theme-variables)
 
+  ;; Remove the box around `org-mode' checkboxes. The box causes the line to be
+  ;; taller and thus vertically shifts the text below, which is distracting.
+  (defun my--remove-box-around-org-checkbox ()
+    (when (memq 'zenburn custom-enabled-themes)
+      (zenburn-with-color-variables
+        (custom-theme-set-faces
+         'zenburn
+         `(org-checkbox ((t (:background ,zenburn-bg+2 :foreground ,zenburn-fg+1 :box nil))))))))
+  (add-hook 'spacemacs-post-theme-change-hook
+            #'my--remove-box-around-org-checkbox)
+
   ;; `custom-file' needs to be set in `dotspacemacs/user-init' to prevent
   ;; Spacemacs copying custom settings back into this file.
   ;;

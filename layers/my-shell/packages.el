@@ -12,7 +12,8 @@
                         "eterm-256color.ti")))
     eshell
     shell-pop
-    term))
+    term
+    vterm))
 
 (defun my-shell/post-init-eshell ()
   (with-eval-after-load 'eshell
@@ -56,3 +57,15 @@
     (evil-define-key 'insert 'term-raw-map (kbd "C-c C-e") #'term-send-esc)
     (dolist (mode '(term-mode-map term-raw-map))
       (evil-define-key 'insert term-mode-map (kbd "s-v") #'term-paste))))
+
+(defun my-shell/init-vterm ()
+  (use-package vterm
+    :defer t
+    :init
+    (spacemacs/safe-set-leader-keys "asv" #'vterm)
+    :config
+    (progn
+      (add-hook 'spacemacs-post-theme-change-hook
+                #'my-shell//vterm-customize-faces)
+      (my-shell//vterm-customize-faces)
+      (evil-collection-init 'vterm))))

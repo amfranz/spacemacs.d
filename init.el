@@ -805,11 +805,11 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; terminals that support it.
   (defun my-frame-title ()
     (concat
+     (when-let (persp (and (fboundp 'get-frame-persp) (get-frame-persp)))
+       (concat "[" (persp-name persp) "] "))
      (buffer-name)
      (when (or buffer-file-name (derived-mode-p 'dired-mode))
-       (concat " ("
-               (string-remove-suffix "/" (abbreviate-file-name default-directory))
-               ")"))
+       (concat " (" (string-remove-suffix "/" (abbreviate-file-name default-directory)) ")"))
      " - Emacs"))
   (setq frame-title-format
         (setq icon-title-format

@@ -20,6 +20,9 @@
 (defun bpr-projectile-build ()
   "Spawns the projects build command"
   (interactive)
+  (require 'compile)
+  (save-some-buffers (not compilation-ask-about-save)
+                     compilation-save-buffers-predicate)
   (let ((default-directory (concat (projectile-project-root) projectile-project-compilation-dir)))
     (bpr-spawn projectile-project-compilation-cmd)))
 

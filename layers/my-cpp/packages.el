@@ -35,6 +35,8 @@
     :defer t))
 
 (defun my-cpp/post-init-lsp-mode ()
+  (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.ccls-cache$"))
   (advice-add 'lsp-register-client :filter-args
               #'my-lsp//ccls-add-library-folders-fn))
 

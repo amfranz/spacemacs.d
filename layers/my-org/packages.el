@@ -7,7 +7,7 @@
                              org
                              org-trello
                              ox-gfm
-                             plantuml
+                             plantuml-mode
                              poporg
                              side-notes))
 
@@ -138,8 +138,9 @@ channel."
              (suffix "```"))
         (concat prefix code suffix)))))
 
-(defun my-org/post-init-plantuml ()
-  (setq plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
+(defun my-org/post-init-plantuml-mode ()
+  (setq plantuml-default-exec-mode 'jar
+        plantuml-jar-path (concat user-home-directory ".plantuml/plantuml.1.2019.12.jar")
         org-plantuml-jar-path plantuml-jar-path
         plantuml-output-type "png")
   (with-eval-after-load 'org-src

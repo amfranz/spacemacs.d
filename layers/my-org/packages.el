@@ -158,5 +158,4 @@ channel."
     :init
     (progn
       (setq-default side-notes-file "notes.org")
-      (spacemacs/safe-set-leader-keys "on" #'side-notes-toggle-notes)
-      (autoload 'side-notes-toggle-notes "side-notes"))))
+      (spacemacs/safe-set-leader-keys "on" #'side-notes-toggle-notes))))

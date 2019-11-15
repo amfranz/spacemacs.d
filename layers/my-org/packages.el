@@ -23,11 +23,6 @@
     (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
       "?" #'helm-orgcard)))
 
-(defun my-org/pre-init-org ()
-  ;; customize org priority faces.
-  (add-hook 'spacemacs-post-theme-change-hook
-            #'my-org//custom-theme-set-variables))
-
 (defun my-org/post-init-org ()
   ;; share org files over Syncthing.
   (setq org-directory "~/Sync/org/")
@@ -58,6 +53,11 @@
   ;; customize org source block editing.
   (setq org-src-window-setup 'current-window
         org-src-preserve-indentation t)
+
+  ;; customize org priority faces.
+  (add-hook 'spacemacs-post-theme-change-hook
+            #'my-org//adjust-org-priority-faces)
+  (my-org//adjust-org-priority-faces)
 
   ;; Wrap long lines by default.
   (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)

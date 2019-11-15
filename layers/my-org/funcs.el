@@ -36,7 +36,7 @@ Giving the command a PREFIX arg will open the index in another window."
         (find-file-other-window index)
       (find-file index))))
 
-(defun my-org//custom-theme-set-variables ()
+(defun my-org//adjust-org-priority-faces ()
   (when (memq 'zenburn custom-enabled-themes)
     (zenburn-with-color-variables
       (custom-theme-set-variables

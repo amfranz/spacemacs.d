@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-org-packages '(fontawesome
-                            helm-org-rifle
                             helm-orgcard
                             org
                             org-sidebar
@@ -16,9 +15,6 @@
     :defer t
     :init
     (spacemacs/safe-set-leader-keys "if" #'helm-fontawesome)))
-
-(defun my-org/post-init-helm-org-rifle ()
-  (spacemacs/safe-set-leader-keys "o/" #'helm-org-rifle-org-directory))
 
 (defun my-org/init-helm-orgcard ()
   (use-package helm-orgcard

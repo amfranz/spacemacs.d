@@ -150,7 +150,7 @@ channel."
   (use-package poporg
     :defer t
     :init
-    (spacemacs/safe-set-leader-keys "xp" #'poporg-dwim)))
+    (spacemacs/safe-set-leader-keys "xe" #'poporg-dwim)))
 
 (defun my-org/init-side-notes ()
   (use-package side-notes

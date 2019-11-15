@@ -134,7 +134,7 @@ channel."
 
 (defun my-org/post-init-plantuml-mode ()
   (setq plantuml-default-exec-mode 'jar
-        plantuml-jar-path (concat user-home-directory ".plantuml/plantuml.1.2019.12.jar")
+        plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
         org-plantuml-jar-path plantuml-jar-path
         plantuml-output-type "png")
   (with-eval-after-load 'org-src

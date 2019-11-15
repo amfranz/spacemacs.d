@@ -24,39 +24,43 @@
       "?" #'helm-orgcard)))
 
 (defun my-org/post-init-org ()
-  ;; share org files over Syncthing.
+  ;; Share org files over Syncthing.
   (setq org-directory "~/Sync/org/")
 
   ;; Spacemacs sets this before knowing our value for `org-directory',
   ;; therefore we are correcting it here.
   (setq org-default-notes-file (expand-file-name "notes.org" org-directory))
 
-  ;; automatically indent org sections.
+  ;; Automatically indent org sections.
   (setq org-startup-indented t)
 
-  ;; set up agendas.
+  ;; Set up agendas and refiling.
   (setq org-agenda-files (list (concat org-directory "agenda/"))
         org-outline-path-complete-in-steps nil
         org-refile-allow-creating-parent-nodes 'confirm
         org-refile-targets '((org-agenda-files :maxlevel . 2))
         org-refile-use-outline-path 'file)
 
+  ;; Mandate that sub- and superscripts have to be wrapped in curly braces to be
+  ;; interpreted as such (eg. a_{1}, 2^{2}). Without this, it often happens that
+  ;; words with underscores (eg. variable/function names) get interpreted as an
+  ;; expression with subscripts when they are not.
   (setq org-use-sub-superscripts '{}
         org-export-with-sub-superscripts '{})
 
+  ;; Make org documents more WYSIWYG-alike.
   (setq org-hide-emphasis-markers t
         org-pretty-entities t)
 
   ;; Warn about editing an invisible (folded) area.
   (setq org-catch-invisible-edits 'show-and-error)
 
-  ;; customize org source block editing.
+  ;; Customize org source block editing.
   (setq org-src-window-setup 'current-window
         org-src-preserve-indentation t)
 
-  ;; customize org priority faces.
-  (add-hook 'spacemacs-post-theme-change-hook
-            #'my-org//adjust-org-priority-faces)
+  ;; Customize org priority faces.
+  (add-hook 'spacemacs-post-theme-change-hook #'my-org//adjust-org-priority-faces)
   (my-org//adjust-org-priority-faces)
 
   ;; Wrap long lines by default.
@@ -72,19 +76,19 @@
     "oc" #'org-cut-special
     "op" #'org-paste-special)
 
-  ;; ditaa converts ascii images to real images.
+  ;; Integrate ditaa converts ascii images to real images.
   (with-eval-after-load 'org
     (push '(ditaa . t) org-babel-load-languages)
     (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar"))
 
-  ;; calc for evaluating formulas
+  ;; Enable `calc' for evaluating formulas.
   (with-eval-after-load 'org
     (push '(calc . t) org-babel-load-languages))
 
-  ;; configure org-download.
+  ;; Customize `org-download'.
   (setq org-download-heading-lvl nil)
 
-  ;; extra keybindings for org functionality.
+  ;; Extra keybindings for org functionality.
   (spacemacs/declare-prefix "oo" "org")
   (spacemacs/safe-set-leader-keys
     "ooa" #'my-org/org-agenda
@@ -94,8 +98,9 @@
     "or" #'org-redisplay-inline-images
     "oe" #'counsel-org-entity)
 
-  (advice-add 'er/expand-region :around
-              #'my-org//ad-preserve-outline-visibility)
+  ;; Prevent `expand-region' from altering outline visibility while trying to
+  ;; find an expansion of the selection.
+  (advice-add 'er/expand-region :around #'my-org//ad-preserve-outline-visibility)
 
   ;; Automatically redisplay inline images.
   (add-hook 'org-babel-after-execute-hook #'org-display-inline-images))

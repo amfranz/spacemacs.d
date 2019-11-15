@@ -45,10 +45,6 @@ Giving the command a PREFIX arg will open the index in another window."
                               (?B . (:foreground ,zenburn-yellow))
                               (?C . (:foreground ,zenburn-cyan))))))))
 
-(defun my-org//org-show-entry (&rest ignore)
-  (when (derived-mode-p 'org-mode)
-    (org-show-entry)))
-
 (defun my-org//ad-preserve-outline-visibility (orig-fun &rest args)
   (if (derived-mode-p 'org-mode)
       (org-save-outline-visibility nil

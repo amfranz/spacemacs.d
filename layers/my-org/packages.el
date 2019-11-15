@@ -1,15 +1,15 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-org-packages '(fontawesome
-                             helm-ag
-                             helm-org-rifle
-                             helm-orgcard
-                             org
-                             org-trello
-                             ox-gfm
-                             plantuml-mode
-                             poporg
-                             side-notes))
+                            helm-ag
+                            helm-org-rifle
+                            helm-orgcard
+                            org
+                            org-trello
+                            ox-gfm
+                            plantuml-mode
+                            poporg
+                            side-notes))
 
 (defun my-org/init-fontawesome ()
   (use-package fontawesome

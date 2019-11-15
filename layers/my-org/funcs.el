@@ -61,3 +61,20 @@ Giving the command a PREFIX arg will open the file in another window."
       (org-save-outline-visibility nil
         (apply orig-fun args))
     (apply orig-fun args)))
+
+(defvar my-org--org-display-inline-images-active nil
+  "Tracks when `org-display-inline-images' is active.")
+
+(defun my-org//mark-org-display-inline-images (orig-fun &rest args)
+  "Track when `org-display-inline-images' is active so that the background color
+to use for transparent areas is applied only to `org-mode' inline images."
+  (let ((my-org--org-display-inline-images-active t))
+    (apply orig-fun args)))
+
+(defun my-org//create-image-with-background-color (args)
+  "Pass background color to use for transparent areas of `org-mode' inline
+images to `create-image'."
+  (if (and my-org--org-display-inline-images-active
+           (not (plist-member (cdddr args) :background)))
+      (append args (list :background org-inline-image-background))
+    args))

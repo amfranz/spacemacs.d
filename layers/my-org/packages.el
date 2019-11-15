@@ -2,6 +2,7 @@
 
 (defconst my-org-packages '(fontawesome
                             helm-orgcard
+                            ob-blockdiag
                             org
                             org-sidebar
                             ox-gfm
@@ -21,6 +22,44 @@
     :init
     (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
       "?" #'helm-orgcard)))
+
+(defun my-org/init-ob-blockdiag ()
+  (use-package ob-blockdiag
+    :defer t
+    :init
+    (progn
+      (with-eval-after-load 'org
+        (push '(blockdiag . t) org-babel-load-languages))
+
+      ;; Add support for passing additional command line arguments to blockdiag
+      ;; tools as configured in `org-babel-blockdiag-arguments'.
+      (el-patch-feature ob-blockdiag)
+      (with-eval-after-load 'ob-blockdiag
+        (eval
+         '(el-patch-defun org-babel-execute:blockdiag (body params)
+            (let ((file (cdr (assoc :file params)))
+                  (tool (cdr (assoc :tool params)))
+                  (font (cdr (assoc :font params)))
+                  (size (cdr (assoc :size params)))
+                  (type (cdr (assoc :type params)))
+                  (el-patch-add
+                    (xarg (cdr (assoc :args params))))
+
+                  (buffer-name "*ob-blockdiag*")
+                  (error-template "Subprocess '%s' exited with code '%d', see output in '%s' buffer"))
+              (save-window-excursion
+                (let ((buffer (get-buffer buffer-name)))(if buffer (kill-buffer buffer-name) nil))
+                (let ((data-file (org-babel-temp-file "blockdiag-input"))
+                      (args (append (list "-o" file)
+                                    (if size (list "--size" size) (list))
+                                    (if font (list "--font" (el-patch-swap size font)) (list))
+                                    (if type (list "-T" type) (list))
+                                    (el-patch-add xarg)))
+                      (buffer (get-buffer-create buffer-name)))
+                  (with-temp-file data-file (insert body))
+                  (let
+                      ((exit-code (apply 'call-process tool nil buffer nil (append args (list data-file)))))
+                    (if (= 0 exit-code) nil (error (format error-template tool exit-code buffer-name)))))))))))))
 
 (defun my-org/post-init-org ()
   ;; Share org files over Syncthing.
@@ -65,9 +104,9 @@
   ;; Wrap long lines by default.
   (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)
 
-  ;; TODO: https://emacs.stackexchange.com/questions/20574/default-inline-image-background-in-org-mode?rq=1
-
-  ;; TODO: ob-blockdiag: --no-transparency --antialias -T (type)
+  ;; Customize the color used for transparent sections of org inline images.
+  (advice-add 'org-display-inline-images :around #'my-org//mark-org-display-inline-images)
+  (advice-add 'create-image :filter-args #'my-org//create-image-with-background-color)
 
   ;; additional leader key bindings for org functionality.
   (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode

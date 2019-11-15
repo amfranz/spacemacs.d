@@ -4,7 +4,6 @@
                             helm-orgcard
                             org
                             org-sidebar
-                            org-trello
                             ox-gfm
                             plantuml-mode
                             poporg
@@ -104,11 +103,6 @@
 
   ;; Automatically redisplay inline images.
   (add-hook 'org-babel-after-execute-hook #'org-display-inline-images))
-
-(defun my-org/post-init-org-trello ()
-  (setq org-trello-input-completion-mechanism 'helm)
-  (with-eval-after-load 'org-trello
-    (setq orgtrello-log-level orgtrello-log-warn)))
 
 (defun my-org/init-org-sidebar ()
   (use-package org-sidebar

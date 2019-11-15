@@ -5,6 +5,7 @@
                             helm-org-rifle
                             helm-orgcard
                             org
+                            org-sidebar
                             org-trello
                             ox-gfm
                             plantuml-mode
@@ -113,6 +114,10 @@
   (setq org-trello-input-completion-mechanism 'helm)
   (with-eval-after-load 'org-trello
     (setq orgtrello-log-level orgtrello-log-warn)))
+
+(defun my-org/init-org-sidebar ()
+  (use-package org-sidebar
+    :defer t))
 
 (defun my-org/post-init-ox-gfm ()
   (el-patch-feature ox-gfm)

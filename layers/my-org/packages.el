@@ -15,7 +15,7 @@
   (use-package fontawesome
     :defer t
     :init
-    (spacemacs/safe-set-leader-keys "of" #'helm-fontawesome)))
+    (spacemacs/safe-set-leader-keys "if" #'helm-fontawesome)))
 
 (defun my-org/post-init-helm-org-rifle ()
   (spacemacs/safe-set-leader-keys "o/" #'helm-org-rifle-org-directory))

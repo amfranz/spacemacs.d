@@ -92,7 +92,8 @@
   (spacemacs/safe-set-leader-keys
     "ooa" #'my-org/org-agenda
     "oob" #'my-org/org-backlog
-    "ooi" #'my-org/org-index)
+    "ooi" #'my-org/org-index
+    "pn" #'my-org/projectile-notes)
   (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
     "or" #'org-redisplay-inline-images
     "oe" #'counsel-org-entity)

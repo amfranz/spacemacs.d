@@ -108,12 +108,6 @@
   (advice-add 'org-display-inline-images :around #'my-org//mark-org-display-inline-images)
   (advice-add 'create-image :filter-args #'my-org//create-image-with-background-color)
 
-  ;; additional leader key bindings for org functionality.
-  (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
-    "oy" #'org-copy-special
-    "oc" #'org-cut-special
-    "op" #'org-paste-special)
-
   ;; Integrate ditaa converts ascii images to real images.
   (with-eval-after-load 'org
     (push '(ditaa . t) org-babel-load-languages)
@@ -126,23 +120,23 @@
   ;; Customize `org-download'.
   (setq org-download-heading-lvl nil)
 
-  ;; Extra keybindings for org functionality.
-  (spacemacs/declare-prefix "oo" "org")
-  (spacemacs/safe-set-leader-keys
-    "ooa" #'my-org/org-agenda
-    "oob" #'my-org/org-backlog
-    "ooi" #'my-org/org-index
-    "pn" #'my-org/projectile-notes)
-  (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
-    "or" #'org-redisplay-inline-images
-    "oe" #'counsel-org-entity)
-
   ;; Prevent `expand-region' from altering outline visibility while trying to
   ;; find an expansion of the selection.
   (advice-add 'er/expand-region :around #'my-org//ad-preserve-outline-visibility)
 
   ;; Automatically redisplay inline images.
-  (add-hook 'org-babel-after-execute-hook #'org-display-inline-images))
+  (add-hook 'org-babel-after-execute-hook #'org-display-inline-images)
+
+  ;; Extra keybindings for org functionality.
+  (spacemacs/declare-prefix "oo" "org")
+  (spacemacs/safe-set-leader-keys
+    "ooa" #'my-org/org-agenda
+    "oob" #'my-org/org-backlog
+    "ooi" #'my-org/org-inbox
+    "ooo" #'my-org/org-index
+    "pn" #'my-org/projectile-notes)
+  (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
+    "r" #'org-redisplay-inline-images))
 
 (defun my-org/init-org-sidebar ()
   (use-package org-sidebar

@@ -19,7 +19,7 @@
                                font-lock+))
 
 ;; Backwards compatibility with old function names.
-(defun my-dired/init-all-the-icons ()
+(defun my-dired/post-init-all-the-icons ()
   (use-package all-the-icons
     :defer t
     :init

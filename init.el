@@ -93,7 +93,8 @@ This function should only modify configuration layer settings."
                       ;;   C-n => next
                       ;;   C-p => previous
                       ;;   C-l => complete
-                      )
+                      auto-completion-use-company-box t
+                      auto-completion-enable-help-tooltip 'manual)
      better-defaults
      bm
      (c-c++ :variables

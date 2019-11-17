@@ -2,8 +2,7 @@
 
 (defconst my-treemacs-packages '(treemacs
                                  treemacs-evil
-                                 treemacs-icons-dired
-                                 treemacs-magit))
+                                 treemacs-icons-dired))
 
 (defun my-treemacs/post-init-treemacs ()
   ;; An extended `treemacs-git-mode' requires python3 to work.
@@ -82,7 +81,3 @@
   (use-package treemacs-icons-dired
     :after dired
     :config (treemacs-icons-dired-mode)))
-
-(defun my-treemacs/init-treemacs-magit ()
-  (use-package treemacs-magit
-    :after (treemacs magit)))

@@ -1,12 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-ansible-packages '(ansible
-                                 ansible-doc company
-                                 company-ansible
-                                 expand-region
-                                 flycheck
-                                 flycheck-yamllint
-                                 yaml-mode))
+                                ansible-doc company
+                                company-ansible
+                                expand-region
+                                flycheck
+                                flycheck-yamllint
+                                yaml-mode))
 
 (defun my-ansible/post-init-ansible ()
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5

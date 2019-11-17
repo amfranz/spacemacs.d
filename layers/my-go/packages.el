@@ -1,16 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-go-packages '(compile
-                            company-go
-                            go-eldoc
-                            go-dlv
-                            go-mode
-                            fill-function-arguments
-                            ;; flycheck
-                            flycheck-golangci-lint
-                            prodigy
-                            projectile
-                            ws-butler))
+                           company-go
+                           go-eldoc
+                           go-dlv
+                           go-mode
+                           fill-function-arguments
+                           ;; flycheck
+                           flycheck-golangci-lint
+                           prodigy
+                           projectile
+                           ws-butler))
 
 (defun my-go/post-init-compile ()
   (with-eval-after-load 'compile

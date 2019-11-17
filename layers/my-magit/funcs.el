@@ -52,3 +52,12 @@
 
 (defun my-magit//set-diff-tab-width ()
   (setq tab-width 4))
+
+(defun my-magit/helm-magit-todos ()
+  (interactive)
+  ;; Both of these packages need to be loaded before the method becomes
+  ;; available. This is because `magit-todos' uses `with-eval-after-load'
+  ;; to wait for `helm' to be loaded before defining `helm-magit-todos'.
+  (require 'helm)
+  (require 'magit-todos)
+  (helm-magit-todos))

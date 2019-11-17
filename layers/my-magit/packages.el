@@ -83,7 +83,13 @@
 
 (defun my-magit/init-magit-todos ()
   (use-package magit-todos
-    :after magit
+    :defer t
+    :init
+    (progn
+      (spacemacs/safe-set-leader-keys
+        "jt" #'my-magit/helm-magit-todos)
+      (with-eval-after-load 'magit
+        (require 'magit-todos)))
     :config
     (progn
       (evil-collection-init 'magit-todos)

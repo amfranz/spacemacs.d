@@ -1395,6 +1395,21 @@ select the source buffer."
 
   (compilation-auto-quit-window)
 
+  ;; Prevent "SPC q f" from the last remaining frame invisible if the persistent
+  ;; server is not running. Without a persistent server it's not possible any
+  ;; more to interact with the Emacs instance once its last remaining frame is
+  ;; invisible.
+  (defun kill-frame-or-emacs ()
+    "If there is only one remaining window and no persistent server is active,
+prompt to save changed buffers and exit Spacemacs. In all other cases, kill the
+current frame but keep Emacs running."
+    (interactive)
+    (if (or (spacemacs//persistent-server-running-p)
+            (delete-frame-enabled-p))
+        (spacemacs/frame-killer)
+      (spacemacs/prompt-kill-emacs)))
+  (spacemacs/set-leader-keys "qf" #'kill-frame-or-emacs)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

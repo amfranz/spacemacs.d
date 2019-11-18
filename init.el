@@ -1324,8 +1324,14 @@ potentially deletes it, after which it can not be autoloaded any more."
   (add-hook 'rust-mode-hook #'my-rust//sync-fill-column-with-rustcmd)
 
   (spacemacs/safe-set-leader-keys
-    "px" #'projectile-run-project
     "fa" #'ff-find-other-file)
+
+  (spacemacs/declare-prefix "pm" "make")
+  (spacemacs/safe-set-leader-keys
+    "pmc" #'projectile-configure-project
+    "pmm" #'projectile-compile-project
+    "pmt" #'projectile-test-project
+    "pmr" #'projectile-run-project)
 
   (defun first-error-no-select (&optional n)
     "Move point to the first error in the `next-error' buffer and highlight match.
@@ -1340,15 +1346,17 @@ select the source buffer."
   (spacemacs|define-transient-state goto-error
     :title "Goto Error Transient State"
     :doc "
- [_f_] first error [_n_] next error [_N_/_p_] previous error [_q_] quit"
+ [_f_] first error [_n_/_j_] next error [_N_/_p_/_k_] previous error [_q_] quit"
     :on-enter
-    (first-error-no-select)
+    (pop-to-buffer next-error-last-buffer)
     :bindings
     ("f" first-error-no-select)
     ("n" next-error-no-select)
+    ("j" next-error-no-select)
     ("N" previous-error-no-select)
     ("p" previous-error-no-select)
-    ("q" quit-window :exit t))
+    ("k" previous-error-no-select)
+    ("q" nil :exit t))
   (spacemacs/safe-set-leader-keys
     "je" #'spacemacs/goto-error-transient-state/body)
 
@@ -1395,6 +1403,13 @@ select the source buffer."
                  t))))))
 
   (compilation-auto-quit-window)
+
+  (defun display-compilation-buffer ()
+    (interactive)
+    (when compilation-last-buffer
+      (pop-to-buffer compilation-last-buffer)))
+  (spacemacs/safe-set-leader-keys
+    "cb" #'display-compilation-buffer)
 
   ;; Prevent "SPC q f" from the last remaining frame invisible if the persistent
   ;; server is not running. Without a persistent server it's not possible any

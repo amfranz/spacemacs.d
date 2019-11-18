@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(my-el-patch))
+(configuration-layer/declare-layer-dependencies '(my-el-patch))

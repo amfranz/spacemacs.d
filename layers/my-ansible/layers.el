@@ -1,1 +1,1 @@
-(configuration-layer/declare-layers '(ansible yaml))
+(configuration-layer/declare-layer-dependencies '(ansible yaml))

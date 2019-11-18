@@ -43,7 +43,48 @@
       (when (file-directory-p yml-dir)
         (delete-directory yml-dir t))
       (rename-file txt-dir yml-dir)))
+
+  (el-patch-feature ansible)
   (with-eval-after-load 'ansible
+    (eval
+     '(el-patch-define-minor-mode ansible
+        "Ansible minor mode."
+        :lighter " Ansible"
+        :group 'ansible
+        (if ansible
+            (progn
+              ;; Avoid adding to `minor-mode-map-alist' when the entry is
+              ;; already present.
+              (el-patch-swap
+                (setq minor-mode-map-alist
+                      (cons (cons 'ansible ansible-key-map)
+                            minor-mode-map-alist))
+                (add-to-list 'minor-mode-map-alist (cons 'ansible ansible-key-map)))
+              (ansible-dict-initialize)
+              (ansible-remove-font-lock)
+              (ansible-add-font-lock)
+              ;; Make integration into yasnippet behave consistent regardless
+              ;; whether or not `yasnippet' has been loaded yet.
+              (el-patch-remove
+                (when (featurep 'yasnippet)
+                  (add-to-list 'yas-snippet-dirs ansible-snip-dir t)
+                  (yas-load-directory ansible-snip-dir)))
+              (el-patch-add
+                (add-to-list 'yas-snippet-dirs ansible-snip-dir t)
+                (when (bound-and-true-p yas-global-mode)
+                  (yas-load-directory ansible-snip-dir)))
+              ;; The snippets have been moved to `yaml-mode', there is no need
+              ;; to unload them any more.
+              (el-patch-remove
+                (add-hook 'kill-buffer-hook #'ansible-maybe-unload-snippets nil t))
+              (run-hooks 'ansible-hook))
+          (ansible-remove-font-lock)
+          ;; The snippets have been moved to `yaml-mode', there is no need to
+          ;; unload them any more.
+          (el-patch-remove
+            (ansible-maybe-unload-snippets 0))))
+     t)
+
     (add-to-list 'ansible-playbook-font-lock
                  '("\\({%\\)\\(.*?\\)\\(%}\\)"
                    (1 font-lock-builtin-face t)

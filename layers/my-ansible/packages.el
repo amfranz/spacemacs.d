@@ -9,6 +9,31 @@
                                 yaml-mode))
 
 (defun my-ansible/post-init-ansible ()
+  ;; Customize the YAML files in which Ansible mode will be enabled. The value
+  ;; of this regular expression is based on the default value provided by
+  ;; Spacemacs. The differences are:
+  ;;   1) use `rx' to make the regular expression more readable
+  ;;   2) avoid capturing groups since they are not going to be needed
+  ;;   3) anchor the end of the regular expression
+  ;;   4) the addition of the "plays" directory
+  (setq spacemacs--ansible-filename-re
+        (rx "/"
+            (or "main"
+                "site"
+                "encrypted"
+                (and (or "roles"
+                         "tasks"
+                         "handlers"
+                         "vars"
+                         "defaults"
+                         "meta"
+                         "group_vars"
+                         "host_vars"
+                         "plays")
+                     "/" (one-or-more not-newline)))
+            ".y" (optional "a") "ml"
+            string-end))
+
   ;; Ugly ugly hack that addresses https://github.com/k1LoW/emacs-ansible/issues/5
   (let* ((pkg-dir (package-desc-dir (cadr (assq 'ansible package-alist))))
          (txt-dir (concat pkg-dir "/snippets/text-mode"))
@@ -17,18 +42,6 @@
       (when (file-directory-p yml-dir)
         (delete-directory yml-dir t))
       (rename-file txt-dir yml-dir)))
-  ;; This is very similar to the default value, the changes are to anchor file
-  ;; names with a slash, the addition of the '*.yaml' file extension and the
-  ;; addition of the 'plays' directory.
-  (setq spacemacs--ansible-filename-re
-        (concat ".*/\\(?:"
-                "main\.ya?ml\\|"
-                "site\.ya?ml\\|"
-                "encrypted\.ya?ml\\|"
-                "roles/.+\.ya?ml\\|"
-                "group_vars/.+\\|"
-                "host_vars/.+\\|"
-                "plays/.+\\)"))
   (with-eval-after-load 'ansible
     (add-to-list 'ansible-playbook-font-lock
                  '("\\({%\\)\\(.*?\\)\\(%}\\)"

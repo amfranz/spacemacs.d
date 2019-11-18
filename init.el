@@ -968,7 +968,8 @@ potentially deletes it, after which it can not be autoloaded any more."
     "xli" #'sort-lines-insert
     "xll" #'sort-lines-by-length
     "xln" #'sort-numeric-fields
-    "xlr" #'renumber-list)
+    "xlr" #'renumber-list
+    "xrb" #'re-builder)
 
   ;; Additional miscellaneous key bindings. These are bound under the prefix "o"
   ;; which Spacemacs specifically reserves for use by the user, so there should

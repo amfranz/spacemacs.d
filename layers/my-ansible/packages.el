@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-ansible-packages '(ansible
-                                ansible-doc company
+                                ansible-doc
+                                company
                                 company-ansible
                                 expand-region
                                 flycheck

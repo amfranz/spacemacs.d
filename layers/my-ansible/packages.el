@@ -94,18 +94,19 @@
     (add-hook 'ansible-hook
               #'my-ansible//update-imenu-expression)
     (add-hook 'yaml-mode-local-vars-hook
-              #'my-ansible//auto-decrypt-encrypt-vault))
-  (advice-add 'ansible-vault :around
-              #'my-ansible//vault-encrypt-advice)
-  (advice-add 'ansible-encrypt-buffer :before
-              #'my-ansible//save-coord)
-  (advice-add 'ansible-decrypt-buffer :after
-              #'my-ansible//restore-coord)
-  (with-eval-after-load 'ansible
+              #'my-ansible//auto-decrypt-encrypt-vault)
+
+    (advice-add 'ansible-vault :filter-args
+                #'my-ansible//encrypt-with-default-vault-id)
+
+    (advice-add 'ansible-encrypt-buffer :before
+                #'my-ansible//save-coord)
+    (advice-add 'ansible-decrypt-buffer :after
+                #'my-ansible//restore-coord)
+
     (spacemacs/set-leader-keys-for-minor-mode 'ansible
-      "ml" #'molecule-login
-      "re" #'my-ansible/encrypt-region
       "rd" #'my-ansible/decrypt-region
+      "re" #'my-ansible/encrypt-region
       "u" #'my-ansible/upgrade-syntax)))
 
 (defun my-ansible/post-init-ansible-doc ()

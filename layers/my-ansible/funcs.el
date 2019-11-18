@@ -5,10 +5,10 @@
     (setq-local company-backends '(company-files
                                    (company-ansible company-dabbrev-code)))))
 
-(defun my-ansible//vault-encrypt-advice (orig-fun mode str)
-  (when (string= mode "encrypt")
-    (setq mode "encrypt --encrypt-vault-id=default"))
-  (funcall orig-fun mode str))
+(defun my-ansible//encrypt-with-default-vault-id (args)
+  (if (string= (car args) "encrypt")
+      (cons "encrypt --encrypt-vault-id=default" (cdr args))
+    args))
 
 (defun my-ansible//auto-decrypt-encrypt-vault ()
   (when (and ansible

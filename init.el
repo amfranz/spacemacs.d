@@ -70,14 +70,14 @@ This function should only modify configuration layer settings."
               ;; We do it ourselves because Spacemacs is hooking the initial
               ;; automatic decryption into the activation of ansible mode. This
               ;; too early, at this point directory-local variables are not
-              ;; loaded yet, so an ansible::vault-password-file set as directory
-              ;; local variable won't work.
+              ;; loaded yet, so an `ansible-vault-password-file' set as
+              ;; directory local variable won't work.
               ;;
               ;; Our own logic hooks the initial decryption into the
               ;; hack-local-variables-hook instead, a hook which is invoked
               ;; after the directory local variables have been loaded.
               ;;
-              ansible-auto-encrypt-descrypt nil)
+              ansible-auto-encrypt-decrypt nil)
      (auto-completion :variables
                       ;; There is no good way to insert a newline when the popup
                       ;; is present. Let's disable the completion on RET.

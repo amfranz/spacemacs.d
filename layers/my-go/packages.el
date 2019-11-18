@@ -6,7 +6,6 @@
                            go-dlv
                            go-mode
                            fill-function-arguments
-                           ;; flycheck
                            flycheck-golangci-lint
                            prodigy
                            projectile
@@ -52,6 +51,9 @@
   (advice-add 'go-packages :filter-return
               #'my-go//shorten-vendored-package-names)
 
+  ;; Use both lsp-ui as well as golangci-lint as linters.
+  (add-hook 'go-mode-hook 'my-go//lsp-ui-flycheck-enable 'append)
+
   (with-eval-after-load 'go-mode
     ;; Define which-key prefixes when Spacemacs does not.
     (spacemacs/declare-prefix-for-mode 'go-mode "mT" "tags")
@@ -71,13 +73,15 @@
       (add-hook 'go-mode-hook #'my-go--ffa-trailing-separator)
       (spacemacs/safe-set-leader-keys "aw" #'fill-function-arguments-dwim))))
 
-;; (defun my-go/post-init-flycheck ()
-;;   ;; The dependencies need to be installed for `company-go' to be able to offer
-;;   ;; meaningful source code completion options.
-;;   (setq flycheck-go-build-install-deps t))
+(defun my-go//lsp-ui-flycheck-enable ()
+  (require 'lsp-ui-flycheck)
+  (lsp-ui-flycheck-enable nil))
 
 (defun my-go/post-init-flycheck-golangci-lint ()
-  (setq flycheck-golangci-lint-fast t))
+  (setq flycheck-golangci-lint-fast t)
+  (with-eval-after-load 'flycheck-golangci-lint
+    (with-eval-after-load 'lsp-ui
+      (flycheck-add-next-checker 'lsp-ui '(warning . golangci-lint)))))
 
 (defun my-go/post-init-prodigy()
   (with-eval-after-load 'prodigy

@@ -925,6 +925,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Display a fringe indicator as hint that lines are wrapped.
   (setq visual-line-fringe-indicators '(nil right-curly-arrow))
 
+  ;; Highlight `hl-todo' keywords in `conf-mode' as well.
+  ;; By default only `prog-mode' and `text-mode' are included.
+  (with-eval-after-load 'hl-todo
+    (add-to-list 'hl-todo-include-modes 'conf-mode)
+    (add-to-list 'hl-todo-text-modes 'conf-mode))
+
   ;; Hide the useless helm lighter.
   (with-eval-after-load 'helm-mode
     (diminish 'helm-mode))

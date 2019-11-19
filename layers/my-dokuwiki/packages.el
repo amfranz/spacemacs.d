@@ -1,6 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-dokuwiki-packages '(company dokuwiki dokuwiki-mode outline-magic ox-wk))
+(defconst my-dokuwiki-packages '(company
+                                 dokuwiki
+                                 dokuwiki-mode
+                                 outline-magic
+                                 ox-wk))
 
 (defun my-dokuwiki/post-init-company ()
   (spacemacs|add-company-backends :modes dokuwiki-mode))
@@ -20,11 +24,13 @@
         (advice-add command :around #'my-dokuwiki//apply-session-cookie))
       (advice-add 'dokuwiki-open-page :after #'my-dokuwiki//after-open-page)
       (spacemacs/declare-prefix "ow" "dokuwiki")
-      (spacemacs/set-leader-keys
+      (spacemacs/safe-set-leader-keys
+        "owb" #'my-dokuwiki/browse-at-remote
         "owc" #'my-dokuwiki/configure
+        "owd" #'my-dokuwiki/diff-page
         "owl" #'dokuwiki-list-pages
         "owo" #'dokuwiki-open-page
-        "owr" #'my-dokuwiki/reopen-page
+        "owr" #'my-dokuwiki/revert-page
         "ows" #'dokuwiki-save-page))))
 
 (defun my-dokuwiki/init-dokuwiki-mode ()

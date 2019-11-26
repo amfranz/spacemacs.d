@@ -129,16 +129,11 @@
     (er/enable-mode-expansions 'yaml-mode #'er/add-yaml-mode-expansions)))
 
 (defun my-ansible/post-init-flycheck ()
-  (spacemacs/enable-flycheck 'yaml-mode)
-  ;; The above does not seem to work when a YAML file is the first file to be
-  ;; visited. This is a temporary workaround for now.
-  (add-hook 'yaml-mode-hook #'flycheck-mode))
+  (add-hook 'yaml-mode-hook #'my-ansible//flycheck-setup))
 
 (defun my-ansible/init-flycheck-yamllint ()
   (use-package flycheck-yamllint
-    :after (flycheck yaml-mode)
-    :config
-    (flycheck-yamllint-setup)))
+    :defer t))
 
 (defun my-yaml--indent ()
   (when (looking-at "\\( *\\)[^ #\n]")

@@ -1,5 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
+(defun my-ansible//flycheck-setup ()
+  (flycheck-yamllint-setup)
+  (setq flycheck-checker 'yaml-yamllint)
+  (flycheck-mode))
+
 (defun my-ansible//ansible-company-maybe-enable ()
   (when (spacemacs//ansible-should-enable?)
     (setq-local company-backends '(company-files

@@ -44,6 +44,22 @@
         (delete-directory yml-dir t))
       (rename-file txt-dir yml-dir)))
 
+  ;; Automatically decrypt files containing encrypted Ansible Vault content when
+  ;; they are opened, and automatically encrypt them when they are saved.
+  (add-hook 'yaml-mode-local-vars-hook
+            #'my-ansible//auto-decrypt-encrypt-vault)
+  (advice-add 'ansible-vault :filter-args
+              #'my-ansible//encrypt-with-default-vault-id)
+  (advice-add 'ansible-encrypt-buffer :before
+              #'my-ansible//save-coord)
+  (advice-add 'ansible-decrypt-buffer :after
+              #'my-ansible//restore-coord)
+
+  ;; Make imenu useful by teaching it parsing rules to extract the names of
+  ;; top level variables and tasks in Ansible playbooks and roles.
+  (add-hook 'ansible-hook
+            #'my-ansible//update-imenu-expression)
+
   (el-patch-feature ansible)
   (with-eval-after-load 'ansible
     (eval
@@ -88,29 +104,22 @@
     (when (bound-and-true-p yas-global-mode)
       (yas-load-directory ansible-snip-dir))
 
+    ;; Make the modeline less verbose.
+    (spacemacs|hide-lighter ansible)
+
+    ;; Additional keybindings for Ansible playbooks and roles.
+    (spacemacs/set-leader-keys-for-minor-mode 'ansible
+      "rd" #'my-ansible/decrypt-region
+      "re" #'my-ansible/encrypt-region
+      "u" #'my-ansible/upgrade-syntax)
+
+    ;; Syntax highlight Jinja code blocks in Ansible playbooks and roles. This
+    ;; is based on the existing rules to highlight Jinja expressions.
     (add-to-list 'ansible-playbook-font-lock
                  '("\\({%\\)\\(.*?\\)\\(%}\\)"
                    (1 font-lock-builtin-face t)
                    (2 font-lock-function-name-face t)
-                   (3 font-lock-builtin-face t)))
-    (spacemacs|hide-lighter ansible)
-    (add-hook 'ansible-hook
-              #'my-ansible//update-imenu-expression)
-    (add-hook 'yaml-mode-local-vars-hook
-              #'my-ansible//auto-decrypt-encrypt-vault)
-
-    (advice-add 'ansible-vault :filter-args
-                #'my-ansible//encrypt-with-default-vault-id)
-
-    (advice-add 'ansible-encrypt-buffer :before
-                #'my-ansible//save-coord)
-    (advice-add 'ansible-decrypt-buffer :after
-                #'my-ansible//restore-coord)
-
-    (spacemacs/set-leader-keys-for-minor-mode 'ansible
-      "rd" #'my-ansible/decrypt-region
-      "re" #'my-ansible/encrypt-region
-      "u" #'my-ansible/upgrade-syntax)))
+                   (3 font-lock-builtin-face t)))))
 
 (defun my-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc

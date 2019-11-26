@@ -15,7 +15,7 @@
   (when (bound-and-true-p ansible)
     (let ((filename (thing-at-point 'filename 'no-properties)))
       (unless (or (file-remote-p filename)
-                  (f-absolute? filename))
+                  (file-name-absolute-p filename))
         (when-let (file (cl-loop for section in '("files" "tasks" "templates")
                                  for file = (concat "../" section "/" filename)
                                  if (file-exists-p file) return file))

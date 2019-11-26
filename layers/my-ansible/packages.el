@@ -60,6 +60,10 @@
   (add-hook 'ansible-hook
             #'my-ansible//update-imenu-expression)
 
+  ;; Register jump handlers for Ansible role templates, files and variables.
+  (add-to-list 'spacemacs-jump-handlers-yaml-mode #'my-ansible/jump-to-template)
+  (add-to-list 'spacemacs-jump-handlers-yaml-mode #'my-ansible/jump-to-variable)
+
   (el-patch-feature ansible)
   (with-eval-after-load 'ansible
     (eval

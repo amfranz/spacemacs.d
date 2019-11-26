@@ -10,6 +10,42 @@
     (setq-local company-backends '(company-files
                                    (company-ansible company-dabbrev-code)))))
 
+(defun my-ansible/jump-to-template ()
+  (interactive)
+  (when (bound-and-true-p ansible)
+    (let ((filename (thing-at-point 'filename 'no-properties)))
+      (unless (or (file-remote-p filename)
+                  (f-absolute? filename))
+        (when-let (file (cl-loop for section in '("files" "tasks" "templates")
+                                 for file = (concat "../" section "/" filename)
+                                 if (file-exists-p file) return file))
+          (find-file file))))))
+
+(defun my-ansible/jump-to-variable ()
+  (interactive)
+  (when (bound-and-true-p ansible)
+    (let ((symbol (thing-at-point 'symbol 'no-properties))
+          (candidate-files '("../defaults/main.yaml"
+                             "../defaults/main.yml"
+                             "../vars/main.yaml"
+                             "../vars/main.yml"))
+          dest-file dest-offset)
+      (with-temp-buffer
+        (save-match-data
+          (while (and candidate-files (not dest-file))
+            (let ((file (pop candidate-files)))
+              (when (file-readable-p file)
+                (insert-file-contents file nil nil nil 'replace)
+                (goto-char (point-min))
+                (when (re-search-forward
+                       (concat "^" (regexp-quote symbol) ":")
+                       nil 'noerror)
+                  (setq dest-file file
+                        dest-offset (match-beginning 0))))))))
+      (when dest-file
+        (find-file dest-file)
+        (goto-char dest-offset)))))
+
 (defun my-ansible//encrypt-with-default-vault-id (args)
   (if (string= (car args) "encrypt")
       (cons "encrypt --encrypt-vault-id=default" (cdr args))

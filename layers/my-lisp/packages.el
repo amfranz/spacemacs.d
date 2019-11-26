@@ -2,7 +2,9 @@
 
 (defconst my-lisp-packages '((emacs-lisp :location built-in)
                              evil-lisp-state
-                             expand-region))
+                             expand-region
+                             faceup
+                             font-lock-studio))
 
 (defun my-lisp/post-init-emacs-lisp ()
   (when (configuration-layer/package-used-p 'aggressive-indent)
@@ -18,3 +20,11 @@
   (with-eval-after-load 'expand-region
     (er/enable-mode-expansions 'emacs-lisp-mode
                                #'my-lisp//add-emacs-lisp-mode-expansions)))
+
+(defun my-lisp/init-faceup ()
+  (use-package faceup
+    :defer t))
+
+(defun my-lisp/init-font-lock-studio ()
+  (use-package font-lock-studio
+    :defer t))

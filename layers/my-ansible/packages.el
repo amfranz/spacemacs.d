@@ -64,26 +64,29 @@
               (ansible-remove-font-lock)
               (ansible-add-font-lock)
               ;; Make integration into yasnippet behave consistent regardless
-              ;; whether or not `yasnippet' has been loaded yet.
+              ;; whether or not `yasnippet' has been loaded yet. (part 1)
               (el-patch-remove
                 (when (featurep 'yasnippet)
                   (add-to-list 'yas-snippet-dirs ansible-snip-dir t)
                   (yas-load-directory ansible-snip-dir)))
-              (el-patch-add
-                (add-to-list 'yas-snippet-dirs ansible-snip-dir t)
-                (when (bound-and-true-p yas-global-mode)
-                  (yas-load-directory ansible-snip-dir)))
               ;; The snippets have been moved to `yaml-mode', there is no need
-              ;; to unload them any more.
+              ;; to unload them any more. (part 1)
               (el-patch-remove
                 (add-hook 'kill-buffer-hook #'ansible-maybe-unload-snippets nil t))
               (run-hooks 'ansible-hook))
           (ansible-remove-font-lock)
           ;; The snippets have been moved to `yaml-mode', there is no need to
-          ;; unload them any more.
+          ;; unload them any more. (part 2)
           (el-patch-remove
             (ansible-maybe-unload-snippets 0))))
      t)
+
+    ;; Make integration into yasnippet behave consistent regardless
+    ;; whether or not `yasnippet' has been loaded yet. (part 2)
+    (with-eval-after-load 'yasnippet
+      (add-to-list 'yas-snippet-dirs ansible-snip-dir t))
+    (when (bound-and-true-p yas-global-mode)
+      (yas-load-directory ansible-snip-dir))
 
     (add-to-list 'ansible-playbook-font-lock
                  '("\\({%\\)\\(.*?\\)\\(%}\\)"

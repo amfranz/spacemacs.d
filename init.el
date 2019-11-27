@@ -1205,10 +1205,12 @@ potentially deletes it, after which it can not be autoloaded any more."
   (advice-add 'edebug-install-read-eval-functions
               :after #'my-reapply-eval-sexp-fu-advice)
 
-  ;; Provide a key binding to edit the `custom-file' which mirrors the
+  ;; Replace the key binding for `spacemacs/recompile-elpa' ("SPC f e c") with
+  ;; the more useful binding to edit the `custom-file'. This mirrors the
   ;; keybindings to edit the `user-init-file' ("SPC f e i") and the
   ;; `dotspacemacs-filepath' ("SPC f e d").
-  (spacemacs/safe-set-leader-keys "fec" #'my-find-custom-file)
+  (spacemacs/replace-leader-key "fec"
+    #'spacemacs/recompile-elpa #'my-find-custom-file)
 
   (defun my-find-spacemacs-dir ()
     "Edit the `user-emacs-directory', in the current window."

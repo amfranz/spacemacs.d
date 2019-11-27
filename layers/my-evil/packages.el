@@ -5,8 +5,11 @@
                              evil-nerd-commenter))
 
 (defun my-evil/post-init-evil ()
-  ;; Do not move cursor back when exiting insert mode.
-  (setq evil-move-cursor-back nil))
+  ;; Do not move cursor back when exiting insert mode, and allow the cursor to
+  ;; go past the last character of the line. This is more in line with default
+  ;; Emacs behavior and feels more natural to me.
+  (setq evil-move-cursor-back nil
+        evil-move-beyond-eol t))
 
 (defun my-evil/post-init-evil-nerd-commenter ()
   ;; Register text object for comments.

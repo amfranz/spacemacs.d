@@ -13,19 +13,19 @@
       (with-eval-after-load 'evil-evilified-state
         (define-key evil-evilified-state-map (kbd "C-e") move-end-fun))
       (with-eval-after-load 'evil
-        (dolist (move-fun '(mwim
-                            mwim-beginning
-                            mwim-beginning-of-code
-                            mwim-beginning-of-code-or-line
-                            mwim-beginning-of-code-or-line-or-comment
-                            mwim-beginning-of-comment
-                            mwim-beginning-of-line
-                            mwim-beginning-of-line-function
-                            mwim-beginning-of-line-or-code
-                            mwim-end
-                            mwim-end-of-code
-                            mwim-end-of-code-or-line
-                            mwim-end-of-line
-                            mwim-end-of-line-function
-                            mwim-end-of-line-or-code))
-          (evil-declare-motion move-fun))))))
+        (mapc #'evil-declare-motion
+              '(mwim
+                mwim-beginning
+                mwim-beginning-of-code
+                mwim-beginning-of-code-or-line
+                mwim-beginning-of-code-or-line-or-comment
+                mwim-beginning-of-comment
+                mwim-beginning-of-line
+                mwim-beginning-of-line-function
+                mwim-beginning-of-line-or-code
+                mwim-end
+                mwim-end-of-code
+                mwim-end-of-code-or-line
+                mwim-end-of-line
+                mwim-end-of-line-function
+                mwim-end-of-line-or-code))))))

@@ -230,7 +230,6 @@ This function should only modify configuration layer settings."
      my-tmux
      my-sql
      my-treemacs
-     my-visual-ascii-mode
      my-xml
      my-yadm
      my-yasnippet

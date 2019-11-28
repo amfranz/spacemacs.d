@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-mu4e-packages '(helm-mu mu4e))
 
 (defun my-mu4e/init-helm-mu ()

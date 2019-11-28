@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-dash-packages '(zeal-at-point))
 
 (defun my-dash/post-init-zeal-at-point ()

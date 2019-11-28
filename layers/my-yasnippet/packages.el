@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-yasnippet-packages '(helm-c-yasnippet yasnippet yasnippet-classic-snippets))
 
 (defun my-yasnippet/post-init-helm-c-yasnippet ()

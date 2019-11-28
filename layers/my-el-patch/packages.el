@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-el-patch-packages '(el-patch))
 
 (defun my-el-patch/init-el-patch ()

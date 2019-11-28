@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-xml-packages '(nxml-mode))
 
 (defun my-xml/post-init-nxml-mode ()

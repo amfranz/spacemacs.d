@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-highlight-symbols-packages '(highlight-escape-sequences highlight-numbers))
 
 (defun my-highlight-symbols/init-highlight-escape-sequences ()

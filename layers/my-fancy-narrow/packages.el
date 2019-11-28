@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-fancy-narrow-packages '(fancy-narrow))
 
 (defun my-fancy-narrow/init-fancy-narrow ()

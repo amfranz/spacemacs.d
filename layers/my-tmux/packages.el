@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-tmux-packages '(turnip))
 
 (defun my-tmux/init-turnip ()

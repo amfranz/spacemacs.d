@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-projectile-packages '(projectile))
 
 (defun my-projectile/post-init-projectile ()

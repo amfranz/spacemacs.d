@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-bpr-packages '(bpr))
 
 (defun my-bpr/init-bpr ()

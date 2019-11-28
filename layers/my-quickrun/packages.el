@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-quickrun-packages '(quickrun))
 
 (defun my-quickrun/init-quickrun ()

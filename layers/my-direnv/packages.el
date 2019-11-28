@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-direnv-packages '(direnv))
 
 (defun my-direnv/init-direnv ()

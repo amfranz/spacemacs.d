@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defconst my-google-this-packages '(google-this))
 
 (defun my-google-this/init-google-this ()

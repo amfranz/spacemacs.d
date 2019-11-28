@@ -190,7 +190,6 @@ This function should only modify configuration layer settings."
      my-direnv
      my-dokuwiki
      my-dtrt-indent
-     my-dynamic-ruler
      my-editorconfig
      my-el-patch
      my-environment
@@ -235,7 +234,6 @@ This function should only modify configuration layer settings."
      my-xml
      my-yadm
      my-yasnippet
-     my-yequake
      my-ztree)
 
    ;; List of additional packages that will be installed without being

@@ -178,7 +178,6 @@ This function should only modify configuration layer settings."
      ;; my custom layers
      my-alpine
      my-ansible
-     my-artist
      my-atomic-chrome
      my-bookmarks
      my-bpr

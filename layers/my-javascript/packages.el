@@ -1,6 +1,17 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-javascript-packages '(coffee-mode compile flycheck nvm js-mode js2-mode projectile))
+(defconst my-javascript-packages '(angular-snippets
+                                   coffee-mode
+                                   compile
+                                   flycheck
+                                   nvm
+                                   js-mode
+                                   js2-mode
+                                   projectile))
+
+(defun my-javascript/init-angular-snippets ()
+  (use-package angular-snippets
+    :defer t))
 
 (defun my-javascript/pre-init-coffee-mode ()
   (setq iced-coffee-cs-keywords '("async" "await" "defer")))

@@ -177,7 +177,6 @@ This function should only modify configuration layer settings."
 
      ;; my custom layers
      my-alpine
-     my-angularjs
      my-ansible
      my-artist
      my-atomic-chrome

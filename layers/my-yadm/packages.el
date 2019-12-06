@@ -3,7 +3,7 @@
 (defconst my-yadm-packages '(magit))
 
 (defun my-yadm/post-init-magit ()
-  (spacemacs/safe-set-leader-keys "oy" #'yadm-status)
+  (spacemacs/set-leader-keys "oy" #'yadm-status)
 
   (when (configuration-layer/package-used-p 'magit-todos)
     (advice-add 'magit-todos--insert-todos :around

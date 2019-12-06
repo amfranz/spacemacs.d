@@ -222,6 +222,7 @@ This function should only modify configuration layer settings."
      my-quickrun
      my-restclient
      my-ruby
+     my-rust
      my-shell
      my-shell-scripts
      my-string-edit

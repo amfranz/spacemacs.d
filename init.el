@@ -1125,12 +1125,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (advice-add 'page-break-lines--update-display-table
               :after #'my//buffer-display-table-vertical-border-advice)
 
-  ;; Disable automatic indentation of pasted content in `sql-mode'.
-  ;; SQL indentation styles vary wide, and it always gets it wrong as I try to
-  ;; stick to the particular indentation style that's used by the project I am
-  ;; working on.
-  (add-to-list 'spacemacs-indent-sensitive-modes 'sql-mode)
-
   ;; Configure `helm' to never pop up in a separate frame nor to excessively
   ;; alter the window configuration to force two windows only. This was a
   ;; problem with `helm-eshell' history completion.

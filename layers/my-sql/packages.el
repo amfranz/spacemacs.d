@@ -6,6 +6,12 @@
                                                   :url "https://framagit.org/steckerhalter/sqlformat.el"))))
 
 (defun my-sql/post-init-sql ()
+  ;; Disable automatic indentation of pasted content in `sql-mode'.
+  ;; SQL indentation styles vary wide, and it always gets it wrong as I try to
+  ;; stick to the particular indentation style that's used by the project I am
+  ;; working on.
+  (add-to-list 'spacemacs-indent-sensitive-modes 'sql-mode)
+
   (with-eval-after-load 'sql
     ;; My prompt format is configured to "user@host [schema]> " in ~/.my.cnf,
     ;; we need to give Emacs hints how to parse it.

@@ -8,6 +8,7 @@
                             evil-surround
                             lsp-mode
                             modern-cpp-font-lock
+                            (nxml-mode :location built-in)
                             qt-pro-mode
                             yaml-mode))
 
@@ -57,6 +58,10 @@
   (use-package modern-cpp-font-lock
     :hook (c++-mode . modern-c++-font-lock-mode)
     :diminish modern-c++-font-lock-mode))
+
+(defun my-cpp/post-init-nxml-mode ()
+  ;; QMake C++ project UI designer files.
+  (add-to-list 'auto-mode-alist '("\\.ui\\'" . nxml-mode)))
 
 (defun my-cpp/init-qt-pro-mode ()
   (use-package qt-pro-mode

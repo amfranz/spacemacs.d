@@ -1,8 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-xml-packages '(nxml-mode))
+(defconst my-xml-packages '((nxml-mode :location built-in)))
 
-(defun my-xml/post-init-nxml-mode ()
+(defun my-xml/init-nxml-mode ()
   ;; XML mode customizations
   (with-eval-after-load 'nxml-mode
     (setq-default nxml-child-indent 4)

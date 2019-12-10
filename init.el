@@ -1037,9 +1037,6 @@ potentially deletes it, after which it can not be autoloaded any more."
         (barf-if-buffer-read-only)
         ad-do-it)))
 
-  ;; QMake C++ project UI designer files.
-  (add-to-list 'auto-mode-alist '("\\.ui\\'" . nxml-mode))
-
   ;; Use a solid bar Unicode character as vertical border.
   (set-display-table-slot standard-display-table 'vertical-border #x2502)
 

@@ -4,11 +4,16 @@
                             helm-orgcard
                             ob-blockdiag
                             org
+                            org-agenda
+                            org-capture
+                            org-projectile
                             org-sidebar
                             ox-gfm
                             plantuml-mode
                             poporg
-                            side-notes))
+                            popwin
+                            side-notes
+                            window-purpose))
 
 (defun my-org/init-fontawesome ()
   (use-package fontawesome
@@ -138,6 +143,26 @@
   (spacemacs/safe-set-leader-keys-for-major-mode 'org-mode
     "r" #'org-redisplay-inline-images))
 
+(defun my-org/post-init-org-agenda ()
+  (with-eval-after-load 'org-agenda
+    (dolist (file (org-projectile-todo-files))
+      (when (file-exists-p file)
+        (push file org-agenda-files)))))
+
+(defun my-org/post-init-org-capture ()
+  (with-eval-after-load 'org-capture
+    (add-to-list 'org-capture-templates (org-projectile-project-todo-entry)))
+  (defun my-ad-save-window-excursion (orig-fun &rest args)
+    (save-window-excursion
+      (apply orig-fun args)))
+  (advice-add 'org-capture-set-target-location
+              :around #'my-ad-save-window-excursion))
+
+(defun my-org/post-init-org-projectile ()
+  (with-eval-after-load 'org-projectile
+    (setq org-projectile-capture-template "* TODO %?\n%a"))
+  (autoload 'org-projectile-project-todo-entry "org-projectile"))
+
 (defun my-org/init-org-sidebar ()
   (use-package org-sidebar
     :defer t))
@@ -180,6 +205,13 @@ channel."
     :init
     (spacemacs/safe-set-leader-keys "xe" #'poporg-dwim)))
 
+(defun my-org/post-init-popwin ()
+  (with-eval-after-load 'popwin
+    (add-to-list 'popwin:special-display-config
+                 '("CAPTURE-" :position bottom :stick t :height 10))
+    (add-to-list 'popwin:special-display-config
+                 '("*Org-Babel Error Output*" :position bottom :noselect t :height 10))))
+
 (defun my-org/init-side-notes ()
   (use-package side-notes
     :defer t
@@ -187,3 +219,9 @@ channel."
     (progn
       (setq-default side-notes-file "notes.org")
       (spacemacs/safe-set-leader-keys "on" #'side-notes-toggle-notes))))
+
+(defun my-org/pre-init-window-purpose ()
+  (spacemacs|use-package-add-hook window-purpose
+    :pre-config
+    (add-to-list 'purpose-user-mode-purposes '(org-mode . doc))
+    (add-to-list 'purpose-user-mode-purposes '(markdown-mode . doc))))

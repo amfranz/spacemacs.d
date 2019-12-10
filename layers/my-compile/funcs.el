@@ -23,7 +23,7 @@ select the source buffer."
   ("N" previous-error-no-select)
   ("p" previous-error-no-select)
   ("k" previous-error-no-select)
-  ("q" nil :exit t))
+  ("q" spacemacs/close-compilation-window :exit t))
 
 (defun compilation-auto-quit-window-finish-function (buffer status)
   "Quit the *compilation* window if it went well."

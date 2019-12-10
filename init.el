@@ -1192,16 +1192,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (define-key evil-normal-state-map (kbd "s-v") #'evil-paste-before)
   (define-key evil-insert-state-map (kbd "s-v") #'evil-paste-before)
 
-  ;; Ensures that the visual flash of the current defun always works when a
-  ;; function is evaluated interactively in a lisp buffer. It doesn't always
-  ;; work because it depends on the order of libraries being loaded and hooks
-  ;; being registered.
-  (defun my-reapply-eval-sexp-fu-advice ()
-    (when (bound-and-true-p eval-sexp-fu-flash-mode)
-      (esf-initialize)))
-  (advice-add 'edebug-install-read-eval-functions
-              :after #'my-reapply-eval-sexp-fu-advice)
-
   ;; Replace the key binding for `spacemacs/recompile-elpa' ("SPC f e c") with
   ;; the more useful binding to edit the `custom-file'. This mirrors the
   ;; keybindings to edit the `user-init-file' ("SPC f e i") and the

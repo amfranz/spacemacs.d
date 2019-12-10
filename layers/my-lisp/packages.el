@@ -1,10 +1,22 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-lisp-packages '((emacs-lisp :location built-in)
+(defconst my-lisp-packages '((edebug :location built-in)
+                             (emacs-lisp :location built-in)
                              evil-lisp-state
                              expand-region
                              faceup
                              font-lock-studio))
+
+(defun my-lisp/post-init-edebug ()
+  ;; Ensures that the visual flash of the current defun always works when a
+  ;; function is evaluated interactively in a lisp buffer. It doesn't always
+  ;; work because it depends on the order of libraries being loaded and hooks
+  ;; being registered.
+  (defun my-reapply-eval-sexp-fu-advice ()
+    (when (bound-and-true-p eval-sexp-fu-flash-mode)
+      (esf-initialize)))
+  (advice-add 'edebug-install-read-eval-functions
+              :after #'my-reapply-eval-sexp-fu-advice))
 
 (defun my-lisp/post-init-emacs-lisp ()
   (when (configuration-layer/package-used-p 'aggressive-indent)

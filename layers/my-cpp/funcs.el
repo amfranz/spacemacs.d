@@ -50,3 +50,12 @@ the build cache there and make use of the compilation datbase."
 ;; See https://github.com/Fuco1/smartparens/issues/783
 (defun my-cpp//disable-escape-quotes-after-insert ()
   (setq-local sp-escape-quotes-after-insert nil))
+
+(defun my-cpp//lsp-ui-flycheck-configure ()
+  ;; Make flycheck less eager to lint.
+  ;; Linting after every keystroke is making the editor sluggish.
+  (setq-local lsp-ui-flycheck-live-reporting nil)
+  (setq-local flycheck-idle-change-delay 2)
+  (setq-local flycheck-idle-buffer-switch-delay 2)
+  (setq-local flycheck-check-syntax-automatically
+              '(idle-change idle-buffer-switch mode-enabled)))

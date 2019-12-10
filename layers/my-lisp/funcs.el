@@ -30,3 +30,15 @@ prefixes."
   "Add expansions for buffers in `emacs-lisp-mode'."
   (set (make-local-variable 'er/try-expand-list)
        (append er/try-expand-list '(my-lisp/mark-emacs-lisp-list-with-prefix))))
+
+(defun my-which-function-autoload ()
+  (when (memq major-mode which-func-modes)
+    (require 'which-func)))
+
+(defun add-which-function-mode-hooks ()
+  (dolist (mode which-func-modes)
+    (add-hook mode #'my-which-function-autoload))
+  (with-eval-after-load 'which-func
+    (which-function-mode)
+    (dolist (mode which-func-modes)
+      (remove-hook mode #'my-which-function-autoload))))

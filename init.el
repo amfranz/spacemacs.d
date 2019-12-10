@@ -1138,21 +1138,6 @@ potentially deletes it, after which it can not be autoloaded any more."
           (fmakunbound req-func)))))
   (my-require-before-call 'helm 'completing-read)
 
-  ;; Enable `which-func' for these modes, but lazy-load it.
-  (setq which-func-modes '(emacs-lisp-mode))
-  (defun my-which-function-autoload ()
-    (when (memq major-mode which-func-modes)
-      (require 'which-func)))
-  (defun add-which-function-mode-hooks ()
-    (dolist (mode which-func-modes)
-      (add-hook mode #'my-which-function-autoload))
-    (with-eval-after-load 'which-func
-      (which-function-mode)
-      (dolist (mode which-func-modes)
-        (remove-hook mode #'my-which-function-autoload))))
-  (add-hook 'spacemacs-post-user-config-hook
-            #'add-which-function-mode-hooks)
-
   ;; cw (change word) in iedit-mode swallows whitespace after word. causes
   ;; iedit-mode to quit. normal mode does not exhibit this behavior.
   ;; https://github.com/emacs-evil/evil/blob/dc936936666595afdbdbb4cc44c1f82e74c6802c/evil-commands.el#L309-L311

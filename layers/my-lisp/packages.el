@@ -6,7 +6,8 @@
                              evil-surround
                              expand-region
                              faceup
-                             font-lock-studio))
+                             font-lock-studio
+                             (which-func :location built-in)))
 
 (defun my-lisp/post-init-edebug ()
   ;; Ensures that the visual flash of the current defun always works when a
@@ -49,3 +50,6 @@
 (defun my-lisp/init-font-lock-studio ()
   (use-package font-lock-studio
     :defer t))
+
+(defun my-lisp/init-which-func ()
+  (add-hook 'spacemacs-post-user-config-hook #'add-which-function-mode-hooks))

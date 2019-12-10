@@ -230,6 +230,7 @@ This function should only modify configuration layer settings."
      my-tmux
      my-sql
      my-treemacs
+     my-xclipboard
      my-xml
      my-yadm
      my-yasnippet
@@ -1035,65 +1036,6 @@ potentially deletes it, after which it can not be autoloaded any more."
           (helm-show-kill-ring)
         (barf-if-buffer-read-only)
         ad-do-it)))
-
-  ;; X clipboard support for Emacs in terminal.
-  (defvar xclip-saved-icf nil
-    "Saved value of `interprogram-cut-function'.")
-  (defvar xclip-saved-ipf nil
-    "Saved value of `interprogram-paste-function'.")
-  (defvar xclip-saved-xsec nil
-    "Saved value of `x-select-enable-clipboard'.")
-  (defun xclip-cut-function (text)
-    (if window-system
-        (x-select-text text)
-      (when (getenv "DISPLAY")
-        (with-temp-buffer
-          (insert text)
-          (call-process-region (point-min) (point-max)
-                               "xclip" nil 0 nil "-silent" "-i" "-selection" "clipboard")))))
-  (defun xclip-paste-function ()
-    (if window-system
-        (x-selection-value)
-      (when (getenv "DISPLAY")
-        (let ((xclip-output (shell-command-to-string "xclip -o -selection clipboard")))
-          (unless (string= (car kill-ring) xclip-output)
-            xclip-output)))))
-  (define-minor-mode xclip-mode
-    "Turn on `xclip-mode'.
-  When called interactively with no prefix argument this command
-  toggles the mode.  With a prefix argument, it enables the mode
-  if the argument is positive and otherwise disables the mode.
-  When called from Lisp, this command enables the mode if the
-  argument is omitted or nil, and toggles the mode if the argument
-  is 'toggle."
-    nil " X" nil
-    :global t
-    (cond
-     (xclip-mode
-      (setq xclip-saved-icf interprogram-cut-function)
-      (setq xclip-saved-ipf interprogram-paste-function)
-      (when (boundp 'x-select-enable-clipboard)
-        (setq xclip-saved-xsec x-select-enable-clipboard))
-      (setq interprogram-cut-function 'xclip-cut-function)
-      (setq interprogram-paste-function 'xclip-paste-function)
-      (setq x-select-enable-clipboard t))
-     (t
-      (setq interprogram-cut-function xclip-saved-icf)
-      (setq interprogram-paste-function xclip-saved-ipf)
-      (when (boundp 'x-select-enable-clipboard)
-        (setq x-select-enable-clipboard xclip-saved-xsec))
-      (setq xclip-saved-icf nil)
-      (setq xclip-saved-ipf nil)
-      (setq xclip-saved-xsec nil))))
-  (spacemacs|add-toggle xclip-mode
-    :status xclip-mode
-    :on (xclip-mode)
-    :off (xclip-mode -1)
-    :documentation "Enable X clipboard support on the terminal."
-    :evil-leader "tx")
-  (spacemacs|hide-lighter xclip-mode)
-  (unless (display-assume-graphic-p)
-    (xclip-mode))
 
   ;; In `c++-mode' the HTML tag surround pair is pretty much useless. It is far
   ;; more useful to have angle bracket surround pairs.

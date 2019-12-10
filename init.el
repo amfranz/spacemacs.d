@@ -182,6 +182,7 @@ This function should only modify configuration layer settings."
      my-bookmarks
      my-bpr
      my-company
+     my-compile
      my-cpp
      my-dash
      my-dired
@@ -1329,84 +1330,6 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   (spacemacs/safe-set-leader-keys
     "fa" #'ff-find-other-file)
-
-  (defun first-error-no-select (&optional n)
-    "Move point to the first error in the `next-error' buffer and highlight match.
-With prefix arg N, visit the Nth error.
-Finds and highlights the source line like \\[first-error], but does not
-select the source buffer."
-    (interactive "p")
-    (let ((next-error-highlight next-error-highlight-no-select))
-      (next-error n t))
-    (pop-to-buffer next-error-last-buffer))
-
-  (spacemacs|define-transient-state goto-error
-    :title "Goto Error Transient State"
-    :doc "
- [_f_] first error [_n_/_j_] next error [_N_/_p_/_k_] previous error [_q_] quit"
-    :on-enter
-    (pop-to-buffer next-error-last-buffer)
-    :bindings
-    ("f" first-error-no-select)
-    ("n" next-error-no-select)
-    ("j" next-error-no-select)
-    ("N" previous-error-no-select)
-    ("p" previous-error-no-select)
-    ("k" previous-error-no-select)
-    ("q" nil :exit t))
-  (spacemacs/safe-set-leader-keys
-    "je" #'spacemacs/goto-error-transient-state/body)
-
-  ;; https://emacs.stackexchange.com/questions/62/hide-compilation-window
-  (defcustom compilation-auto-quit-window-delay 1
-    "Time in seconds before auto closing the window."
-    :group 'compilation
-    :type 'number)
-
-  (defun compilation-auto-quit-window-finish-function (buffer status)
-    "Quit the *compilation* window if it went well."
-    (let ((window (get-buffer-window buffer)))
-      (when (and (equal status "finished\n")
-                 (compilation-no-warnings-or-errors-p))
-        (run-with-timer
-         (or compilation-auto-quit-window-delay 0) nil
-         (lambda nil
-           (when (and (window-live-p window)
-                      (eq (window-buffer window)
-                          buffer)
-                      (not (eq (selected-window)
-                               window)))
-             (save-selected-window
-               (quit-window nil window))))))))
-
-  (define-minor-mode compilation-auto-quit-window
-    "Automatically close the *compilation* window if it went well."
-    :global t
-    (cond (compilation-auto-quit-window
-           (add-hook 'compilation-finish-functions
-                     'compilation-auto-quit-window-finish-function))
-          (t
-           (remove-hook 'compilation-finish-functions
-                        'compilation-auto-quit-window-finish-function))))
-
-  (defun compilation-no-warnings-or-errors-p (&optional buffer)
-    "Return t, if no gotoable output appeared."
-    (with-current-buffer (or buffer (current-buffer))
-      (save-excursion
-        (goto-char (point-min))
-        (let ((compilation-skip-threshold 1))
-          (not (ignore-errors
-                 (compilation-next-error 1)
-                 t))))))
-
-  (compilation-auto-quit-window)
-
-  (defun display-compilation-buffer ()
-    (interactive)
-    (when compilation-last-buffer
-      (pop-to-buffer compilation-last-buffer)))
-  (spacemacs/safe-set-leader-keys
-    "cb" #'display-compilation-buffer)
 
   ;; Prevent "SPC q f" from the last remaining frame invisible if the persistent
   ;; server is not running. Without a persistent server it's not possible any

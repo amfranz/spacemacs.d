@@ -3,6 +3,7 @@
 (defconst my-lisp-packages '((edebug :location built-in)
                              (emacs-lisp :location built-in)
                              evil-lisp-state
+                             evil-surround
                              expand-region
                              faceup
                              font-lock-studio))
@@ -21,6 +22,14 @@
 (defun my-lisp/post-init-emacs-lisp ()
   (when (configuration-layer/package-used-p 'aggressive-indent)
     (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)))
+
+(defun my-lisp/post-init-evil-surround ()
+  ;; `evil-surround' should use "'" as end delimiter for "`" in lisp modes. This
+  ;; brings it in line with the behavior of `smartparens', which does the same.
+  (with-eval-after-load 'evil-surround
+    (defun my-evil-surround-pairs-emacs-lisp-mode ()
+      (push '(?` . ("`" . "'")) evil-surround-pairs-alist))
+    (add-lazy-hook 'emacs-lisp-mode #'my-evil-surround-pairs-emacs-lisp-mode)))
 
 (defun my-lisp/post-init-evil-lisp-state ()
   (with-eval-after-load 'evil-lisp-state

@@ -5,6 +5,7 @@
                             cmake-font-lock
                             cmake-mode
                             eldoc-cmake
+                            evil-surround
                             lsp-mode
                             modern-cpp-font-lock
                             qt-pro-mode
@@ -25,6 +26,14 @@
 (defun my-cpp/init-eldoc-cmake ()
   (use-package eldoc-cmake
     :hook (cmake-mode . eldoc-cmake-enable)))
+
+(defun my-cpp/post-init-evil-surround ()
+  ;; In `c++-mode' the HTML tag surround pair is pretty much useless. It is far
+  ;; more useful to have angle bracket surround pairs.
+  (with-eval-after-load 'evil-surround
+    (defun my-evil-surround-pairs-c++-mode ()
+      (push '(?< . ("< " . " >")) evil-surround-pairs-alist))
+    (add-lazy-hook 'c++-mode #'my-evil-surround-pairs-c++-mode)))
 
 (defun my-cpp/init-cmake-font-lock ()
   (use-package cmake-font-lock

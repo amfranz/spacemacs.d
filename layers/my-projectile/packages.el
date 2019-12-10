@@ -3,6 +3,18 @@
 (defconst my-projectile-packages '(projectile))
 
 (defun my-projectile/post-init-projectile ()
+  ;; Merge all keybindings for project build / run / test commands under a
+  ;; central location. These work better for me than the default bindings
+  ;; provided by Spacemacs.
+  (spacemacs/replace-leader-key "pc" 'projectile-compile-project nil)
+  (spacemacs/replace-leader-key "pT" 'projectile-test-project nil)
+  (spacemacs/declare-prefix "pm" "make")
+  (spacemacs/safe-set-leader-keys
+    "pmc" #'projectile-configure-project
+    "pmm" #'projectile-compile-project
+    "pmt" #'projectile-test-project
+    "pmr" #'projectile-run-project)
+
   (with-eval-after-load 'projectile
     ;; When sorting by recentf, projectile does not remove deleted files or
     ;; files that are on the ignore list. This is a fixed implementation.

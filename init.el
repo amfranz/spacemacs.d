@@ -1330,13 +1330,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/safe-set-leader-keys
     "fa" #'ff-find-other-file)
 
-  (spacemacs/declare-prefix "pm" "make")
-  (spacemacs/safe-set-leader-keys
-    "pmc" #'projectile-configure-project
-    "pmm" #'projectile-compile-project
-    "pmt" #'projectile-test-project
-    "pmr" #'projectile-run-project)
-
   (defun first-error-no-select (&optional n)
     "Move point to the first error in the `next-error' buffer and highlight match.
 With prefix arg N, visit the Nth error.

@@ -1324,10 +1324,6 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs|do-after-display-system-init
    (tooltip-mode))
 
-  (defun my-rust//sync-fill-column-with-rustcmd ()
-    (setq fill-column 100))
-  (add-hook 'rust-mode-hook #'my-rust//sync-fill-column-with-rustcmd)
-
   (spacemacs/safe-set-leader-keys
     "fa" #'ff-find-other-file)
 

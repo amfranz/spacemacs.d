@@ -97,11 +97,9 @@ This function should only modify configuration layer settings."
      better-defaults
      bm
      (c-c++ :variables
-            c-c++-enable-c++11 t
             c-c++-enable-clang-format-on-save t
             c-c++-default-mode-for-headers 'c++-mode
-            c-c++-backend 'lsp-ccls
-            c-c++-lsp-cache-dir (concat spacemacs-cache-directory "lsp-ccls"))
+            c-c++-backend 'lsp-ccls)
      (clojure :packages (not clojure-cheatsheet))
      colors
      copy-as-format

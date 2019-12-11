@@ -98,7 +98,7 @@ This function should only modify configuration layer settings."
      bm
      (c-c++ :variables
             c-c++-enable-clang-format-on-save t
-            c-c++-default-mode-for-headers 'c++-mode
+            c-c++-default-mode-for-headers 'c-or-c++-mode
             c-c++-backend 'lsp-ccls)
      (clojure :packages (not clojure-cheatsheet))
      colors

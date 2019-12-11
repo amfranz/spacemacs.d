@@ -7,6 +7,7 @@
                             cmake-mode
                             eldoc-cmake
                             evil-surround
+                            highlight-doxygen
                             lsp-mode
                             modern-cpp-font-lock
                             (nxml-mode :location built-in)
@@ -41,6 +42,12 @@
     (defun my-evil-surround-pairs-c++-mode ()
       (push '(?< . ("< " . " >")) evil-surround-pairs-alist))
     (add-lazy-hook 'c++-mode #'my-evil-surround-pairs-c++-mode)))
+
+(defun my-cpp/init-highlight-doxygen ()
+  (use-package highlight-doxygen
+    :commands (highlight-doxygen-mode)
+    :init (spacemacs/add-to-hooks #'highlight-doxygen-mode
+                                  c-c++-mode-hooks)))
 
 (defun my-cpp/init-cmake-font-lock ()
   (use-package cmake-font-lock

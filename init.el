@@ -1170,9 +1170,18 @@ potentially deletes it, after which it can not be autoloaded any more."
       (select-window window)))
   (spacemacs/set-leader-keys "ww" #'my-select-mru-window)
 
+  ;; Sort ripgrep search results. This is a trade-off. Sorting means that
+  ;; ripgrep can't parallelize the search. On the other hand sorting prevents
+  ;; the search results from "jumping around" in the helm window, which bothers
+  ;; me very much.
+  ;; The jumping of the results happens because of the "live" behavior of the
+  ;; search, whereas after every keypress it performs the search again. Even if
+  ;; after another keypress the same list of results is produced, they might
+  ;; suddenly appear in a different order because of the randomness of thread
+  ;; timing.
   (defun my-ad-helm-do-ag-rg-sort-files (orig-fun &rest args)
     (let ((helm-ag-base-command (if (string-prefix-p "rg " helm-ag-base-command)
-                                    (concat helm-ag-base-command " --sort-files")
+                                    (concat helm-ag-base-command " --sort path")
                                   helm-ag-base-command)))
       (apply orig-fun args)))
   (advice-add 'helm-do-ag :around #'my-ad-helm-do-ag-rg-sort-files)

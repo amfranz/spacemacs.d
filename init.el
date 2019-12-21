@@ -78,22 +78,40 @@ This function should only modify configuration layer settings."
               ;; after the directory local variables have been loaded.
               ;;
               ansible-auto-encrypt-decrypt nil)
+
+     ;; With these settings neither RET nor TAB will trigger completion any
+     ;; more. The way to interact with the autocompletion popup is by using
+     ;; these Vim/Evil friendly keybindings:
+     ;;   C-j => next
+     ;;   C-k => previous
+     ;;   C-l => complete
+     ;;   C-h => help
      (auto-completion :variables
                       ;; There is no good way to insert a newline when the popup
-                      ;; is present. Let's disable the completion on RET.
+                      ;; is present. Let's disable completion on RET.
                       auto-completion-return-key-behavior nil
                       ;; Navigating org mode tables can be difficult, if you
-                      ;; press TAB to go to the next cell it will autocomplete
-                      ;; instead. Let's disable the completion on TAB.
+                      ;; press TAB to go to the next cell it will complete
+                      ;; instead. Let's disable completion on TAB.
                       auto-completion-tab-key-behavior nil
-                      ;; Since neither RET nor TAB will trigger completion any
-                      ;; more, the interaction with autocompletion has to be
-                      ;; done via the Vim/Evil keybindings:
-                      ;;   C-n => next
-                      ;;   C-p => previous
-                      ;;   C-l => complete
+                      ;; `company-box' provides a nicer UI.
                       auto-completion-use-company-box t
-                      auto-completion-enable-help-tooltip 'manual)
+                      ;; The help tooltip appearing automatically is nice but
+                      ;; unnecessary most of the time, manual invocation will do
+                      ;; just as well.
+                      ;; Note: The reason we choose nil instead of 'manual is
+                      ;; because `company-box' already customizes `company' as
+                      ;; necessary to make the help text appear in a tooltip, we
+                      ;; don't need Spacemacs to assist any further.
+                      auto-completion-enable-help-tooltip nil
+                      ;; The only reason a list of cancel keywords even exists
+                      ;; is because sometimes RET triggering completion goes
+                      ;; against the users intent. Since we disabled completion
+                      ;; on RET, this is a non-issue for us. By configuring an
+                      ;; empty list of cancel keywords we essentially disable
+                      ;; the feature.
+                      company-mode-completion-cancel-keywords nil)
+
      better-defaults
      bm
      (c-c++ :variables

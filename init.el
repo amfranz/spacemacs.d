@@ -107,7 +107,7 @@ This function should only modify configuration layer settings."
      csv
      dap
      (dash :variables
-           helm-dash-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
+           dash-docs-docset-newpath "~/.local/share/Zeal/Zeal/docsets")
      docker
      emacs-lisp
      erlang

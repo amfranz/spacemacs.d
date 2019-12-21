@@ -26,3 +26,9 @@
           (auth-source-pass--do-debug "return %s as final result (plus hidden password)"
                                       (seq-subseq retval 0 -2)) ;; remove password
           retval)))))
+
+(defun my-pass//no-copy-to-clipboard (orig-fun &rest args)
+  "Prevents passwords intended for the kill ring from being shared with the
+clipboard."
+  (let ((interprogram-cut-function nil))
+    (apply orig-fun args)))

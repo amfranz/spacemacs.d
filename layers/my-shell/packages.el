@@ -1,19 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-shell-packages
-  '((eterm-256color
-     :location (recipe
-                :fetcher github
-                :repo "dieggsy/eterm-256color"
-                ;; the latest version in melpa is currently broken,
-                ;; this is the last good revision known.
-                :commit "dab96af559deb443c4c9c00e23389926e1607192"
-                :files (:defaults
-                        "eterm-256color.ti")))
-    eshell
-    shell-pop
-    term
-    vterm))
+(defconst my-shell-packages '(eterm-256color
+                              eshell
+                              shell-pop
+                              term
+                              vterm))
 
 (defun my-shell/post-init-eshell ()
   (with-eval-after-load 'eshell

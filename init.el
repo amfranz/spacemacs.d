@@ -667,6 +667,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (seq-do #'gc-idle-exempt '(byte-recompile-directory
                              configuration-layer//install-packages))
 
+  ;; Emacs 27 changed the default value of `custom--inhibit-theme-enable' to
+  ;; apply-only-user. Currently this makes some faces appear incorrectly, for
+  ;; example the base colors in vterm. For the time being, let's reset it to
+  ;; nil, which was the previous default value.
+  (when (>= emacs-major-version 27)
+    (setq custom--inhibit-theme-enable nil))
+
   ;; Allow resizing frames with pixel-precision, do not enforce frame sizes to
   ;; be multiples of character width or height.
   (setq frame-resize-pixelwise t)
@@ -1259,6 +1266,15 @@ current frame but keep Emacs running."
         (spacemacs/frame-killer)
       (spacemacs/prompt-kill-emacs)))
   (spacemacs/set-leader-keys "qf" #'kill-frame-or-emacs)
+
+  ;; Add the :extend attribute, introduced by Emacs 27, to faces that need it.
+  (when (>= emacs-major-version 27)
+    (with-eval-after-load 'company
+      (dolist (face '(company-tooltip-selection))
+        (set-face-attribute face nil :extend t)))
+    (with-eval-after-load 'helm
+      (dolist (face '(helm-selection))
+        (set-face-attribute face nil :extend t))))
 
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get

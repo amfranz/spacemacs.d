@@ -1177,6 +1177,33 @@ potentially deletes it, after which it can not be autoloaded any more."
       (apply orig-fun args)))
   (advice-add 'helm-do-ag :around #'my-ad-helm-do-ag-rg-sort-files)
 
+  ;; Center the buffer after visiting a file via `helm-ag'.
+  (el-patch-feature helm-ag)
+  (with-eval-after-load 'helm-ag
+    (eval
+     '(el-patch-defun helm-ag--find-file-action (candidate find-func this-file &optional persistent)
+        (when (memq 'pt helm-ag--command-features)
+          ;; 'pt' always show filename if matched file is only one.
+          (setq this-file nil))
+        (let* ((file-line (helm-grep-split-line candidate))
+               (filename (or this-file (cl-first file-line) candidate))
+               (line (if this-file
+                         (cl-first (split-string candidate ":"))
+                       (cl-second file-line)))
+               (default-directory (or helm-ag--default-directory
+                                      helm-ag--last-default-directory
+                                      default-directory)))
+          (unless persistent
+            (setq helm-ag--last-default-directory default-directory))
+          (funcall find-func filename)
+          (goto-char (point-min))
+          (when line
+            (forward-line (1- (string-to-number line)))
+            (el-patch-add (recenter)))
+          (ignore-errors
+            (and (re-search-forward helm-ag--last-query (line-end-position) t)
+                 (goto-char (match-beginning 0))))))))
+
   ;; Workaround for display issues with squished font glyphs in tooltip windows.
   (setq pos-tip-border-width 0)
   (with-eval-after-load 'tooltip

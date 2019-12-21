@@ -180,7 +180,7 @@ This function should only modify configuration layer settings."
            rust-format-on-save t)
      search-engine
      (shell :variables
-            shell-default-shell 'eshell)
+            shell-default-shell 'vterm)
      shell-scripts
      sql
      syntax-checking
@@ -1127,6 +1127,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; less mental overhead for such a common operation.
   (define-key evil-normal-state-map (kbd "s-v") #'evil-paste-before)
   (define-key evil-insert-state-map (kbd "s-v") #'evil-paste-before)
+  (when (configuration-layer/package-used-p 'vterm)
+    (evil-define-key 'insert vterm-mode-map (kbd "s-v") #'vterm-yank))
 
   ;; Replace the key binding for `spacemacs/recompile-elpa' ("SPC f e c") with
   ;; the more useful binding to edit the `custom-file'. This mirrors the

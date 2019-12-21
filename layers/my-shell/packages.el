@@ -53,6 +53,9 @@
 
 (defun my-shell/post-init-term ()
   (with-eval-after-load 'term
+    (add-hook 'spacemacs-post-theme-change-hook
+              #'my-shell//term-customize-faces)
+    (my-shell//term-customize-faces)
     (evil-collection-init 'term)
     (evil-define-key 'insert 'term-raw-map (kbd "C-c C-e") #'term-send-esc)
     (dolist (mode '(term-mode-map term-raw-map))
@@ -60,6 +63,22 @@
 
 (defun my-shell/post-init-vterm ()
   (with-eval-after-load 'vterm
-    (add-hook 'spacemacs-post-theme-change-hook
-              #'my-shell//vterm-customize-faces)
-    (my-shell//vterm-customize-faces)))
+    (when (configuration-layer/package-used-p 'eterm-256color)
+      (setq vterm-term-environment-variable "eterm-256color"))
+
+    (when dotspacemacs-distinguish-gui-tab
+      (define-key vterm-mode-map (kbd "<C-i>") #'vterm-send-tab))
+
+    (evil-define-key 'insert vterm-mode-map
+      (kbd "C-a") #'vterm--self-insert
+      (kbd "C-e") #'vterm--self-insert
+      (kbd "C-h") #'vterm--self-insert
+      (kbd "C-k") #'vterm--self-insert
+      (kbd "C-r") #'vterm--self-insert
+      (kbd "C-u") #'vterm--self-insert)
+
+    (add-to-list 'spacemacs-indent-sensitive-modes 'vterm-mode)
+    (advice-add 'helm-kill-ring-action-yank-1
+                :around #'my-shell//helm-kill-ring-action-yank-1)
+
+    (add-hook 'vterm-mode-hook #'my-shell//vterm-mode-hook)))

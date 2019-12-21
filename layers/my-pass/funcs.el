@@ -9,6 +9,7 @@
           (auth-source-pass--find-match "localhost" nil)
         (auth-source-pass--find-match "updox" nil))))
 
+  ;; FIXME: rewrite this to use el-patch
   ;; A change is that "port" is passed to the find-match defun.
   (defun auth-source-pass--build-result (host port user)
     "Build auth-source-pass entry matching HOST, PORT and USER."

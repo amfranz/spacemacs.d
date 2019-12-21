@@ -147,6 +147,7 @@ This function should only modify configuration layer settings."
           org-enable-org-journal-support t
           org-enable-reveal-js-support t
           org-want-todo-bindings t)
+     pass
      perl5
      plantuml
      prettier

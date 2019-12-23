@@ -77,9 +77,6 @@
 
 (defun my-magit/init-magit-libgit ()
   (use-package magit-libgit
-    ;; NOTE: My Emacs 27 snapshot can't build/load the module.
-    ;;       It will probably work with a non-snapshot build.
-    :if (< emacs-major-version 27)
     :after magit))
 
 (defun my-magit/init-magit-todos ()

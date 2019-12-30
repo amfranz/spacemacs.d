@@ -62,6 +62,7 @@
 
     (evil-define-key 'insert vterm-mode-map
       (kbd "C-a") #'vterm--self-insert
+      (kbd "C-d") #'vterm--self-insert
       (kbd "C-e") #'vterm--self-insert
       (kbd "C-h") #'vterm--self-insert
       (kbd "C-k") #'vterm--self-insert

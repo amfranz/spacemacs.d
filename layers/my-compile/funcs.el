@@ -1,5 +1,13 @@
 ;; -*- lexical-binding: t -*-
 
+(defun spacemacs/first-error (&optional n)
+  "Dispatch to flycheck or standard emacs error."
+  (interactive "P")
+  (let ((sys (spacemacs/error-delegate)))
+    (cond
+     ((eq 'flycheck sys) (call-interactively 'flycheck-first-error))
+     ((eq 'emacs sys) (call-interactively 'first-error)))))
+
 (defun first-error-no-select (&optional n)
   "Move point to the first error in the `next-error' buffer and highlight match.
 With prefix arg N, visit the Nth error.

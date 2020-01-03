@@ -732,9 +732,17 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (defun my--adjust-theme-variables ()
     (when (memq 'zenburn custom-enabled-themes)
       (zenburn-with-color-variables
-        (custom-theme-set-variables
-         'zenburn
-         `(fci-rule-color ,zenburn-bg+3)))))
+        ;; `display-fill-column-indicator' is available in Emacs 27+
+        (if (boundp 'display-fill-column-indicator)
+            (custom-theme-set-faces
+             'zenburn
+             `(fill-column-indicator ((t :inherit shadow :weight normal :slant normal
+                                         :underline nil :overline nil :strike-through nil
+                                         :box nil :inverse-video nil :stipple nil
+                                         :foreground ,zenburn-bg+3))))
+          (custom-theme-set-variables
+           'zenburn
+           `(fci-rule-color ,zenburn-bg+3))))))
   (add-hook 'spacemacs-post-theme-change-hook
             #'my--adjust-theme-variables)
 

@@ -43,8 +43,9 @@
   (advice-add 'go--reset-dangling-cache-before-change
               :around #'my--ad-save-match-data)
 
-  ;; This will cause the value of go-tab-width to carry over to evil-shift-width.
-  (push '(go-mode . go-tab-width) spacemacs--indent-variable-alist)
+  ;; This will adjust `evil-shift-width' to the value of `tab-width'.
+  ;; `tab-width' can be set by editorconfig or directory-local variables.
+  (setf (alist-get 'go-mode spacemacs--indent-variable-alist) 'tab-width)
 
   ;; Shorten the names of vendored packages when adding imports with
   ;; `go-import-add'.

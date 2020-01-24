@@ -134,7 +134,6 @@ This function should only modify configuration layer settings."
      (go :variables
          go-backend 'lsp
          go-format-before-save t
-         go-tab-width 4
          go-use-golangci-lint t)
      graphviz
      helm

@@ -24,7 +24,8 @@
   (interactive)
   (spacemacs/go-run-tests "-bench=."))
 
-(defun my-go--ffa-trailing-separator ()
+(defun my-go//ffa-trailing-separator ()
+  (setq-local fill-function-arguments-indent-after-fill t)
   (setq-local fill-function-arguments-trailing-separator t))
 
 (defun my-go//reenable-go-build ()

@@ -51,13 +51,9 @@
       "tb" #'spacemacs/go-run-benchmark-current-function
       "tB" #'spacemacs/go-run-package-benchmarks)))
 
-(defun my-go/init-fill-function-arguments ()
-  (use-package fill-function-arguments
-    :defer t
-    :init
-    (progn
-      (add-hook 'go-mode-hook #'my-go--ffa-trailing-separator)
-      (spacemacs/safe-set-leader-keys "aw" #'fill-function-arguments-dwim))))
+(defun my-go/post-init-fill-function-arguments ()
+  ;; (setf (alist-get 'go-mode multi-line-backends) 'fill-function-arguments)
+  (add-hook 'go-mode-hook #'my-go//ffa-trailing-separator))
 
 (defun my-go/post-init-flycheck-golangci-lint ()
   ;; Only run fast tests to prevent the laptop getting hot.

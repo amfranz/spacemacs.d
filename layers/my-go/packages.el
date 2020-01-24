@@ -104,6 +104,6 @@
         (puthash 'go goprjtype projectile-project-types)))))
 
 (defun my-go/post-init-ws-butler ()
-  ;; Disable ws-butler for go source code, go fmt will do the job instead.
   (with-eval-after-load 'ws-butler
-    (push 'go-mode ws-butler-global-exempt-modes)))
+    ;; Disable `ws-butler' in `go-mode' buffers, gofmt will do the job instead.
+    (add-to-list 'ws-butler-global-exempt-modes 'go-mode)))

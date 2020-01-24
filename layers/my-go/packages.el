@@ -28,11 +28,11 @@
     :defer t))
 
 (defun my-go/post-init-go-mode ()
-  ;; Recommended by the Spacemacs manual.
-  (setq gofmt-show-errors 'echo
-        ;; godoc-at-point-function 'godoc-gogetdoc
-        ;; gofmt-command "goimports"
-        )
+  ;; Avoid a window popping up when gofmt fails. It breaks the flow.
+  (setq gofmt-show-errors 'echo)
+
+  ;; Use gogetdoc, which is more feature-rich than gocode, for auto-completion.
+  (setq godoc-at-point-function 'godoc-gogetdoc)
 
   ;; This function clobbers the match data in `before-change-functions',
   ;; which breaks other things (eg. iedit-mode, evil regex replace)

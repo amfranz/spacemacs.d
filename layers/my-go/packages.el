@@ -40,8 +40,7 @@
 
   ;; Shorten the names of vendored packages when adding imports with
   ;; `go-import-add'.
-  (advice-add 'go-packages :filter-return
-              #'my-go//shorten-vendored-package-names)
+  (setq go-packages-function #'my-go/go-packages-gopkgs)
 
   ;; Use both lsp-ui as well as golangci-lint as linters.
   (add-hook 'go-mode-hook 'my-go//lsp-ui-flycheck-enable 'append)

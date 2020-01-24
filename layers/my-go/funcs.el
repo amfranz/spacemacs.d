@@ -1,13 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
-(defun my-go//shorten-vendored-package-names (packages)
-  (sort
-   (delete-dups
+(defun my-go/go-packages-gopkgs ()
+  "Return a list of all Go packages, using `gopkgs'."
+  (delete-consecutive-dups
+   (sort
     (mapcar
-     (lambda (pkg)
-       (car (last (split-string pkg "/vendor/"))))
-     packages))
-   #'string<))
+     (lambda (package)
+       (if (string-match "/vendor/" package)
+           (substring package (match-end 0))
+         package))
+     (process-lines "gopkgs" "-workDir" "."))
+    #'string<)))
 
 (defun spacemacs/go-run-benchmark-current-function ()
   (interactive)

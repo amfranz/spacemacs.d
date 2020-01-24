@@ -34,11 +34,6 @@
   ;; Use gogetdoc, which is more feature-rich than gocode, for auto-completion.
   (setq godoc-at-point-function 'godoc-gogetdoc)
 
-  ;; This function clobbers the match data in `before-change-functions',
-  ;; which breaks other things (eg. iedit-mode, evil regex replace)
-  (advice-add 'go--reset-dangling-cache-before-change
-              :around #'my--ad-save-match-data)
-
   ;; This will adjust `evil-shift-width' to the value of `tab-width'.
   ;; `tab-width' can be set by editorconfig or directory-local variables.
   (setf (alist-get 'go-mode spacemacs--indent-variable-alist) 'tab-width)

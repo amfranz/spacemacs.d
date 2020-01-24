@@ -21,9 +21,6 @@
   (interactive)
   (spacemacs/go-run-tests "-bench=."))
 
-(defun my-go//disable-eldoc ()
-  (eldoc-mode -1))
-
 (defun my--ad-save-match-data (orig-fun &rest args)
   (save-match-data
     (apply orig-fun args)))

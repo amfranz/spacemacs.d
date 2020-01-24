@@ -21,11 +21,7 @@
   (setq company-go-gocode-command "gocode-gomod"))
 
 (defun my-go/post-init-go-eldoc ()
-  (setq go-eldoc-gocode "gocode-gomod")
-  ;; go-eldoc causes significant lag in go mode. This setup function also
-  ;; overrides `eldoc-documentation-function', which lsp mode tries to
-  ;; customize.
-  (remove-hook 'go-mode-hook #'go-eldoc-setup))
+  (setq go-eldoc-gocode "gocode-gomod"))
 
 (defun my-go/init-go-dlv ()
   (use-package go-dlv

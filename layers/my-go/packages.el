@@ -43,7 +43,7 @@
   (setq go-packages-function #'my-go/go-packages-gopkgs)
 
   ;; Use both lsp-ui as well as golangci-lint as linters.
-  (add-hook 'go-mode-hook 'my-go//lsp-ui-flycheck-enable 'append)
+  (add-hook 'go-mode-hook #'my-go//configure-flycheck)
 
   (with-eval-after-load 'go-mode
     ;; Define which-key prefixes when Spacemacs does not.
@@ -64,24 +64,17 @@
       (add-hook 'go-mode-hook #'my-go--ffa-trailing-separator)
       (spacemacs/safe-set-leader-keys "aw" #'fill-function-arguments-dwim))))
 
-(defun my-go//lsp-ui-flycheck-enable ()
-  ;; Make flycheck less eager to lint.
-  ;; Linting after every keystroke is making the editor sluggish.
-  (setq-local lsp-ui-flycheck-live-reporting nil)
-  (setq-local flycheck-idle-change-delay 2)
-  (setq-local flycheck-idle-buffer-switch-delay 2)
-  (setq-local flycheck-check-syntax-automatically
-              '(save idle-change idle-buffer-switch mode-enabled))
-
-  ;; Mark LSP as the linter for flycheck to use.
-  (require 'lsp-ui-flycheck)
-  (lsp-ui-flycheck-enable nil))
-
 (defun my-go/post-init-flycheck-golangci-lint ()
+  ;; Only run fast tests to prevent the laptop getting hot.
   (setq flycheck-golangci-lint-fast t)
+
+  ;; golangci-lint will report nasty and useless errors if the code does not
+  ;; compile. To avoid that, we make sure go-build is the first checker to be
+  ;; invoked, if it did not report any errors only then golangci-lint is to be
+  ;; invoked.
+  (add-hook 'go-mode-hook #'my-go//reenable-go-build t)
   (with-eval-after-load 'flycheck-golangci-lint
-    (with-eval-after-load 'lsp-ui
-      (flycheck-add-next-checker 'lsp-ui '(warning . golangci-lint)))))
+    (flycheck-add-next-checker 'go-build '(warning . golangci-lint))))
 
 (defun my-go/post-init-prodigy()
   (with-eval-after-load 'prodigy

@@ -15,3 +15,9 @@
   "Predicate to detect the git data directory.
 Will return t when FILE is '.git'"
   (string-equal file ".git"))
+
+(defun my-treemacs//enable-icons-dired-mode ()
+  "Delays enabling `treemacs-icons-dired-mode' until the there is a buffer in
+which `dired-mode' is enabled."
+  (unless (bound-and-true-p treemacs-icons-dired-mode)
+    (treemacs-icons-dired-mode)))

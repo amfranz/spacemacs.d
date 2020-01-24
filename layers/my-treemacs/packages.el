@@ -79,5 +79,4 @@
 
 (defun my-treemacs/init-treemacs-icons-dired ()
   (use-package treemacs-icons-dired
-    :after dired
-    :config (treemacs-icons-dired-mode)))
+    :hook (dired-mode . my-treemacs//enable-icons-dired-mode)))

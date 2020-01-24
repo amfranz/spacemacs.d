@@ -46,15 +46,10 @@
   (add-hook 'go-mode-hook #'my-go//configure-flycheck)
 
   (with-eval-after-load 'go-mode
-    ;; Define which-key prefixes when Spacemacs does not.
-    (spacemacs/declare-prefix-for-mode 'go-mode "mT" "tags")
-    (spacemacs/declare-prefix-for-mode 'go-mode "mtg" "go-gen-test")
-
     ;; Add key bindings for running benchmarks.
-    (spacemacs/declare-prefix-for-mode 'go-mode "mb" "benchmarks")
     (spacemacs/safe-set-leader-keys-for-major-mode 'go-mode
-      "bb" #'spacemacs/go-run-benchmark-current-function
-      "bp" #'spacemacs/go-run-package-benchmarks)))
+      "tb" #'spacemacs/go-run-benchmark-current-function
+      "tB" #'spacemacs/go-run-package-benchmarks)))
 
 (defun my-go/init-fill-function-arguments ()
   (use-package fill-function-arguments

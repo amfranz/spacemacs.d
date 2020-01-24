@@ -26,3 +26,12 @@
 
 (defun my-go--ffa-trailing-separator ()
   (setq-local fill-function-arguments-trailing-separator t))
+
+(defun my-go//reenable-go-build ()
+  (setq flycheck-disabled-checkers (delq 'go-build flycheck-disabled-checkers)
+        flycheck-checker 'go-build))
+
+(defun my-go//configure-flycheck ()
+  ;; Make flycheck less eager to lint. Invoking the linter after every keystroke
+  ;; makes the editor sluggish and the laptop hot.
+  (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))

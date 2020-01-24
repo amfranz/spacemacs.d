@@ -132,7 +132,6 @@ This function should only modify configuration layer settings."
      evil-snipe
      git
      (go :variables
-         go-backend 'lsp
          go-format-before-save t
          go-use-golangci-lint t)
      graphviz

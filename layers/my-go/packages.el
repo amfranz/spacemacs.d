@@ -82,14 +82,10 @@
       :cwd user-home-directory)))
 
 (defun my-go/post-init-projectile ()
-  ;; Customize the default build and test commands for Go projects.
-  (when nil ;; FIXME: broken
-    (with-eval-after-load 'projectile
-      (let ((goprjtype (gethash 'go projectile-project-types)))
-        (dolist (cmd '((compile-command . "go build -i")
-                       (test-command . "go test")))
-          (setq goprjtype (plist-put goprjtype (car cmd) (cdr cmd))))
-        (puthash 'go goprjtype projectile-project-types)))))
+  (with-eval-after-load 'projectile
+    ;; Customize the default projectile commands for Go projects.
+    (let ((project-type (alist-get 'go projectile-project-types)))
+      (setcar (cdr (plist-member project-type 'test-command)) "go test"))))
 
 (defun my-go/post-init-ws-butler ()
   (with-eval-after-load 'ws-butler

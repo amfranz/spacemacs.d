@@ -13,8 +13,10 @@
 
 (defun my-go/post-init-compile ()
   (with-eval-after-load 'compile
-    (add-to-list 'compilation-error-regexp-alist-alist
-                 '(go-testify "^    \\(\\([a-zA-Z0-9_-]+\\.go\\):\\([0-9]+\\):\\) $" 2 3 nil nil 1))
+    ;; This pattern matches both assertion failures by go-testify, as well as
+    ;; messages that were logged in tests via testing.T.Log.
+    (setf (alist-get 'go-testify compilation-error-regexp-alist-alist)
+          '("^    \\(\\([a-zA-Z0-9_-]+\\.go\\):\\([0-9]+\\):\\) " 2 3 nil nil 1))
     (add-to-list 'compilation-error-regexp-alist 'go-testify)))
 
 (defun my-go/post-init-company-go ()

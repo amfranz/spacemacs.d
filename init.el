@@ -842,7 +842,11 @@ potentially deletes it, after which it can not be autoloaded any more."
   (defun my-frame-title ()
     (concat
      (when-let (persp (and (fboundp 'get-frame-persp) (get-frame-persp)))
-       (concat "[" (persp-name persp) "] "))
+       (let ((name (persp-name persp)))
+         ;; This is the same logic to abbreviate the layout name as in `spaceline.el'.
+         (if (file-directory-p name)
+             (setq name (file-name-nondirectory (directory-file-name name))))
+         (concat "[" name "] ")))
      (buffer-name)
      (when (or buffer-file-name (derived-mode-p 'dired-mode))
        (concat " (" (string-remove-suffix "/" (abbreviate-file-name default-directory)) ")"))

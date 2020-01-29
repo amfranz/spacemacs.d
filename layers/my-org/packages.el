@@ -103,8 +103,13 @@
         org-src-preserve-indentation t)
 
   ;; Customize org priority faces.
-  (add-hook 'spacemacs-post-theme-change-hook #'my-org//adjust-org-priority-faces)
-  (my-org//adjust-org-priority-faces)
+  (spacemacs/after-load-theme 'zenburn
+    (zenburn-with-color-variables
+      (custom-theme-alter-variables
+       'zenburn
+       `(org-priority-faces '((?A . (:foreground ,zenburn-magenta))
+                              (?B . (:foreground ,zenburn-yellow))
+                              (?C . (:foreground ,zenburn-cyan)))))))
 
   ;; Wrap long lines by default.
   (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)

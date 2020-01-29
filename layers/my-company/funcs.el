@@ -1,13 +1,5 @@
 ;; -*- lexical-binding: t -*-
 
-(defun my-company//adjust-company-box-theme-faces ()
-  "Make `company-box' candidates adhere to the color theme instead of using a
-hardcoded bright white text color."
-  (when (memq 'zenburn custom-enabled-themes)
-    (custom-theme-set-faces
-     'zenburn
-     '(company-box-candidate ((t (:inherit default)))))))
-
 ;; Sometimes the `company-box' frame dies, which causes an error about a dead
 ;; frame whenever the popup would get displayed. This change checks for that
 ;; condition and pretends that no such frame was created yet if the current

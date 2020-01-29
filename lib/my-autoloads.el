@@ -58,9 +58,7 @@ able to function correctly.
 
 For this reason, if the variable `package-selected-packages' has a value, the
 current value will be preserved even if the custom file contains another value
-for it. Additionally, the custom file will be updated with this new value.
-
-\(fn)" nil nil)
+for it. Additionally, the custom file will be updated with this new value." nil nil)
 
 (autoload 'spacemacs/replace-leader-key "my-config" "\
 Similar to `spacemacs/set-leader-keys' for a single binding, but emits a
@@ -102,6 +100,13 @@ buffers of that mode already exist, for example in logic that is lazy loaded via
 \(fn MODE FUN)" nil nil)
 
 (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-config" '("spacemacs//lookup-leader-key")))
+
+;;;***
+
+;;;### (autoloads nil "my-theming" "my-theming.el" (0 0 0 0))
+;;; Generated autoloads from my-theming.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-theming" '(#("custom-theme-alter-" 0 19 (fontified nil face font-lock-function-name-face)) #("spacemacs/" 0 10 (fontified t face font-lock-function-name-face)))))
 
 ;;;***
 

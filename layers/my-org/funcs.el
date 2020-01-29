@@ -47,15 +47,6 @@ Giving the command a PREFIX arg will open the file in another window."
           (find-file notes-org)))
     (message "WARNING: Current buffer is not part of a project!")))
 
-(defun my-org//adjust-org-priority-faces ()
-  (when (memq 'zenburn custom-enabled-themes)
-    (zenburn-with-color-variables
-      (custom-theme-set-variables
-       'zenburn
-       `(org-priority-faces '((?A . (:foreground ,zenburn-magenta))
-                              (?B . (:foreground ,zenburn-yellow))
-                              (?C . (:foreground ,zenburn-cyan))))))))
-
 (defun my-org//ad-preserve-outline-visibility (orig-fun &rest args)
   (if (derived-mode-p 'org-mode)
       (org-save-outline-visibility nil

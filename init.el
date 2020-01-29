@@ -7,6 +7,7 @@
 
 ;; Register autoloads for this projects shared library directory.
 (require 'my-autoloads)
+(require 'my-theming)
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -724,37 +725,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (advice-add 'package--description-file :override
               #'eterm-256color-package--description-file)
 
-  ;; Even though Spacemacs has a theming layer that can customize theme *faces*,
-  ;; it does not have support to customize theme *variables*. We need to roll
-  ;; our own.
-  (defun my--adjust-theme-variables ()
-    (when (memq 'zenburn custom-enabled-themes)
-      (zenburn-with-color-variables
-        ;; `display-fill-column-indicator' is available in Emacs 27+
-        (if (boundp 'display-fill-column-indicator)
-            (custom-theme-set-faces
-             'zenburn
-             `(fill-column-indicator ((t :inherit shadow :weight normal :slant normal
-                                         :underline nil :overline nil :strike-through nil
-                                         :box nil :inverse-video nil :stipple nil
-                                         :foreground ,zenburn-bg+3))))
-          (custom-theme-set-variables
-           'zenburn
-           `(fci-rule-color ,zenburn-bg+3))))))
-  (add-hook 'spacemacs-post-theme-change-hook
-            #'my--adjust-theme-variables)
-
-  ;; Remove the box around `org-mode' checkboxes. The box causes the line to be
-  ;; taller and thus vertically shifts the text below, which is distracting.
-  (defun my--remove-box-around-org-checkbox ()
-    (when (memq 'zenburn custom-enabled-themes)
-      (zenburn-with-color-variables
-        (custom-theme-set-faces
-         'zenburn
-         `(org-checkbox ((t (:background ,zenburn-bg+2 :foreground ,zenburn-fg+1 :box nil))))))))
-  (add-hook 'spacemacs-post-theme-change-hook
-            #'my--remove-box-around-org-checkbox)
-
   ;; `custom-file' needs to be set in `dotspacemacs/user-init' to prevent
   ;; Spacemacs copying custom settings back into this file.
   ;;
@@ -1276,6 +1246,29 @@ current frame but keep Emacs running."
       (dolist (face '(helm-selection))
         (set-face-attribute face nil :extend t))))
 
+
+  ;; Customize the color of the fill column indicator, the color chosen by
+  ;; `zenburn-theme' is too similar to the background color.
+  (spacemacs/after-load-theme 'zenburn
+    (zenburn-with-color-variables
+      ;; `display-fill-column-indicator' is available in Emacs 27+
+      (if (boundp 'display-fill-column-indicator)
+          (custom-theme-alter-faces
+           'zenburn `(fill-column-indicator ((,class
+                                              :foreground ,zenburn-bg+3
+                                              :weight semilight))))
+        (custom-theme-alter-variables
+         'zenburn `(fci-rule-color ,zenburn-bg+3)))))
+
+  ;; Remove the box around `org-mode' checkboxes. The box causes the line to be
+  ;; taller and thus vertically shifts the text below, which is distracting.
+  (spacemacs/after-load-theme 'zenburn
+    (zenburn-with-color-variables
+      (custom-theme-alter-faces
+       'zenburn `(org-checkbox
+                  ((t :background ,zenburn-bg+2
+                      :foreground ,zenburn-fg+1
+                      :box nil))))))
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

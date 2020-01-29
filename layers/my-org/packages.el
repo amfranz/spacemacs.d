@@ -154,6 +154,7 @@
 
 (defun my-org/post-init-org-agenda ()
   (with-eval-after-load 'org-agenda
+    (require 'org-projectile)
     (dolist (file (org-projectile-todo-files))
       (when (file-exists-p file)
         (push file org-agenda-files)))))

@@ -7,6 +7,7 @@
                                 expand-region
                                 flycheck
                                 flycheck-yamllint
+                                molecule
                                 yaml-mode))
 
 (defun my-ansible/post-init-ansible ()
@@ -319,6 +320,21 @@
   (setq font-lock-multiline t)
   ;; (push #'my-ansible//font-lock-extend-region font-lock-extend-region-functions)
   )
+
+(defun my-ansible/init-molecule ()
+  (use-package molecule
+    :defer t
+    :init
+    (progn
+      (with-eval-after-load 'tramp
+        (add-to-list 'tramp-methods
+                     `("molecule"
+                       (tramp-login-program ,(concat dotspacemacs-directory "bin/molecule-tramp"))
+                       (tramp-login-args (("%u") ("%h")))
+                       (tramp-remote-shell "/bin/sh")
+                       (tramp-remote-shell-args ("-c")))))
+      (with-eval-after-load 'recentf
+        (add-to-list 'recentf-exclude "\\`/molecule:")))))
 
 (defun my-ansible/post-init-yaml-mode ()
   (add-to-list 'auto-mode-alist '("\\.yamllint\\'" . yaml-mode))

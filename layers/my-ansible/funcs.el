@@ -243,3 +243,61 @@
                  er/mark-yaml-this-block
                  er/mark-yaml-sibling-block
                  er/mark-yaml-parent-block))))
+
+(defvar molecule--directory nil)
+(defvar molecule--instances nil)
+(defun molecule--record-instances (command)
+  (setq molecule--directory default-directory
+        molecule--instances (shell-command-to-string
+                             (concat command " --format plain"))))
+
+(defun molecule-instances ()
+  (cl-letf (((symbol-function 'compile) #'molecule--record-instances))
+    (molecule-list))
+  (let ((hosts nil))
+    (dolist (line (split-string molecule--instances "\n" t))
+      (let* ((columns (split-string line))
+             (host (nth 0 columns))
+             (created (nth 4 columns)))
+        (if (equal created "true") (push host hosts))))
+    ;; TODO: consider natsort https://stackoverflow.com/questions/1942045/natural-order-sort-for-emacs-lisp
+    (cl-sort hosts 'string-lessp :key 'downcase)))
+
+(defun molecule-dired ()
+  (interactive)
+  (let ((box-name (let* ((names (molecule-instances)))
+                    (if (eq 1 (length names))
+                        (car names)
+                      (completing-read "molecule dired to: " names)))))
+    (find-file (concat "/molecule:" (base64-encode-string molecule--directory t)
+                       "@" box-name ":/home/vagrant/"))))
+
+(defun molecule-dired-as-root ()
+  (interactive)
+  (let ((box-name (let* ((names (molecule-instances)))
+                    (if (eq 1 (length names))
+                        (car names)
+                      (completing-read "molecule dired (as root) to: " names)))))
+    (find-file (concat "/molecule:" (base64-encode-string molecule--directory t)
+                       "@" box-name "|sudo:" box-name ":/root/"))))
+
+(defun molecule-login ()
+  (interactive)
+  (let* ((box-name (let* ((names (molecule-instances)))
+                     (if (eq 1 (length names))
+                         (car names)
+                       (completing-read "molecule login to: " names))))
+         (name (concat "molecule term: " box-name))
+         (buffer (get-buffer-create (concat "*" name "*"))))
+    ;; term-check-proc is not defined until term.el has been loaded
+    (unless (and (fboundp 'term-check-proc) (term-check-proc buffer))
+      (with-current-buffer buffer
+        (cd (concat "/molecule:" (base64-encode-string molecule--directory t)
+                    "@" box-name ":/home/vagrant/"))
+        (require 'vterm)
+        (let ((vterm-term-environment-variable "xterm-256color")
+              (vterm-shell (concat dotspacemacs-directory "bin/molecule-tramp "
+                                   (base64-encode-string molecule--directory t)
+                                   " " (shell-quote-argument box-name))))
+          (vterm-mode))))
+    (switch-to-buffer buffer)))

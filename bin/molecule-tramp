@@ -1,0 +1,4 @@
+#!/bin/sh
+set -ue
+cd "$(echo "$1" | base64 -d)"
+exec molecule login --host "${2}"

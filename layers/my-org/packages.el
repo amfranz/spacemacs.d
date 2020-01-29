@@ -111,6 +111,10 @@
                               (?B . (:foreground ,zenburn-yellow))
                               (?C . (:foreground ,zenburn-cyan)))))))
 
+  ;; Take prefixes and tags of org headlines and lists into account when
+  ;; navigating to the beginning or end of a line.
+  (setq org-special-ctrl-a/e t)
+
   ;; Wrap long lines by default.
   (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)
 

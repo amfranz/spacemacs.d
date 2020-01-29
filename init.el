@@ -968,7 +968,7 @@ potentially deletes it, after which it can not be autoloaded any more."
     "xli" #'sort-lines-insert
     "xll" #'sort-lines-by-length
     "xln" #'sort-numeric-fields
-    "xlr" #'renumber-list
+    "xl0" #'renumber-list
     "xrb" #'re-builder)
 
   ;; Additional miscellaneous key bindings. These are bound under the prefix "o"

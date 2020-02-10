@@ -1269,6 +1269,10 @@ current frame but keep Emacs running."
                   ((t :background ,zenburn-bg+2
                       :foreground ,zenburn-fg+1
                       :box nil))))))
+  ;; An easier way to enter the `evil-numbers' transient state.
+  (spacemacs/safe-set-leader-keys
+    "nn" #'spacemacs/evil-numbers-transient-state/body)
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

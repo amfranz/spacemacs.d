@@ -61,3 +61,12 @@
   (require 'helm)
   (require 'magit-todos)
   (helm-magit-todos))
+
+(defun magit-diff-upstream (&optional args)
+  (interactive)
+  (require 'magit)
+  (let ((args (magit-diff-arguments))
+        (file (magit-file-relative-name)))
+    (if file
+        (magit-diff-range "@{upstream}..." args (list file))
+      (magit-diff-range "@{upstream}..." args))))

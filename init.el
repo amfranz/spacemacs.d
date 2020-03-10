@@ -962,7 +962,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   (spacemacs/safe-set-leader-keys
     "fyp" #'projectile-copy-project-root
     "ef" #'spacemacs/first-error
-    "gd" #'magit-diff-buffer-file
+    "gdb" #'magit-diff-buffer-file
+    "gdu" #'magit-diff-upstream
     "id" #'my-insert-date-or-time
     "qe" #'server-edit
     "xli" #'sort-lines-insert

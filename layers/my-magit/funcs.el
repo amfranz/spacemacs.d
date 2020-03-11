@@ -65,7 +65,7 @@
 (defun magit-diff-upstream (&optional args)
   (interactive)
   (require 'magit)
-  (let ((args (magit-diff-arguments))
+  (let ((args (car (magit-diff-arguments)))
         (file (magit-file-relative-name)))
     (if file
         (magit-diff-range "@{upstream}..." args (list file))

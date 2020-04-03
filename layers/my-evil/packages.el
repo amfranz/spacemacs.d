@@ -3,7 +3,8 @@
 (defconst my-evil-packages '(drag-stuff
                              evil
                              (evil-escape :excluded t)
-                             evil-nerd-commenter))
+                             evil-nerd-commenter
+                             evil-vimish-fold))
 
 (defun my-evil/init-drag-stuff ()
   (use-package drag-stuff
@@ -26,3 +27,12 @@
   (define-key evil-inner-text-objects-map "c" #'evilnc-inner-comment)
   (autoload 'evilnc-outer-commenter "evil-nerd-commenter-operator")
   (define-key evil-outer-text-objects-map "c" #'evilnc-outer-commenter))
+
+(defun my-evil/init-evil-vimish-fold ()
+  (use-package evil-vimish-fold
+    :defer t
+    :diminish
+    :init
+    (progn
+      (setq vimish-fold-dir (concat spacemacs-cache-directory "vimish-fold/"))
+      (add-hook 'prog-mode-hook #'evil-vimish-fold-mode))))

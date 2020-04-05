@@ -1,6 +1,31 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-projectile-packages '(projectile))
+(defconst my-projectile-packages '(persp-mode
+                                   projectile))
+
+;; See also: https://github.com/Bad-ptr/persp-mode.el#custom-saveload-buffer-function-example
+(defun my-projectile/post-init-persp-mode ()
+  (setq persp-autokill-buffer-on-remove t
+        persp-auto-save-persps-to-their-file t)
+
+  ;; Loading a perspective can trigger many packages to load at once. Ensure
+  ;; that garbage collection is turned on during loading to avoid the Emacs
+  ;; memory usage to balloon.
+  (gc-idle-exempt 'persp-load-state-from-file)
+
+  ;; Turn on auto saving of perspectives. To avoid multiple Emacs instances to
+  ;; overwrite each others config, we make an opinionated decision to designate
+  ;; a specific Emacs instance that will auto save, and all other will not. The
+  ;; instance that runs the Emacs daemon is the logical choice. Because I use
+  ;; multiple Emacs daemons, one for X (named "server-x") and one for the
+  ;; terminal (named "server-tty"), there is an extra condition to specifically
+  ;; select the daemon for X.
+  (if (string-equal (daemonp) "server-x")
+      (setq persp-auto-save-persps-to-their-file-before-kill 'persp-file)
+    (setq persp-auto-save-opt 0))
+
+  (spacemacs/replace-leader-key
+    "pl" #'spacemacs/helm-persp-switch-project #'helm-persp-resume-project))
 
 (defun my-projectile/post-init-projectile ()
   (with-eval-after-load 'projectile

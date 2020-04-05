@@ -1,38 +1,28 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-dired-packages '(all-the-icons
-                               ;; all-the-icons-dired  ;; replaced by treemacs-icons-dired
-                               treemacs-icons-dired
-                               ;; diff-hl
-                               (dired :location built-in)
-                               (dired+ :location (recipe :fetcher wiki
-                                                         :files ("dired+.el")))
-                               dired-filter
-                               dired-subtree
-                               (dired-x :location built-in)
-                               (image-dired :location built-in)
-                               (wdired :location built-in)
-                               ;; This conflicts with the location in `spacemacs-modeline-packages'
-                               ;; which fetches an older version of `font-lock+' from emacsmirror.
-                               ;; (font-lock+ :location (recipe :fetcher url
-                               ;;                               :url "https://www.emacswiki.org/emacs/download/font-lock+.el"))
-                               font-lock+))
+                              treemacs-icons-dired
+                              ;; FIXME: broken
+                              ;; diff-hl
+                              (dired :location built-in)
+                              (dired+ :location (recipe :fetcher wiki
+                                                        :files ("dired+.el")))
+                              dired-filter
+                              dired-subtree
+                              (dired-x :location built-in)
+                              (image-dired :location built-in)
+                              (wdired :location built-in)
+                              ;; This conflicts with the location in `spacemacs-modeline-packages'
+                              ;; which fetches an older version of `font-lock+' from emacsmirror.
+                              ;; (font-lock+ :location (recipe :fetcher url
+                              ;;                               :url "https://www.emacswiki.org/emacs/download/font-lock+.el"))
+                              font-lock+))
 
-;; Backwards compatibility with old function names.
+;; TODO: Move this to another layer. The Spacemacs auto-completion layer owns
+;;       the `all-the-icons' package now.
 (defun my-dired/post-init-all-the-icons ()
-  (use-package all-the-icons
-    :defer t
-    :init
-    ;; Suggested by https://github.com/domtronn/all-the-icons.el#slow-rendering
-    (setq inhibit-compacting-font-caches t)))
-
-(defun my-dired/init-all-the-icons-dired ()
-  (use-package all-the-icons-dired
-    :diminish
-    :hook (dired-mode . all-the-icons-dired-mode)
-    :init
-    (advice-add 'all-the-icons-dired--display
-                :override #'my-dired//all-the-icons-dired--display)))
+  ;; Suggested by https://github.com/domtronn/all-the-icons.el#slow-rendering
+  (setq inhibit-compacting-font-caches t))
 
 (defun my-dired/post-init-treemacs-icons-dired ()
   (el-patch-feature treemacs-icons-dired)
@@ -53,7 +43,14 @@
                            (icon (if (file-directory-p file)
                                      treemacs-icon-dir-closed
                                    (treemacs-icon-for-file file))))
-                      (insert (el-patch-swap icon (propertize icon 'icon t))))
+                      (el-patch-swap
+                        (insert icon)
+                        ;; If the stars align, due to packages being loaded
+                        ;; on-demand, this function may be called before the
+                        ;; icons are loaded. In such case icon is nil. We make
+                        ;; this change to avoid errors due to (insert nil) or
+                        ;; (propertize nil ...).
+                        (when icon (insert (propertize icon 'icon t)))))
                   (treemacs-return nil))
                 (forward-line 1))))))))))
 
@@ -150,7 +147,6 @@
       ",c" #'wdired-finish-edit
       (kbd "<escape>") #'wdired-exit)))
 
-(setq dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$")
 (defun my-dired/init-dired+ ()
   (use-package dired+
     :hook (dired-mode . my-dired//require-dired+)
@@ -188,9 +184,6 @@ the customization to `dired-filter-prefix' did not take effect."))
     :defer t
     :init
     (progn
-      (when (configuration-layer/package-used-p 'all-the-icons-dired)
-        (add-hook 'all-the-icons-dired-mode-hook
-                  #'my-dired//dired-subtree--insert-all-the-icons))
       (when (configuration-layer/package-used-p 'treemacs-icons-dired)
         (add-hook 'treemacs-icons-dired-mode-hook
                   #'my-dired//dired-subtree--insert-treemacs-icons))
@@ -220,6 +213,8 @@ the customization to `dired-filter-prefix' did not take effect."))
 (defun my-dired/init-image-dired ()
   (setq image-dired-dir (concat spacemacs-cache-directory "image-dired/")))
 
+;; TODO: Move this to another layer. The Spacemacs auto-completion layer owns
+;;       the `all-the-icons' package now.
 (defun my-dired/post-init-font-lock+ ()
   ;; `font-lock+' is needed for the icons in `dired-mode' buffers to be
   ;; colorized by `all-the-icons-dired'. We only need it for this purpose, but

@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-magit-packages '((diff-mode :location built-in)
+(defconst my-magit-packages '(browse-at-remote
+                              (diff-mode :location built-in)
                               diffview
                               evil-collection
                               magit
@@ -10,6 +11,11 @@
                               vdiff
                               vdiff-magit
                               whitespace))
+
+(defun my-magit/post-init-browse-at-remote ()
+  (with-eval-after-load 'browse-at-remote
+    (add-to-list 'browse-at-remote-remote-type-domains
+                 '("gitea.amfranz.com" . "gitea"))))
 
 (defun my-magit/post-init-diff-mode ()
   ;; Do not automatically trim trailing whitespace when saving edited diff

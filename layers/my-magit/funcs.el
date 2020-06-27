@@ -70,3 +70,15 @@
     (if file
         (magit-diff-range "@{upstream}..." args (list file))
       (magit-diff-range "@{upstream}..." args))))
+
+(defun browse-at-remote--format-region-url-as-gitea (repo-url location filename &optional linestart lineend)
+  "URL formatted for gitea."
+  (cond
+   ((and linestart lineend)
+    (format "%s/src/branch/%s/%s#L%d-L%d" repo-url location filename linestart lineend))
+   (linestart (format "%s/src/branch/%s/%s#L%d" repo-url location filename linestart))
+   (t (format "%s/src/branch/%s/%s" repo-url location filename))))
+
+(defun browse-at-remote--format-commit-url-as-gitea (repo-url commithash)
+  "Commit URL formatted for gitea"
+  (format "%s/commit/%s" repo-url commithash))

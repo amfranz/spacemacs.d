@@ -1189,6 +1189,7 @@ potentially deletes it, after which it can not be autoloaded any more."
   (with-eval-after-load 'helm-ag
     (eval
      '(el-patch-defun helm-ag--find-file-action (candidate find-func this-file &optional persistent)
+        "Not documented, CANDIDATE, FIND-FUNC, THIS-FILE, PERSISTENT."
         (when (memq 'pt helm-ag--command-features)
           ;; 'pt' always show filename if matched file is only one.
           (setq this-file nil))
@@ -1209,7 +1210,7 @@ potentially deletes it, after which it can not be autoloaded any more."
             (el-patch-add (recenter)))
           (ignore-errors
             (and (re-search-forward helm-ag--last-query (line-end-position) t)
-                 (goto-char (match-beginning 0))))))))
+                 (helm-goto-char (match-beginning 0))))))))
 
   ;; Workaround for display issues with squished font glyphs in tooltip windows.
   (setq pos-tip-border-width 0)

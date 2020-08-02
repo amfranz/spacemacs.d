@@ -86,6 +86,6 @@ Return output file's name."
       (let ((outfile (org-export-output-file-name
                       (el-patch-swap ".txt" ".dwiki")
                       subtreep))
-            (org-export-coding-system (el-patch-swap "utf-8" 'utf-8)))
+            (org-export-coding-system ox-wk-coding-system))
         (org-export-to-file 'wk outfile
           async subtreep visible-only body-only ext-plist)))))

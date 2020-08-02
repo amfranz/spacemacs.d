@@ -52,7 +52,7 @@
     args))
 
 (defun my-ansible//auto-decrypt-encrypt-vault ()
-  (when (and ansible
+  (when (and (bound-and-true-p ansible)
              (string-match-p "\\`\$ANSIBLE_VAULT;[0-9]+\.[0-9]+"
                              (buffer-substring-no-properties (point-min) (point-max))))
     (ansible-auto-decrypt-encrypt)

@@ -68,6 +68,8 @@
       (kbd "C-k") #'vterm--self-insert
       (kbd "C-r") #'vterm--self-insert
       (kbd "C-u") #'vterm--self-insert
+      (kbd "C-p") #'vterm--self-insert
+      (kbd "C-n") #'vterm--self-insert
       (kbd "s-v") #'vterm-yank)
 
     (add-to-list 'spacemacs-indent-sensitive-modes 'vterm-mode)

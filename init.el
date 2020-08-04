@@ -885,6 +885,9 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Lets trust myself to not create problematic symlinks.
   (setq vc-follow-symlinks t)
 
+  ;; Avoid duplicate entries in history (eg. the helm command history).
+  (setq history-delete-duplicates t)
+
   ;; Do not add temporary files to the recentf list.
   (with-eval-after-load 'recentf
     (setq recentf-exclude

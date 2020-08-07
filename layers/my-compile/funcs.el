@@ -68,8 +68,3 @@ select the source buffer."
         (not (ignore-errors
                (compilation-next-error 1)
                t))))))
-
-(defun display-compilation-buffer ()
-  (interactive)
-  (when compilation-last-buffer
-    (pop-to-buffer compilation-last-buffer)))

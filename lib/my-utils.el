@@ -119,7 +119,7 @@ minibuffer."
 (defun projectile-open-shell ()
   (interactive)
   (projectile-with-default-dir (projectile-project-root)
-    (call-interactively 'spacemacs/shell-pop-ansi-term)))
+    (call-interactively 'spacemacs/default-pop-shell)))
 
 ;;;###autoload
 (defun open-file-manager ()

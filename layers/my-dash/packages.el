@@ -1,8 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-dash-packages '(zeal-at-point))
+(defconst my-dash-packages '(counsel-dash
+                             helm-dash
+                             zeal-at-point))
+
+(defun my-dash/post-init-counsel-dash ()
+  (my-dash//configure-dash-docs))
+
+(defun my-dash/post-init-helm-dash ()
+  (my-dash//configure-dash-docs))
 
 (defun my-dash/post-init-zeal-at-point ()
-  (spacemacs/declare-prefix "d" "dash/zeal")
   (with-eval-after-load 'zeal-at-point
-    (push '(emacs-lisp-mode . "elisp") zeal-at-point-mode-alist)))
+    (add-to-list 'zeal-at-point-docsets "cmake")
+    (add-to-list 'zeal-at-point-mode-alist '(cmake-mode . "cmake"))))

@@ -1135,6 +1135,8 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; less mental overhead for such a common operation.
   (define-key evil-normal-state-map (kbd "s-v") #'evil-paste-before)
   (define-key evil-insert-state-map (kbd "s-v") #'evil-paste-before)
+  (define-key evil-ex-completion-map (kbd "s-v") #'evil-paste-before)
+  (define-key minibuffer-local-map (kbd "s-v") #'evil-paste-before)
 
   ;; Replace the key binding for `spacemacs/recompile-elpa' ("SPC f e c") with
   ;; the more useful binding to edit the `custom-file'. This mirrors the

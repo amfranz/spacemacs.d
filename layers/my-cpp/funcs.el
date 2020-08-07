@@ -26,7 +26,7 @@ the build cache there and make use of the compilation database."
 
 (defun my-cpp//ccls-use-project-build-directory ()
   "If a project build folder exists with a compilation database exists, store
-the build cache there and make use of the compilation datbase."
+the build cache there and make use of the compilation database."
   (when-let ((root-dir (projectile-project-root)))
     (let ((build-dir (concat root-dir "build/")))
       (when (file-exists-p (concat build-dir "compile_commands.json"))

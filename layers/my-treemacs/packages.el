@@ -1,8 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-treemacs-packages '(treemacs
-                                 treemacs-evil
-                                 treemacs-icons-dired))
+                                 treemacs-evil))
 
 (defun my-treemacs/post-init-treemacs ()
   ;; An extended `treemacs-git-mode' requires python3 to work.
@@ -76,7 +75,3 @@
     ;; Enable the right-click context menu.
     (evil-define-key 'treemacs treemacs-mode-map
       [mouse-3] #'treemacs-rightclick-menu)))
-
-(defun my-treemacs/init-treemacs-icons-dired ()
-  (use-package treemacs-icons-dired
-    :hook (dired-mode . my-treemacs//enable-icons-dired-mode)))

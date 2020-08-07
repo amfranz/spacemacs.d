@@ -15,6 +15,7 @@
 
   (spacemacs/declare-prefix "pw" "workspace")
   (spacemacs/safe-set-leader-keys
+    "pw0" #'treemacs-display-current-project-exclusively
     "pwa" #'treemacs-add-project-to-workspace
     "pwc" #'treemacs-create-workspace
     "pwe" #'treemacs-edit-workspaces
@@ -37,7 +38,9 @@
 
     ;; Override the key binding for `delete-other-windows' with an
     ;; implementation that avoids deleting the treemacs window as well.
-    (spacemacs/set-leader-keys "wm" #'my-treemacs/toggle-maximize-buffer)
+    (spacemacs/replace-leader-key "wm"
+      #'spacemacs/toggle-maximize-buffer
+      #'my-treemacs/toggle-maximize-buffer)
 
     ;; Fixes icon background color. It's broken because Treemacs only adjusts it
     ;; by adding a hook to `enable-theme', but due to lazy loading the theme the

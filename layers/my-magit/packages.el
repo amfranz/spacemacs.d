@@ -6,7 +6,6 @@
                               evil-collection
                               magit
                               magit-gitflow
-                              magit-libgit
                               magit-todos
                               vdiff
                               vdiff-magit
@@ -80,10 +79,6 @@
   (spacemacs|use-package-add-hook magit-gitflow
     :post-config
     (spacemacs|diminish magit-gitflow-mode)))
-
-(defun my-magit/init-magit-libgit ()
-  (use-package magit-libgit
-    :after magit))
 
 (defun my-magit/init-magit-todos ()
   (use-package magit-todos

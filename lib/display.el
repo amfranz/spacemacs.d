@@ -6,7 +6,7 @@
 terminal. My customizations differ slightly between the two. This functions
 returns whether this Emacs instance is dedicated to the graphical environment."
   (or (display-graphic-p)
-      (string-equal (getenv "EMACS_SOCKET_NAME") "server-x")))
+      (string-equal (daemonp) "server-x")))
 
 ;;;###autoload
 (defun display-scaling-factor ()

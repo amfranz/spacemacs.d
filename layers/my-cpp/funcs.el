@@ -15,6 +15,15 @@ To activate this every time a CMake file is opened, use the following:
     (font-lock-mode -1)
     (font-lock-mode 1)))
 
+(defun my-cpp//clangd-use-project-build-directory ()
+  "If a project build folder exists with a compilation database exists, store
+the build cache there and make use of the compilation database."
+  (when-let ((root-dir (projectile-project-root)))
+    (let ((build-dir (concat root-dir "build/")))
+      (when (file-exists-p (concat build-dir "compile_commands.json"))
+        (setq-local lsp-clients-clangd-args
+                    (list (concat "-compile-commands-dir=" root-dir "build")))))))
+
 (defun my-cpp//ccls-use-project-build-directory ()
   "If a project build folder exists with a compilation database exists, store
 the build cache there and make use of the compilation datbase."

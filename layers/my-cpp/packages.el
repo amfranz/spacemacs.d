@@ -60,6 +60,8 @@
     :defer t))
 
 (defun my-cpp/post-init-lsp-mode ()
+  (spacemacs/add-to-hooks #'my-cpp//clangd-use-project-build-directory
+                          c-c++-mode-hooks 'append)
   (with-eval-after-load 'lsp-mode
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.ccls-cache$")
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]build$")

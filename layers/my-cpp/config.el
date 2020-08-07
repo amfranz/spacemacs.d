@@ -7,5 +7,6 @@
 ;; extension, because these files have no extension.
 (add-to-list 'auto-mode-alist '("/qt[45]/Q[^/]+/Q[^/]+\\'" . c++-mode))
 
-;; Auto-indent after paste in C++ makes life very difficult.
+;; Auto-indent after paste in C / C++ makes life very difficult.
 (add-to-list 'spacemacs-indent-sensitive-modes 'c++-mode)
+(add-to-list 'spacemacs-indent-sensitive-modes 'c-mode)

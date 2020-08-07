@@ -1263,7 +1263,7 @@ potentially deletes it, after which it can not be autoloaded any more."
 prompt to save changed buffers and exit Spacemacs. In all other cases, kill the
 current frame but keep Emacs running."
     (interactive)
-    (if (or (spacemacs//persistent-server-running-p)
+    (if (or (and (fboundp 'server-running-p) (server-running-p))
             (delete-frame-enabled-p))
         (spacemacs/frame-killer)
       (spacemacs/prompt-kill-emacs)))

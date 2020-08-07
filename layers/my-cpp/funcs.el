@@ -63,7 +63,6 @@ the build cache there and make use of the compilation database."
 (defun my-cpp//lsp-ui-flycheck-configure ()
   ;; Make flycheck less eager to lint.
   ;; Linting after every keystroke is making the editor sluggish.
-  (setq-local lsp-ui-flycheck-live-reporting nil)
   (setq-local flycheck-idle-change-delay 2)
   (setq-local flycheck-idle-buffer-switch-delay 2)
   (setq-local flycheck-check-syntax-automatically

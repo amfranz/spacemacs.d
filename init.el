@@ -1278,6 +1278,11 @@ current frame but keep Emacs running."
       (dolist (face '(helm-selection))
         (set-face-attribute face nil :extend t))))
 
+  ;; This will make the value of a file-local tab-width setting to carry over to evil-shift-width.
+  (add-to-list 'spacemacs--indent-variable-alist '(conf-mode . tab-width))
+
+  ;; This will make the value of a file-local tab-width setting to carry over to evil-shift-width.
+  (add-to-list 'spacemacs--indent-variable-alist '(asm-mode . tab-width))
 
   ;; Customize the color of the fill column indicator, the color chosen by
   ;; `zenburn-theme' is too similar to the background color.

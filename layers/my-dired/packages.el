@@ -159,7 +159,7 @@
 
 (defun my-dired/init-dired-filter ()
   (use-package dired-filter
-    :hook (dired-mode . dired-filter-mode)
+    :hook (dired-mode . my-dired//maybe-dired-filter-mode)
     :diminish
     :init
     (progn

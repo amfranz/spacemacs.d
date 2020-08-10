@@ -1310,20 +1310,6 @@ current frame but keep Emacs running."
   (spacemacs/safe-set-leader-keys
     "nn" #'spacemacs/evil-numbers-transient-state/body)
 
-  ;; Fixes errors when using escaped brackets in the search terms when using
-  ;; helm-ag+ripgrep. See https://github.com/syohex/emacs-helm-ag/pull/309
-  (el-patch-feature helm-ag)
-  (with-eval-after-load 'helm-ag
-    (eval
-     '(el-patch-defun helm-ag--do-ag-highlight-patterns (input)
-        (if (el-patch-swap (memq 'pcre helm-ag--command-features)
-                           (or (memq 'pcre helm-ag--command-features)
-                               (memq 're2 helm-ag--command-features)))
-            (cl-loop with regexp = (helm-ag--pcre-to-elisp-regexp input)
-                     for pattern in (helm-ag--split-string regexp)
-                     when (helm-ag--validate-regexp pattern)
-                     collect pattern)
-          (list (helm-ag--join-patterns input))))))
 
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get

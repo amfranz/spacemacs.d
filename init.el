@@ -1311,6 +1311,14 @@ current frame but keep Emacs running."
     "nn" #'spacemacs/evil-numbers-transient-state/body)
 
 
+  ;; Fixes position of fill column indicator when text is zoomed. For details, see
+  ;; https://github.com/alpaker/Fill-Column-Indicator/issues/57#issuecomment-417830004
+  (with-eval-after-load 'fill-column-indicator
+    (defconst fci-padding-display
+      '((when (not (fci-competing-overlay-p buffer-position))
+          . (space :align-to (fci-column . width)))   ; <-- instead of `:align-to fci-column`
+        (space :width 0))))
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

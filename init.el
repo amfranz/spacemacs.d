@@ -1310,6 +1310,11 @@ current frame but keep Emacs running."
   (spacemacs/safe-set-leader-keys
     "nn" #'spacemacs/evil-numbers-transient-state/body)
 
+  ;; $path (relative to git root) => $displaypath (relative to cwd)
+  ;; Fixes "no such directory" errors by projectile trying to enumerate files submodules.
+  ;; (setq projectile-git-submodule-command "git submodule --quiet foreach 'echo $displaypath' | tr '\\n' '\\0'")
+  (setq projectile-git-submodule-command nil)
+
   ;; Teach Emacs how to colorize cmocka test failures.
   (with-eval-after-load 'compile
     (setf (alist-get 'cmocka compilation-error-regexp-alist-alist)

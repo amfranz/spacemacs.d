@@ -1310,6 +1310,18 @@ current frame but keep Emacs running."
   (spacemacs/safe-set-leader-keys
     "nn" #'spacemacs/evil-numbers-transient-state/body)
 
+  ;; Teach Emacs how to colorize cmocka test failures.
+  (with-eval-after-load 'compile
+    (setf (alist-get 'cmocka compilation-error-regexp-alist-alist)
+          ;; REGEXP FILE LINE COLUMN TYPE HYPERLINK
+          (list (rx bol
+                    "[   LINE   ] --- "
+                    (group
+                     (group (+ (not (any ?\n ?:)))) ?:
+                     (group (+ digit)) ?:)
+                    " error:")
+                2 3 nil nil 1))
+    (add-to-list 'compilation-error-regexp-alist 'cmocka))
 
   ;; Fixes position of fill column indicator when text is zoomed. For details, see
   ;; https://github.com/alpaker/Fill-Column-Indicator/issues/57#issuecomment-417830004

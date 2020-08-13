@@ -12,8 +12,7 @@
   (with-eval-after-load 'tramp
     (add-to-list 'tramp-methods
                  '("yadm"
-                   (tramp-login-program "yadm")
-                   (tramp-login-args (("enter")))
-                   (tramp-login-env (("SHELL") ("/bin/sh")))
+                   (tramp-login-program "env")
+                   (tramp-login-args (("SHELL=/bin/sh") ("yadm") ("enter")))
                    (tramp-remote-shell "/bin/sh")
                    (tramp-remote-shell-args ("-c"))))))

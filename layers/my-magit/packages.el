@@ -77,8 +77,14 @@
 
 (defun my-magit/pre-init-magit-gitflow ()
   (spacemacs|use-package-add-hook magit-gitflow
+    :post-init
+    (setq magit-gitflow-popup-key "C-n")
     :post-config
-    (spacemacs|diminish magit-gitflow-mode)))
+    (progn
+      (spacemacs|diminish magit-gitflow-mode)
+      (define-key magit-mode-map
+        (kbd magit-gitflow-popup-key) #'magit-gitflow-popup)
+      (define-key magit-mode-map "%" #'magit-worktree))))
 
 (defun my-magit/init-magit-todos ()
   (use-package magit-todos

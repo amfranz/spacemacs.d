@@ -7,10 +7,10 @@
   (use-package fill-function-arguments
     :defer t
     :init
-    (spacemacs/safe-set-leader-keys "xma" #'fill-function-arguments-dwim)))
+    (spacemacs/safe-set-leader-keys "xlf" #'fill-function-arguments-dwim)))
 
 (defun my-multi-line/init-multi-line ()
   (use-package multi-line
     :defer t
     :init
-    (spacemacs/safe-set-leader-keys "xmm" #'multi-line)))
+    (spacemacs/safe-set-leader-keys "xlm" #'multi-line)))

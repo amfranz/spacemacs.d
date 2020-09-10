@@ -46,6 +46,14 @@
   ;; Always show word-granularity differences within diff hunks.
   (setq magit-diff-refine-hunk 'all)
 
+  ;; Spacemacs declares buffers with these names as useless which means they are
+  ;; dismissed as targets for automatic buffer switching. This is not ok, it
+  ;; messes with magit workflows in bad ways, eg. the status buffer does not
+  ;; automatically re-appear after completing a commit workflow.
+  (dolist (regexp '("magit: .*" "magit-.*: .*"))
+    (setq spacemacs-useless-buffers-regexp
+          (delete regexp spacemacs-useless-buffers-regexp)))
+
   ;; Keep the cursor vertically centered in the status buffer. It avoids the
   ;; unexpected and visually scarring scrolling of the buffer content when hunks
   ;; are (un-)staged.

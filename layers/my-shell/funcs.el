@@ -19,18 +19,6 @@
      '(term-color-cyan    ((t (:foreground "#8BCFD2" :background "#92DFE2"))))
      '(term-color-white   ((t (:foreground "#DBDBCB" :background "#FEFEFE")))))))
 
-(defun my-shell//vterm-copy-mode-enable ()
-  (vterm-copy-mode))
-
-(defun my-shell//vterm-copy-mode-disable ()
-  (vterm-copy-mode -1))
-
-(defun my-shell//vterm-mode-hook ()
-  (add-hook 'evil-insert-state-entry-hook #'my-shell//vterm-copy-mode-disable nil 'local)
-  (add-hook 'evil-insert-state-exit-hook #'my-shell//vterm-copy-mode-enable nil 'local)
-  (unless (evil-state-p 'insert)
-    (vterm-copy-mode)))
-
 (defun my-shell//helm-kill-ring-action-yank-1 (orig-fun str)
   (if (derived-mode-p 'vterm-mode)
       (vterm-send-string str t)

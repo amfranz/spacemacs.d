@@ -83,6 +83,4 @@
 
     (add-to-list 'spacemacs-indent-sensitive-modes 'vterm-mode)
     (advice-add 'helm-kill-ring-action-yank-1
-                :around #'my-shell//helm-kill-ring-action-yank-1)
-
-    (add-hook 'vterm-mode-hook #'my-shell//vterm-mode-hook)))
+                :around #'my-shell//helm-kill-ring-action-yank-1)))

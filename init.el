@@ -491,7 +491,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   ;; https://github.com/justbur/emacs-which-key#manual-activation
+   dotspacemacs-which-key-delay 10000
+   which-key-show-early-on-C-h t
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the

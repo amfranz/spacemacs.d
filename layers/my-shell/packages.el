@@ -54,6 +54,8 @@
 
 (defun my-shell/post-init-vterm ()
   (with-eval-after-load 'vterm
+    ;; My answer will always be yes anyway, just do it.
+    (setq vterm-always-compile-module t)
 
     (when dotspacemacs-distinguish-gui-tab
       (define-key vterm-mode-map (kbd "<C-i>") #'vterm-send-tab))

@@ -35,7 +35,7 @@
            "#EB92D2"    ; magenta
            "#92DFE2"    ; cyan
            "#FEFEFE"]   ; white
-          eterm-256color-disable-bold nil)))
+          )))
 
 (defun my-shell/post-init-shell-pop ()
   ;; Do not kill shell buffers when the words 'finished' or 'exited' appear in

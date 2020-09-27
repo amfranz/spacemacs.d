@@ -57,6 +57,8 @@
     ;; My answer will always be yes anyway, just do it.
     (setq vterm-always-compile-module t)
 
+    ;; GUI Emacs can be configured to distinguish between TAB and C-i. This
+    ;; restores expected terminal behavior of both bindings acting the same.
     (when dotspacemacs-distinguish-gui-tab
       (define-key vterm-mode-map (kbd "<C-i>") #'vterm-send-tab))
 

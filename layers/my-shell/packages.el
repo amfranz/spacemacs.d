@@ -60,17 +60,24 @@
     (when dotspacemacs-distinguish-gui-tab
       (define-key vterm-mode-map (kbd "<C-i>") #'vterm-send-tab))
 
+    ;; Make paste via Super-v work. I configured my terminal program with the
+    ;; same key binding. This makes Super-v a universal paste, which I hope will
+    ;; lead less mental overhead for such a common operation.
+    (evil-define-key 'normal vterm-mode-map
+      (kbd "s-v") #'vterm-yank)
+    (evil-define-key 'insert vterm-mode-map
+      (kbd "s-v") #'vterm-yank)
+
     (evil-define-key 'insert vterm-mode-map
       (kbd "C-a") #'vterm--self-insert
       (kbd "C-d") #'vterm--self-insert
       (kbd "C-e") #'vterm--self-insert
       (kbd "C-h") #'vterm--self-insert
       (kbd "C-k") #'vterm--self-insert
-      (kbd "C-r") #'vterm--self-insert
-      (kbd "C-u") #'vterm--self-insert
-      (kbd "C-p") #'vterm--self-insert
       (kbd "C-n") #'vterm--self-insert
-      (kbd "s-v") #'vterm-yank)
+      (kbd "C-p") #'vterm--self-insert
+      (kbd "C-r") #'vterm--self-insert
+      (kbd "C-u") #'vterm--self-insert)
 
     (add-to-list 'spacemacs-indent-sensitive-modes 'vterm-mode)
     (advice-add 'helm-kill-ring-action-yank-1

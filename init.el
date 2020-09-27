@@ -149,9 +149,7 @@ This function should only modify configuration layer settings."
                  js-indent-level 2)
      (json :variables
            json-fmt-tool 'prettier)
-     (lsp :variables
-          lsp-ui-doc-enable nil
-          lsp-ui-sideline-enable nil)
+     lsp
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)

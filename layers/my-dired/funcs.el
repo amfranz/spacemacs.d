@@ -140,5 +140,4 @@ Lower levels are unaffected. Moves point to the previous subdir."
   (unless (and auto-save-list-file-prefix
                (string-prefix-p (expand-file-name auto-save-list-file-prefix)
                                 (expand-file-name default-directory)))
-    (message "DEBUG %s %s" auto-save-list-file-prefix default-directory)
     (dired-omit-mode)))

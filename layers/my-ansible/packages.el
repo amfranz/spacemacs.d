@@ -336,12 +336,102 @@
       (with-eval-after-load 'recentf
         (add-to-list 'recentf-exclude "\\`/molecule:")))))
 
+;; single quoted strings:
+;; - 'this \ backslash also does not need to be escaped'
+;; - 'just like the " double quote'
+;; - 'to express one single quote, use '' two of them'
+(defun yaml-syntax-skip-single-quoted-string (end)
+  (while (and (re-search-forward "'" end 'move-to-end)
+              (char-equal ?' (char-after))
+              (> end (point))
+              (or (forward-char) t))))
+
+;; double quoted:
+;; - "here we can use predefined escape sequences like \t \n \b"
+;; - "or generic escape sequences \x0b \u0041 \U00000041"
+;; - "the double quote \" needs to be escaped"
+;; - "just like the \\ backslash"
+;; - "the single quote ' and other characters must not be escaped"
+(defun yaml-syntax-skip-double-quoted-string (end)
+  (while (and (re-search-forward "[\\\\\"]" end 'move-to-end)
+              (char-equal ?\\ (char-before))
+              (> end (point))
+              (or (forward-char) t))))
+
 (defun my-ansible/post-init-yaml-mode ()
   (add-to-list 'auto-mode-alist '("\\.yamllint\\'" . yaml-mode))
+
+  ;; This replaces the use of `forward-sexp' with equivalent functionality.
+  ;; `forward-sexp' uses syntax properties set by `syntax-propertize-function',
+  ;; it elicits inconsistent behavior when used within. Due to implementation
+  ;; details, it makes syntax highlighting behave differently depending on where
+  ;; the point is. The tell-tale sign is that the `font-lock-string-face'
+  ;; sometimes spans multiple lines past the end of the actual string.
+  (el-patch-feature yaml-mode)
+  (with-eval-after-load 'yaml-mode
+    (eval
+     '(el-patch-defun yaml-mode-syntax-propertize-function (beg end)
+        "Override buffer's syntax table for special syntactic constructs."
+        ;; Unhighlight foo#bar tokens between BEG and END.
+        (save-excursion
+          (goto-char beg)
+          (while (search-forward "#" end t)
+            (save-excursion
+              (forward-char -1)
+              ;; both ^# and [ \t]# are comments
+              (when (and (not (bolp))
+                         (not (memq (preceding-char) '(?\s ?\t))))
+                (put-text-property (point) (1+ (point))
+                                   'syntax-table (string-to-syntax "_"))))))
+
+        (save-excursion
+          (goto-char beg)
+          (while (and
+                  (> end (point))
+                  (re-search-forward "['\"]" end t))
+            (when (get-text-property (point) 'yaml-block-literal)
+              (put-text-property (1- (point)) (point)
+                                 'syntax-table (string-to-syntax "w")))
+            (let* ((pt (point))
+                   (sps (save-excursion (syntax-ppss (1- pt)))))
+              (when (not (nth 8 sps))
+                (cond
+                 ((and (char-equal ?' (char-before (1- pt)))
+                       (char-equal ?' (char-before pt)))
+                  (put-text-property (- pt 2) pt
+                                     'syntax-table (string-to-syntax "w"))
+                  ;; Workaround for https://debbugs.gnu.org/41195.
+                  (let ((syntax-propertize--done syntax-propertize--done))
+                    ;; Carefully invalidate the last cached ppss.
+                    (syntax-ppss-flush-cache (- pt 2))))
+                 ;; If quote is detected as a syntactic string start but appeared
+                 ;; after a non-whitespace character, then mark it as syntactic word.
+                 ((and (char-before (1- pt))
+                       (char-equal ?w (char-syntax (char-before (1- pt)))))
+                  (put-text-property (1- pt) pt
+                                     'syntax-table (string-to-syntax "w")))
+                 (el-patch-swap
+                   (t
+                    ;; We're right after a quote that opens a string literal.
+                    ;; Skip over it (big speedup for long JSON strings).
+                    (goto-char (1- pt))
+                    (condition-case nil
+                        (forward-sexp)
+                      (scan-error
+                       (goto-char end))))
+                   (t
+                    ;; We're right after a quote that opens a string literal.
+                    ;; Skip over it (big speedup for long JSON strings).
+                    (if (char-equal ?' (char-before))
+                        (yaml-syntax-skip-single-quoted-string end)
+                      (yaml-syntax-skip-double-quoted-string end))))))))))))
+
   ;; Attempt to fix syntax highlighting of multi-line Jinja expressions.
   (add-hook 'yaml-mode-hook #'my-ansible//font-lock-setup)
+
   ;; Fontify URLs in Ansible buffers and make them interactive.
   (add-hook 'yaml-mode-hook #'goto-address-prog-mode)
+
   (with-eval-after-load 'yaml-mode
     (spacemacs/declare-prefix-for-mode 'yaml-mode "mr" "region")
     (spacemacs/set-leader-keys-for-major-mode 'yaml-mode

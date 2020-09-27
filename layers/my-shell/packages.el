@@ -54,8 +54,6 @@
 
 (defun my-shell/post-init-vterm ()
   (with-eval-after-load 'vterm
-    (when (configuration-layer/package-used-p 'eterm-256color)
-      (setq vterm-term-environment-variable "eterm-256color"))
 
     (when dotspacemacs-distinguish-gui-tab
       (define-key vterm-mode-map (kbd "<C-i>") #'vterm-send-tab))

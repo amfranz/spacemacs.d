@@ -143,7 +143,7 @@ This function should only modify configuration layer settings."
               ibuffer-group-buffers-by 'projects)
      imenu-list
      (java :variables
-           java-backend 'lsp)
+           java-backend 'none)
      (javascript :variables
                  javascript-fmt-tool 'prettier
                  js-indent-level 2)

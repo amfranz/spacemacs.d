@@ -131,6 +131,10 @@
   (with-eval-after-load 'org
     (push '(calc . t) org-babel-load-languages))
 
+  ;; Use `dired' to follow a link to a directory.
+  (with-eval-after-load 'org
+    (add-to-list 'org-file-apps '(directory . emacs)))
+
   ;; Customize `org-download'.
   (setq org-download-heading-lvl nil)
 

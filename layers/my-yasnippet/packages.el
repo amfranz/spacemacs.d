@@ -55,7 +55,7 @@
   (with-eval-after-load 'helm-c-yasnippet
     (eval '(el-patch-defun helm-yas-get-cmp-context ()
              "Return list (initial-input point-start point-end)
-    like `yas--current-key'"
+like `yas--current-key'"
              (el-patch-wrap 3
                (if (use-region-p)
                    (cl-values "" (region-beginning) (region-end))

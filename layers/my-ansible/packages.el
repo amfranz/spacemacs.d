@@ -442,21 +442,4 @@
     ;; this, entering "_" or "-" of a completion candidate would close the
     ;; company popup.
     (modify-syntax-entry ?_ "w" yaml-mode-syntax-table)
-    (modify-syntax-entry ?- "w" yaml-mode-syntax-table)
-
-    ;; This fixes an indentation oddity. For example:
-    ;;
-    ;;    - name: some description
-    ;;        | <- suggested indentation is a level too far
-    ;;
-    ;; This happens because the subexpression [^#]* is allowed to extend the
-    ;; match across newlines which is unintended as the expression is only meant
-    ;; to match against a single line. The indentation oddity occurs when the
-    ;; expression matches with the start of a nested map farther down the
-    ;; buffer.
-    ;;
-    ;; This alters the original expression by changing the subexpression [^#]*
-    ;; to [^#\n]*.
-    ;;
-    (setq yaml-nested-map-re
-          (concat "[^#\n]*: *\\(?:&.*\\|{ *\\|" yaml-tag-re " *\\)?$"))))
+    (modify-syntax-entry ?- "w" yaml-mode-syntax-table)))

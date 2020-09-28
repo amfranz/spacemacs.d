@@ -301,3 +301,25 @@
                                    " " (shell-quote-argument box-name))))
           (vterm-mode))))
     (switch-to-buffer buffer)))
+
+;; single quoted strings:
+;; - 'this \ backslash also does not need to be escaped'
+;; - 'just like the " double quote'
+;; - 'to express one single quote, use '' two of them'
+(defun yaml-syntax-skip-single-quoted-string (end)
+  (while (and (re-search-forward "'" end 'move-to-end)
+              (char-equal ?' (char-after))
+              (> end (point))
+              (or (forward-char) t))))
+
+;; double quoted:
+;; - "here we can use predefined escape sequences like \t \n \b"
+;; - "or generic escape sequences \x0b \u0041 \U00000041"
+;; - "the double quote \" needs to be escaped"
+;; - "just like the \\ backslash"
+;; - "the single quote ' and other characters must not be escaped"
+(defun yaml-syntax-skip-double-quoted-string (end)
+  (while (and (re-search-forward "[\\\\\"]" end 'move-to-end)
+              (char-equal ?\\ (char-before))
+              (> end (point))
+              (or (forward-char) t))))

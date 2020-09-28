@@ -1,1 +1,1 @@
-(configuration-layer/declare-layer-dependencies '(ansible yaml))
+(configuration-layer/declare-layer-dependencies '(ansible my-el-patch yaml))

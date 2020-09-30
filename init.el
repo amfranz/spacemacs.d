@@ -1309,9 +1309,6 @@ current frame but keep Emacs running."
                   ((t :background ,zenburn-bg+2
                       :foreground ,zenburn-fg+1
                       :box nil))))))
-  ;; An easier way to enter the `evil-numbers' transient state.
-  (spacemacs/safe-set-leader-keys
-    "nn" #'spacemacs/evil-numbers-transient-state/body)
 
   ;; $path (relative to git root) => $displaypath (relative to cwd)
   ;; Fixes "no such directory" errors by projectile trying to enumerate files submodules.

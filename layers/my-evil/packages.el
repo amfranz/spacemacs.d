@@ -4,6 +4,7 @@
                              evil
                              (evil-escape :excluded t)
                              evil-nerd-commenter
+                             evil-numbers
                              evil-vimish-fold))
 
 (defun my-evil/init-drag-stuff ()
@@ -27,6 +28,21 @@
   (define-key evil-inner-text-objects-map "c" #'evilnc-inner-comment)
   (autoload 'evilnc-outer-commenter "evil-nerd-commenter-operator")
   (define-key evil-outer-text-objects-map "c" #'evilnc-outer-commenter))
+
+(defun my-evil/post-init-evil-numbers ()
+  ;; The transient state for `evil-numbers' sounds like a good idea, but it is
+  ;; not possible to use it with `evil-repeat', and that is a dealbreaker for
+  ;; me. This rebinds `evil-numbers' functionaly without using the transient
+  ;; state.
+  (spacemacs/safe-set-leader-keys
+    "nk" #'evil-numbers/inc-at-pt
+    "nj" #'evil-numbers/dec-at-pt)
+  ;; Disable key bindings that would activate the transient state.
+  (spacemacs/set-leader-keys
+    "n+" nil
+    "n=" nil
+    "n-" nil
+    "n_" nil))
 
 (defun my-evil/init-evil-vimish-fold ()
   (use-package evil-vimish-fold

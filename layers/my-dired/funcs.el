@@ -44,11 +44,12 @@
     (treemacs-with-writable-buffer
      (save-excursion
        (dired-subtree-with-subtree
-        (let* ((file (dired-get-filename nil t))
-               (icon (if (file-directory-p file)
-                         treemacs-icon-dir-closed
-                       (treemacs-icon-for-file file))))
-          (when icon (insert (propertize icon 'icon t)))))))))
+        (unless (get-text-property (1- (point)) 'icon)
+          (when-let ((file (dired-get-filename nil t))
+                     (icon (if (file-directory-p file)
+                               treemacs-icon-dir-closed
+                             (treemacs-icon-for-file file))))
+            (insert (propertize icon 'icon t)))))))))
 
 (defun my-dired//dired-subtree--insert-treemacs-icons ()
   "Registers a hook to add icons to the files inserted by `dired-subtree'.

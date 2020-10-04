@@ -39,18 +39,20 @@
              (treemacs-block
               (while (not (eobp))
                 (if (dired-move-to-filename nil)
-                    (let* ((file (dired-get-filename nil t))
-                           (icon (if (file-directory-p file)
-                                     treemacs-icon-dir-closed
-                                   (treemacs-icon-for-file file))))
-                      (el-patch-swap
-                        (insert icon)
-                        ;; If the stars align, due to packages being loaded
-                        ;; on-demand, this function may be called before the
-                        ;; icons are loaded. In such case icon is nil. We make
-                        ;; this change to avoid errors due to (insert nil) or
-                        ;; (propertize nil ...).
-                        (when icon (insert (propertize icon 'icon t)))))
+                    (el-patch-wrap 2
+                      (unless (get-text-property (1- (point)) 'icon)
+                        (let* ((file (dired-get-filename nil t))
+                               (icon (if (file-directory-p file)
+                                         treemacs-icon-dir-closed
+                                       (treemacs-icon-for-file file))))
+                          (el-patch-swap
+                            (insert icon)
+                            ;; If the stars align, due to packages being loaded
+                            ;; on-demand, this function may be called before the
+                            ;; icons are loaded. In such case icon is nil. We make
+                            ;; this change to avoid errors due to (insert nil) or
+                            ;; (propertize nil ...).
+                            (when icon (insert (propertize icon 'icon t)))))))
                   (treemacs-return nil))
                 (forward-line 1))))))))))
 

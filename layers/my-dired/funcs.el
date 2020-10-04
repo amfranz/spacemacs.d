@@ -141,3 +141,8 @@ Lower levels are unaffected. Moves point to the previous subdir."
                (string-prefix-p (expand-file-name auto-save-list-file-prefix)
                                 (expand-file-name default-directory)))
     (dired-omit-mode)))
+
+(defun my-dired//dired-auto-revert-hooks ()
+  (if global-auto-revert-mode
+      (add-hook 'dired-mode-hook #'auto-revert--global-adopt-current-buffer)
+    (remove-hook 'dired-mode-hook #'auto-revert--global-adopt-current-buffer)))

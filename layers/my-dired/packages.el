@@ -80,6 +80,11 @@
   ;; An easy to reach binding to enter `dired-mode' in `default-directory'.
   (define-key evil-motion-state-map (kbd "-") #'dired-jump)
 
+  ;; Enabe automatic revert mode for dired buffers.
+  (add-hook 'global-auto-revert-mode-hook #'my-dired//dired-auto-revert-hooks)
+  (when (featurep 'autorevert)
+    (my-dired//dired-auto-revert-hooks))
+
   (with-eval-after-load 'dired
     (evilified-state-evilify-map dired-mode-map
       :mode dired-mode

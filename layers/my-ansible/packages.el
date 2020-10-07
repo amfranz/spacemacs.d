@@ -65,8 +65,60 @@
   (add-to-list 'spacemacs-jump-handlers-yaml-mode #'my-ansible/jump-to-template)
   (add-to-list 'spacemacs-jump-handlers-yaml-mode #'my-ansible/jump-to-variable)
 
+  ;; Make syntax highlighting semantically more accurate.
+  (eval
+   '(el-patch-defvar ansible-playbook-font-lock
+      (el-patch-swap
+        ;; Original ruleset.
+        `(("\\({{\\)\\([^}]+\\)\\(}}\\)"
+           (1 font-lock-builtin-face t)
+           (2 font-lock-function-name-face t)
+           (3 font-lock-builtin-face t))
+          (,ansible-section-keywords-regex (1 ansible-section-face t))
+          (,ansible-task-keywords-regex (1 font-lock-keyword-face t))
+          ("^ *- \\(name\\):\\(.*\\)"
+           (1 font-lock-builtin-face t)
+           (2 ansible-task-label-face t))
+          (,ansible-keywords-regex (1 font-lock-builtin-face t)))
+
+        ;; Improved ruleset.
+        '(("\\({{\\)\\([^}]+\\)\\(}}\\)"
+           (1 font-lock-builtin-face t)
+           (2 font-lock-function-name-face t)
+           (3 font-lock-builtin-face t))
+
+          ;; Also syntax highlight Jinja code blocks in Ansible playbooks and
+          ;; roles. This is based on the rules for Jinja expressions above.
+          ("\\({%\\)\\([^%]+\\)\\(%}\\)"
+           (1 font-lock-builtin-face t)
+           (2 font-lock-function-name-face t)
+           (3 font-lock-builtin-face t))
+
+          ;; All of the following regular expressions have been replaced by
+          ;; functions that will filter out keywords if they are not on the
+          ;; right task indent level, eg. "group" is a task keyword, but not
+          ;; if passed as argument to the "file" task.
+          (ansible-section-keywords-regex-search (1 ansible-section-face t))
+          (ansible-task-keywords-regex-search (1 font-lock-keyword-face t))
+          (ansible-task-label-regex-search
+           (1 font-lock-builtin-face t)
+           (2 ansible-task-label-face t))
+          (ansible-keywords-regex-search (1 font-lock-builtin-face t))))
+      "Font lock definitions for ansible playbooks."))
+
   (el-patch-feature ansible)
   (with-eval-after-load 'ansible
+    (el-patch-defconst ansible-section-keywords-regex
+      (concat
+       "^ *-? "
+       (regexp-opt
+        '("hosts" "vars" "vars_prompt" "vars_files" "role" "include" "include_tasks"
+          "roles" "tasks" "import_tasks" "handlers" "pre_tasks" "post_tasks" "environment"
+          (el-patch-add "import_playbook" "import_role" "include_role" "include_vars"))
+        t)
+       ":")
+      "Special keywords used to identify toplevel information in a playbook.")
+
     (eval
      '(el-patch-define-minor-mode ansible
         "Ansible minor mode."
@@ -116,15 +168,7 @@
     (spacemacs/set-leader-keys-for-minor-mode 'ansible
       "rd" #'my-ansible/decrypt-region
       "re" #'my-ansible/encrypt-region
-      "u" #'my-ansible/upgrade-syntax)
-
-    ;; Syntax highlight Jinja code blocks in Ansible playbooks and roles. This
-    ;; is based on the existing rules to highlight Jinja expressions.
-    (add-to-list 'ansible-playbook-font-lock
-                 '("\\({%\\)\\(.*?\\)\\(%}\\)"
-                   (1 font-lock-builtin-face t)
-                   (2 font-lock-function-name-face t)
-                   (3 font-lock-builtin-face t)))))
+      "u" #'my-ansible/upgrade-syntax)))
 
 (defun my-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc
@@ -152,10 +196,6 @@
   (use-package flycheck-yamllint
     :defer t))
 
-(defun my-ansible//font-lock-setup ()
-  ;; Preserve highlight of multiline Jinja2 blocks.
-  (setq font-lock-multiline t))
-
 (defun my-ansible/init-molecule ()
   (use-package molecule
     :defer t
@@ -174,23 +214,22 @@
 (defun my-ansible/post-init-yaml-mode ()
   (add-to-list 'auto-mode-alist '("\\.yamllint\\'" . yaml-mode))
 
-  ;; Attempt to fix syntax highlighting of multi-line Jinja expressions.
-  (add-hook 'yaml-mode-hook #'my-ansible//font-lock-setup)
+  ;; Apply miscellaneous fixes to the font lock logic of yaml-mode.
+  (add-hook 'yaml-mode-hook #'apply-yaml-font-lock-fixes)
 
   ;; Fontify URLs in Ansible buffers and make them interactive.
   (add-hook 'yaml-mode-hook #'goto-address-prog-mode)
 
-  ;; This replaces the use of `forward-sexp' with equivalent functionality.
-  ;; `forward-sexp' uses syntax properties set by `syntax-propertize-function',
-  ;; it elicits inconsistent behavior when used within. Due to implementation
-  ;; details, it makes syntax highlighting behave differently depending on where
-  ;; the point is. The tell-tale sign is that the `font-lock-string-face'
-  ;; sometimes spans multiple lines past the end of the actual string.
+  ;; This replaces the broken logic that tries to prevent string detection
+  ;; inside YAML block literals with different logic that is hopefully more
+  ;; reliable. The issue we are trying to fix is that `font-lock-string-face'
+  ;; sometimes spans multiple lines past the end of the YAML block literal.
   (el-patch-feature yaml-mode)
   (with-eval-after-load 'yaml-mode
     (eval
      '(el-patch-defun yaml-mode-syntax-propertize-function (beg end)
         "Override buffer's syntax table for special syntactic constructs."
+
         ;; Unhighlight foo#bar tokens between BEG and END.
         (save-excursion
           (goto-char beg)
@@ -203,33 +242,34 @@
                 (put-text-property (point) (1+ (point))
                                    'syntax-table (string-to-syntax "_"))))))
 
-        (save-excursion
-          (goto-char beg)
-          (while (and
-                  (> end (point))
-                  (re-search-forward "['\"]" end t))
-            (when (get-text-property (point) 'yaml-block-literal)
-              (put-text-property (1- (point)) (point)
-                                 'syntax-table (string-to-syntax "w")))
-            (let* ((pt (point))
-                   (sps (save-excursion (syntax-ppss (1- pt)))))
-              (when (not (nth 8 sps))
-                (cond
-                 ((and (char-equal ?' (char-before (1- pt)))
-                       (char-equal ?' (char-before pt)))
-                  (put-text-property (- pt 2) pt
-                                     'syntax-table (string-to-syntax "w"))
-                  ;; Workaround for https://debbugs.gnu.org/41195.
-                  (let ((syntax-propertize--done syntax-propertize--done))
-                    ;; Carefully invalidate the last cached ppss.
-                    (syntax-ppss-flush-cache (- pt 2))))
-                 ;; If quote is detected as a syntactic string start but appeared
-                 ;; after a non-whitespace character, then mark it as syntactic word.
-                 ((and (char-before (1- pt))
-                       (char-equal ?w (char-syntax (char-before (1- pt)))))
-                  (put-text-property (1- pt) pt
-                                     'syntax-table (string-to-syntax "w")))
-                 (el-patch-swap
+        (el-patch-swap
+          ;; Original logic.
+          (save-excursion
+            (goto-char beg)
+            (while (and
+                    (> end (point))
+                    (re-search-forward "['\"]" end t))
+              (when (get-text-property (point) 'yaml-block-literal)
+                (put-text-property (1- (point)) (point)
+                                   'syntax-table (string-to-syntax "w")))
+              (let* ((pt (point))
+                     (sps (save-excursion (syntax-ppss (1- pt)))))
+                (when (not (nth 8 sps))
+                  (cond
+                   ((and (char-equal ?' (char-before (1- pt)))
+                         (char-equal ?' (char-before pt)))
+                    (put-text-property (- pt 2) pt
+                                       'syntax-table (string-to-syntax "w"))
+                    ;; Workaround for https://debbugs.gnu.org/41195.
+                    (let ((syntax-propertize--done syntax-propertize--done))
+                      ;; Carefully invalidate the last cached ppss.
+                      (syntax-ppss-flush-cache (- pt 2))))
+                   ;; If quote is detected as a syntactic string start but appeared
+                   ;; after a non-whitespace character, then mark it as syntactic word.
+                   ((and (char-before (1- pt))
+                         (char-equal ?w (char-syntax (char-before (1- pt)))))
+                    (put-text-property (1- pt) pt
+                                       'syntax-table (string-to-syntax "w")))
                    (t
                     ;; We're right after a quote that opens a string literal.
                     ;; Skip over it (big speedup for long JSON strings).
@@ -237,13 +277,26 @@
                     (condition-case nil
                         (forward-sexp)
                       (scan-error
-                       (goto-char end))))
-                   (t
-                    ;; We're right after a quote that opens a string literal.
-                    ;; Skip over it (big speedup for long JSON strings).
-                    (if (char-equal ?' (char-before))
-                        (yaml-syntax-skip-single-quoted-string end)
-                      (yaml-syntax-skip-double-quoted-string end)))))))))))
+                       (goto-char end)))))))))
+
+          ;; Improved logic.
+          (save-excursion
+            (goto-char beg)
+            (while (> end (point))
+              (if (looking-at yaml-block-literal-re)
+                  (let ((min-level (current-indentation)))
+                    (goto-char (match-end 0))
+                    (while (and (> end (point))
+                                (or (looking-at yaml-blank-line-re)
+                                    (when (> (current-indentation) min-level)
+                                      (let ((bound (min end (let ((inhibit-field-text-motion t))
+                                                              (line-end-position)))))
+                                        (while (re-search-forward "['\"]" bound t)
+                                          (put-text-property (1- (point)) (point)
+                                                             'syntax-table (string-to-syntax "w"))))
+                                      t)))
+                      (forward-line)))
+                (forward-line)))))))
 
     ;; Buffers with the `ansible' minor mode enabled will add bindings under
     ;; this prefix. Prefixes are associated with major modes though, so we need

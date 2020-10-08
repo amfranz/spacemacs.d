@@ -8,9 +8,9 @@
 (with-eval-after-load 'el-patch
   (el-patch-feature company-box)
   (with-eval-after-load 'company-box
-    (el-patch-defun company-box--get-frame ()
-      "Return the child frame."
+    (el-patch-defun company-box--get-frame (&optional frame)
+      "Return the company-box child frame on FRAME."
       (el-patch-swap
-        (frame-parameter nil 'company-box-frame)
-        (let ((frame (frame-parameter nil 'company-box-frame)))
+        (frame-local-getq company-box-frame frame)
+        (let ((frame (frame-local-getq company-box-frame frame)))
           (when (frame-live-p frame) frame))))))

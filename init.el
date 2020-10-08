@@ -906,6 +906,10 @@ potentially deletes it, after which it can not be autoloaded any more."
   (setq helm-default-external-file-browser "xdg-open"
         helm-raise-command "wmctrl -xa %s")
 
+  ;; Disable the `helm-find-files' cache. My SSD is fast enough, the cache
+  ;; wastes more memory than its worth.
+  (setq helm-ff-keep-cached-candidates nil)
+
   ;; This is reported to speed up helm frames under Emacs 26+, for details see
   ;; https://github.com/emacs-helm/helm/issues/1976. A user reports that this
   ;; makes Emacs on Windows unusable, so we'll restrict this to Linux.

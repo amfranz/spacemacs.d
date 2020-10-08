@@ -835,23 +835,26 @@ potentially deletes it, after which it can not be autoloaded any more."
   (advice-add 'configuration-layer/update-packages :before
               'configuration-layer//preload-restart-emacs)
 
-  ;; Customize the frame title. Also pass the customized frame title to
-  ;; terminals that support it.
+  ;; Customize the frame title: "[$layout] $filename ($directory) - Emacs"
   (defun my-frame-title ()
     (concat
      (when-let (persp (and (fboundp 'get-frame-persp) (get-frame-persp)))
        (let ((name (persp-name persp)))
-         ;; This is the same logic to abbreviate the layout name as in `spaceline.el'.
+         ;; `spaceline.el' uses the same logic to abbreviate the layout name.
          (if (file-directory-p name)
              (setq name (file-name-nondirectory (directory-file-name name))))
          (concat "[" name "] ")))
      (buffer-name)
      (when (or buffer-file-name (derived-mode-p 'dired-mode))
-       (concat " (" (string-remove-suffix "/" (abbreviate-file-name default-directory)) ")"))
+       (concat " (" (string-remove-suffix
+                     "/" (abbreviate-file-name default-directory)) ")"))
      " - Emacs"))
-  (setq frame-title-format
-        (setq icon-title-format
-              '((:eval (replace-regexp-in-string "%" "%%" (my-frame-title) t t)))))
+  (let ((title-format
+         '((:eval (replace-regexp-in-string "%" "%%" (my-frame-title) t t)))))
+    (setq frame-title-format title-format
+          icon-title-format title-format))
+
+  ;; Pass the customized frame title to terminals that support it.
   (defun my-tty--supports-title ()
     (and (not (display-graphic-p))
          (let ((term (frame-parameter nil 'tty-type)))
@@ -865,7 +868,7 @@ potentially deletes it, after which it can not be autoloaded any more."
             (new-title (my-frame-title)))
         (unless (string-equal old-title new-title)
           (send-string-to-terminal (concat "\033]0;" new-title "\007"))
-          (modify-frame-parameters nil `((xterm-title . ,new-title)))))))
+          (set-frame-parameter nil 'xterm-title new-title)))))
   (add-hook 'window-configuration-change-hook #'my-tty-update-title)
 
   ;; Add ~/.spacemacs.d/bin/ to the executable search path.

@@ -1317,6 +1317,48 @@ current frame but keep Emacs running."
                       :foreground ,zenburn-fg+1
                       :box nil))))))
 
+  ;; Make the window and workspace numbers in the modeline easier to read. The
+  ;; problems are the color chosen by `zenburn-theme' which makes it too hard to
+  ;; read the faded numbers. The Unicode numbers, as fancy as they are, just
+  ;; excarbate the issue with readability.
+  (setq spaceline-window-numbers-unicode nil
+        spaceline-workspace-numbers-unicode nil)
+
+  (defface powerline-inactive-window-numbers
+    '((t (:inherit mode-line-inactive)))
+    "Face for displaying window numbers in powerline.")
+
+  (spacemacs/after-load-theme 'zenburn
+    (zenburn-with-color-variables
+      (custom-theme-alter-faces
+       'zenburn
+       `(powerline-inactive-window-numbers
+         ((t (:foreground ,zenburn-yellow :background ,zenburn-bg+1
+                          :inherit mode-line-inactive)))))))
+
+  (defun my-spaceline--get-face (face active)
+    (cond
+     ((eq 'face1 face) (if active 'powerline-active1 'powerline-inactive1))
+     ((eq 'face2 face) (if active 'mode-line 'mode-line-inactive))
+     ((eq 'line face) (if active 'powerline-active2 'powerline-inactive2))
+     ((eq 'highlight face) (if active
+                               (funcall spaceline-highlight-face-func)
+                             'powerline-inactive-window-numbers))))
+
+  (setq spaceline-face-func #'my-spaceline--get-face)
+
+  ;; Map Unicode ranges used in the modeline to fonts with glyphs that are more
+  ;; pleasing to the eye.
+  (spacemacs|do-after-display-system-init
+   ;; window numbers
+   (set-fontset-font "fontset-default" '(#x2776 . #x2793) "D2Coding for Powerline")
+   ;; mode-line circled letters
+   (set-fontset-font "fontset-default" '(#x24b6 . #x24fe) "D2Coding for Powerline")
+   ;; mode-line additional characters
+   (set-fontset-font "fontset-default" '(#x2295 . #x22a1) "DejaVu Sans Mono for Powerline")
+   ;; new version lighter
+   (set-fontset-font "fontset-default" '(#x2190 . #x2200) "DejaVu Sans Mono for Powerline"))
+
   ;; $path (relative to git root) => $displaypath (relative to cwd)
   ;; Fixes "no such directory" errors by projectile trying to enumerate files submodules.
   ;; (setq projectile-git-submodule-command "git submodule --quiet foreach 'echo $displaypath' | tr '\\n' '\\0'")

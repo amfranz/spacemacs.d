@@ -884,8 +884,8 @@ potentially deletes it, after which it can not be autoloaded any more."
 
   ;; Prevent the text selected in visual mode to automatically get copied into
   ;; the clipboard. Without this it would be pretty cumbersome to paste text
-  ;; from external applications.
-  ;; http://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
+  ;; from external applications. For details, see
+  ;; https://emacs.stackexchange.com/a/15054
   (fset 'evil-visual-update-x-selection 'ignore)
 
   ;; Lets trust myself to not create problematic symlinks.

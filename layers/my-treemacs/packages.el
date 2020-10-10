@@ -23,10 +23,6 @@
     "pws" #'treemacs-switch-workspace)
 
   (with-eval-after-load 'treemacs
-    ;; Adjust icon sizes to the DPI of the display.
-    (spacemacs|do-after-display-system-init
-     (treemacs-resize-icons (* 22 (display-scaling-factor))))
-
     ;; Hide files that are ignored by Git.
     (add-to-list 'treemacs-pre-file-insert-predicates
                  #'treemacs-is-file-git-ignored?)

@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defvar dtrt-indent-mode-whitelist '(prog-mode text-mode)
+(defvar dtrt-indent-mode-whitelist '(conf-mode prog-mode text-mode)
   "A list of major modes in which to enable `dtrt-indent' mode.
 
 Also see `dtrt-indent-mode-blacklist'.")

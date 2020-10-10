@@ -9,6 +9,6 @@
     :init
     (dolist (mode dtrt-indent-mode-whitelist)
       (add-hook (intern (concat (symbol-name mode) "-hook"))
-                #'dtrt-indent//maybe-enable))
+                #'my-dtrt-indent//maybe-enable))
     :config
     (setq dtrt-indent-verbosity 0)))

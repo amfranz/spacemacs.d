@@ -76,12 +76,7 @@
   ;; https://github.com/magit/magit/issues/2708
   (advice-add 'auto-revert-buffers :around #'postpone-auto-revert-buffers)
   (advice-add 'magit-process-filter :before #'postpone-auto-revert-buffers-on)
-  (advice-add 'magit-process-finish :before #'postpone-auto-revert-buffers-off)
-
-  (with-eval-after-load 'magit
-    ;; Using different purposes for each Magit window ensures that the fixup
-    ;; commit uses a split window layout: `magit-log-select' / `magit-diff'
-    (purpose-x-magit-multi-on)))
+  (advice-add 'magit-process-finish :before #'postpone-auto-revert-buffers-off))
 
 (defun my-magit/pre-init-magit-gitflow ()
   (spacemacs|use-package-add-hook magit-gitflow

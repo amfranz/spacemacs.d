@@ -800,9 +800,6 @@ before packages are loaded."
           (funcall fn)))))
   (add-hook 'after-make-frame-functions #'spacemacs--after-display-system-init)
 
-  ;; Show and maximize the Spacemacs home buffer in frames opened by the client.
-  (add-hook 'server-after-make-frame-hook #'spacemacs/home-delete-other-windows)
-
   ;; This avoids graphical artifacts in the mode line with the first graphical
   ;; client. Computing the mode line height does font measurements, which are
   ;; not working properly until the display system is initialized.

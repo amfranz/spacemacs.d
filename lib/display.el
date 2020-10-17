@@ -1,14 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 ;;;###autoload
-(defun display-assume-graphic-p ()
-  "My Emacs instances are dedicated to either the graphical environment or the
-terminal. My customizations differ slightly between the two. This functions
-returns whether this Emacs instance is dedicated to the graphical environment."
-  (or (display-graphic-p)
-      (string-equal (daemonp) "server-x")))
-
-;;;###autoload
 (defun display-scaling-factor ()
   "Reads the display scaling factor from the Cinnamon dconf database.
 This will return 2 on Hi-DPI displays, 1 otherwise."

@@ -6,13 +6,6 @@
 ;;;### (autoloads nil "display" "display.el" (0 0 0 0))
 ;;; Generated autoloads from display.el
 
-(autoload 'display-assume-graphic-p "display" "\
-My Emacs instances are dedicated to either the graphical environment or the
-terminal. My customizations differ slightly between the two. This functions
-returns whether this Emacs instance is dedicated to the graphical environment.
-
-\(fn)" nil nil)
-
 (autoload 'display-scaling-factor "display" "\
 Reads the display scaling factor from the Cinnamon dconf database.
 This will return 2 on Hi-DPI displays, 1 otherwise.

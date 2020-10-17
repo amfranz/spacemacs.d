@@ -16,11 +16,8 @@
   ;; Turn on auto saving of perspectives. To avoid multiple Emacs instances to
   ;; overwrite each others config, we make an opinionated decision to designate
   ;; a specific Emacs instance that will auto save, and all other will not. The
-  ;; instance that runs the Emacs daemon is the logical choice. Because I use
-  ;; multiple Emacs daemons, one for X (named "server-x") and one for the
-  ;; terminal (named "server-tty"), there is an extra condition to specifically
-  ;; select the daemon for X.
-  (if (string-equal (daemonp) "server-x")
+  ;; instance that runs the Emacs daemon is the logical choice.
+  (if (daemonp)
       (setq persp-auto-save-persps-to-their-file-before-kill 'persp-file)
     (setq persp-auto-save-opt 0))
 

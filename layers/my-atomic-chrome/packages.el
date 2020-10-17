@@ -6,7 +6,7 @@
   (use-package atomic-chrome
     :defer t
     :init
-    (when (and (daemonp) (display-assume-graphic-p))
+    (when (daemonp)
       (add-hook 'spacemacs-post-user-config-hook #'atomic-chrome-start-server))
     :config
     (progn

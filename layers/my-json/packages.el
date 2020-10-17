@@ -11,7 +11,7 @@
   ;; to the keycode of TAB with the assumption that C-i is the same keycode. If
   ;; they keys can be distinguished, we rebind functionality that makes more
   ;; sense to be bound to C-i instead of TAB, to C-i.
-  (when (and dotspacemacs-distinguish-gui-tab (display-assume-graphic-p))
+  (when dotspacemacs-distinguish-gui-tab
     (with-eval-after-load 'json-mode
       (define-key json-mode-map (kbd "C-c TAB") nil)
       (define-key json-mode-map (kbd "C-c <C-i>") #'json-increment-number-at-point))))

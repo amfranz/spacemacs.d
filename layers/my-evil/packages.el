@@ -5,7 +5,8 @@
                              (evil-escape :excluded t)
                              evil-nerd-commenter
                              evil-numbers
-                             vimish-fold))
+                             vimish-fold
+                             evil-vimish-fold))
 
 (defun my-evil/init-drag-stuff ()
   (use-package drag-stuff
@@ -46,3 +47,6 @@
 
 (defun my-evil/post-init-vimish-fold ()
   (setq vimish-fold-dir (concat spacemacs-cache-directory "vimish-fold/")))
+
+(defun my-evil/post-init-evil-vimish-fold ()
+  (spacemacs|hide-lighter evil-vimish-fold-mode))

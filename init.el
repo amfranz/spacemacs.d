@@ -731,6 +731,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                       (* height 2)))))
         (set-frame-size nil goal-width goal-height))))
 
+  ;; Enlarge size of fringe areas on Hi-DPI displays.
+  ;; This makes a noticable difference for, eg. `diff-hl-mode'.
+  (when (>= (display-scaling-factor) 2)
+    (dolist (side '(left-fringe right-fringe))
+      (setf (alist-get side default-frame-alist) 16)))
+
   ;; Disable lockfiles (.#*). This needs to be set early to avoid creating lock
   ;; files for files opened during Spacemacs startup sequence.
   (setq create-lockfiles nil)

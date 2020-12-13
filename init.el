@@ -713,8 +713,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Make frames larger than the conservative default size.
   (let ((goal-width 164)
         (goal-height 47))
-    (push `(width . ,goal-width) default-frame-alist)
-    (push `(height . ,goal-height) default-frame-alist)
+    (setf (alist-get 'width default-frame-alist) goal-width)
+    (setf (alist-get 'height default-frame-alist) goal-height)
     ;; Also resize the initial frame to the goal size, but enlarge the frame in
     ;; all directions so that the center of the window does remain where it is.
     (when (display-graphic-p)

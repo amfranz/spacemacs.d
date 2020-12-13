@@ -717,19 +717,18 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;; Also resize the initial frame to the goal size, but enlarge the frame in
     ;; all directions so that the center of the window does remain where it is.
     (when (display-graphic-p)
-      (let ((frame (selected-frame))
-            (position (frame-position))
+      (let ((position (frame-position))
             (width (frame-width))
             (height (frame-height)))
         (set-frame-position
-         frame
+         nil
          (max 0 (- (car position)
                    (/ (* (frame-pixel-width) (- goal-width width))
                       (* width 2))))
          (max 0 (- (cdr position)
                    (/ (* (frame-pixel-height) (- goal-height height))
                       (* height 2)))))
-        (set-frame-size frame goal-width goal-height))))
+        (set-frame-size nil goal-width goal-height))))
 
   ;; Disable lockfiles (.#*). This needs to be set early to avoid creating lock
   ;; files for files opened during Spacemacs startup sequence.

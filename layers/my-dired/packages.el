@@ -112,7 +112,7 @@
 
   ;; Avoid unnecessary prompts by dired.
   (setq dired-recursive-copies 'always
-        dired-recursive-deletes 'always)
+        dired-recursive-deletes 'top)
 
   ;; Show symlink targets, even if other details are hidden.
   (setq dired-hide-details-hide-symlink-targets nil)

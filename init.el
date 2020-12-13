@@ -242,6 +242,7 @@ This function should only modify configuration layer settings."
      my-shell-scripts
      my-string-edit
      my-tmux
+     my-trashed
      my-sql
      my-treemacs
      my-xclipboard

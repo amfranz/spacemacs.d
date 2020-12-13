@@ -17,7 +17,7 @@
       (define-key evil-visual-state-map "K" #'drag-stuff-up))))
 
 (defun my-evil/post-init-evil ()
-  ;; Do not move cursor back when exiting insert mode, and allow the cursor to
+  ;; Do not move cursor back when exiting insert state, and allow the cursor to
   ;; go past the last character of the line. This is more in line with default
   ;; Emacs behavior and feels more natural to me.
   (setq evil-move-cursor-back nil

@@ -25,43 +25,84 @@
   (setq inhibit-compacting-font-caches t))
 
 (defun my-dired/post-init-treemacs-icons-dired ()
+  ;; This is a simplified and more reliable `dired-after-readin-hook' for
+  ;; `treemacs-icons-dired'.
+  ;;
+  ;; Both `all-the-icons-dired' as well as `treemacs-icons-dired' seem to be
+  ;; implemented ignorant of the fact that when `dired-after-readin-hook' is
+  ;; called, the buffer is narrowed over the relevant entries. The following
+  ;; explains the problems in the context `treemacs-icons-dired', but most of it
+  ;; applies to `all-the-icons-dired' as well.
+  ;;
+  ;; The logic in `treemacs-icons-dired--display' which serves to remember the
+  ;; list of subdirs for which icons have already been inserted is unnecessary,
+  ;; because `dired-after-readin-hook' is called by `dired-insert-subdir' with
+  ;; the region narrowed over the new subdir. All that needs to be done is to add
+  ;; icons for the files within the narrowed region, there is no bookkeeping
+  ;; in necessary in regards to which files or subdirs already got icons.
+  ;;
+  ;; Using the narrowed region is not just simpler, it also fixes some edge cases
+  ;; that are currently broken. For example, if `auto-revert-mode' is NOT used,
+  ;; in which case the dired buffer will not refresh when the content of the
+  ;; directory changes, dired functions like `dired-create-directory' or
+  ;; `dired-create-empty-file' will insert an entry for the file they create into
+  ;; the existing dired buffer. Then they call `dired-after-readin-hook' with the
+  ;; buffer narrowed over only the one new entry. Again, all that needs to be
+  ;; done is to an icon for the file within the narrowed region. The upstream
+  ;; logic in the `treemacs-icons-dired' package will not add an icon, because
+  ;; according to its own bookkeeping, the subdir this new entry is in already
+  ;; got icons.
+  ;;
   (el-patch-feature treemacs-icons-dired)
   (with-eval-after-load 'treemacs-icons-dired
+    ;; We need to patch the existing function, we can't just create a new one. The
+    ;; reason is because `treemacs-icons-dired-mode', when enabled, calls _this_
+    ;; function in all `dired-mode' buffers for the purpose of populating them with
+    ;; icons. It is therefore too late to patch the icon insertion functionality
+    ;; using `treemacs-icons-dired-mode-hook', because when that is invoked there
+    ;; may already be buffers that have been populated with icons by the upstream
+    ;; logic. To avoid that, we are patching the existing function instead.
     (eval
-     '(el-patch-defun treemacs-icons-dired--display-icons-for-subdir (path pos)
-        "Display icons for subdir PATH at given POS."
-        (unless (member path treemacs-icons-dired--covered-subdirs)
-          (add-to-list 'treemacs-icons-dired--covered-subdirs path)
-          (treemacs-with-writable-buffer
-           (save-excursion
-             (goto-char pos)
-             (forward-line (if treemacs-icons-dired--ranger-adjust 1 2))
-             (treemacs-block
-              (while (not (eobp))
-                (if (dired-move-to-filename nil)
-                    (el-patch-wrap 2
-                      (unless (get-text-property (1- (point)) 'icon)
-                        (let* ((file (dired-get-filename nil t))
-                               (icon (if (file-directory-p file)
-                                         treemacs-icon-dir-closed
-                                       (treemacs-icon-for-file file))))
-                          (el-patch-swap
-                            (insert icon)
-                            ;; If the stars align, due to packages being loaded
-                            ;; on-demand, this function may be called before the
-                            ;; icons are loaded. In such case icon is nil. We make
-                            ;; this change to avoid errors due to (insert nil) or
-                            ;; (propertize nil ...).
-                            (when icon (insert (propertize icon 'icon t)))))))
-                  (treemacs-return nil))
-                (forward-line 1))))))))))
+     '(el-patch-defun treemacs-icons-dired--display ()
+        "Display the icons of files in a dired buffer."
+        (el-patch-swap
+          (when (and (display-graphic-p)
+                     (not treemacs-icons-dired-displayed)
+                     dired-subdir-alist)
+            (setq-local treemacs-icons-dired-displayed t)
+            (setq-local treemacs-icons (treemacs-theme->gui-icons treemacs--current-theme))
+            (pcase-dolist (`(,path . ,pos) dired-subdir-alist)
+              (treemacs-icons-dired--display-icons-for-subdir path pos)))
+          (when (display-graphic-p)
+            (treemacs-with-writable-buffer
+             (save-excursion
+               (goto-char (point-min))
+               (while (not (eobp))
+                 (when (dired-move-to-filename nil)
+                   (unless (get-text-property (1- (point)) 'icon)
+                     (when-let ((file (dired-get-filename nil t))
+                                (icon (if (file-directory-p file)
+                                          treemacs-icon-dir-closed
+                                        (treemacs-icon-for-file file))))
+                       (insert (propertize icon 'icon t)))))
+                 (forward-line))))))))
 
-;; Disabled because it triggers an error every time after a directory is created
-;; in dired:
-;;
-;;     error in process sentinel: vc-exec-after: Unexpected process state
-;;     error in process sentinel: Unexpected process state
-;;
+    ;; Since no special bookkeeping is necessary to remember which subdirs already
+    ;; got icons, these advices are unnecessary.
+    (advice-remove #'dired-revert #'treemacs-icons-dired--reset)
+    (advice-remove #'dired-insert-subdir #'treemacs-icons-dired--insert-subdir-advice)
+    (advice-remove #'dired-kill-subdir #'treemacs-icons-dired--kill-subdir-advice)
+    (with-eval-after-load 'dired+
+      (when (fboundp 'diredp-insert-subdirs)
+        (advice-remove #'diredp-insert-subdirs #'treemacs-icons-dired--insert-subdir-advice)))
+
+    ;; Unbind obsolete functions. This ensures that if they are called, it will be
+    ;; noticed.
+    (fmakunbound 'treemacs-icons-dired--display-icons-for-subdir)
+    (fmakunbound 'treemacs-icons-dired--insert-subdir-advice)
+    (fmakunbound 'treemacs-icons-dired--kill-subdir-advice)
+    (fmakunbound 'treemacs-icons-dired--reset)))
+
 ;; (defun my-dired/post-init-diff-hl ()
 ;;   (add-hook 'dired-mode-hook #'diff-hl-dired-mode))
 
@@ -191,9 +232,8 @@ the customization to `dired-filter-prefix' did not take effect."))
     :defer t
     :init
     (progn
-      (when (configuration-layer/package-used-p 'treemacs-icons-dired)
-        (add-hook 'treemacs-icons-dired-mode-hook
-                  #'my-dired//dired-subtree--insert-treemacs-icons))
+      (add-hook 'dired-subtree-after-insert-hook
+                #'treemacs-dired-subtree-insert-icons)
       (with-eval-after-load 'dired
         (evil-define-key 'evilified dired-mode-map
           (kbd "TAB") #'dired-subtree-toggle)))

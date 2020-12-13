@@ -37,28 +37,14 @@
                                  (nth 0 other-marked-files)))
           (t (error "mark exactly 2 files, at least 1 locally")))))
 
-;; NOTE: This is "subtree" and not "subdir". They are different functionalities.
-(defun treemacs-icons-dired--display-icons-for-subtree ()
-  "Display the icons of files in a subtree of the dired buffer."
-  (when (bound-and-true-p treemacs-icons-dired-mode)
-    (treemacs-with-writable-buffer
-     (save-excursion
-       (dired-subtree-with-subtree
-        (unless (get-text-property (1- (point)) 'icon)
-          (when-let ((file (dired-get-filename nil t))
-                     (icon (if (file-directory-p file)
-                               treemacs-icon-dir-closed
-                             (treemacs-icon-for-file file))))
-            (insert (propertize icon 'icon t)))))))))
-
-(defun my-dired//dired-subtree--insert-treemacs-icons ()
-  "Registers a hook to add icons to the files inserted by `dired-subtree'.
-
-The hook is added or removed, depending on whether `treemacs-icons-dired-mode' is
-currently enabled or not."
-  (if treemacs-icons-dired-mode
-      (add-hook 'dired-subtree-after-insert-hook #'treemacs-icons-dired--display-icons-for-subtree t)
-    (remove-hook 'dired-subtree-after-insert-hook #'treemacs-icons-dired--display-icons-for-subtree)))
+(defun treemacs-dired-subtree-insert-icons ()
+  "Applies `dired-emit-mode' and `treemacs-icons-dired-mode' after inserting a
+subtree into a `dired-mode' buffer."
+  (let ((ov (dired-subtree--get-ov)))
+    (save-restriction
+      (narrow-to-region (overlay-start ov) (overlay-end ov))
+      (dired-omit-expunge)
+      (treemacs-icons-dired--display))))
 
 (defun my-dired/find-file-horizontal-split (&optional arg)
   "Open the file at point by horizontally splitting `next-window'.

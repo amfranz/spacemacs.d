@@ -94,6 +94,13 @@
            (2 font-lock-function-name-face t)
            (3 font-lock-builtin-face t))
 
+          ;; Also syntax highlight Jinja comment blocks in Ansible playbooks and
+          ;; roles. This is based on the rules for Jinja expressions above.
+          ("\\({#\\)\\([^#]+\\)\\(#}\\)"
+           (1 font-lock-builtin-face t)
+           (2 font-lock-comment-face t)
+           (3 font-lock-builtin-face t))
+
           ;; All of the following regular expressions have been replaced by
           ;; functions that will filter out keywords if they are not on the
           ;; right task indent level, eg. "group" is a task keyword, but not

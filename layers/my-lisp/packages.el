@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-lisp-packages '((edebug :location built-in)
+(defconst my-lisp-packages '(buttercup
+                             (edebug :location built-in)
                              (emacs-lisp :location built-in)
                              evil-lisp-state
                              evil-surround
@@ -8,6 +9,10 @@
                              faceup
                              font-lock-studio
                              (which-func :location built-in)))
+
+(defun my-lisp/init-buttercup ()
+  (use-package buttercup
+    :defer t))
 
 (defun my-lisp/post-init-edebug ()
   ;; Ensures that the visual flash of the current defun always works when a

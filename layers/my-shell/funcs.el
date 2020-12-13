@@ -9,7 +9,7 @@
   (when (memq 'zenburn custom-enabled-themes)
     (custom-theme-set-faces
      'zenburn
-     '(term-color-default ((t (:foreground "#DBDBCB" :background "#3F3F3F"))))
+     '(term               ((t (:foreground "#DBDBCB"))))
      '(term-color-black   ((t (:foreground "#3F3F3F" :background "#708F80"))))
      '(term-color-red     ((t (:foreground "#A95050" :background "#DBA2A2"))))
      '(term-color-green   ((t (:foreground "#60B389" :background "#72D4A2"))))

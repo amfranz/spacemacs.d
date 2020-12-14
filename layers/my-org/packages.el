@@ -115,6 +115,13 @@
   ;; navigating to the beginning or end of a line.
   (setq org-special-ctrl-a/e t)
 
+  ;; Native action for TAB causes weirdness when using `evil-open-below' to
+  ;; create a new line below and enter insert mode. It attempts to auto-indent
+  ;; the new line by issuing the action bound to TAB. The problem is that in
+  ;; modes like `sh-mode', TAB triggers autocompletion. The autocompletion
+  ;; interfaces appears, which is unexpected and annoying.
+  (setq org-src-tab-acts-natively nil)
+
   ;; Wrap long lines by default.
   (add-hook 'org-mode-hook #'spacemacs/toggle-visual-line-navigation-on)
 

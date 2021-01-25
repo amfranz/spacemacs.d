@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-cpp-packages '(cc-mode
-                            ccls
                             clang-format
                             cmake-font-lock
                             cmake-mode
@@ -20,11 +19,18 @@
   (spacemacs/add-to-hooks #'my-cpp//lsp-ui-flycheck-configure
                           c-c++-mode-hooks 'append)
   (with-eval-after-load 'cc-mode
-    (setf (alist-get 'other c-default-style) "linux")))
+    (setf (alist-get 'other c-default-style) "linux"))
 
-(defun my-cpp/post-init-ccls ()
-  (spacemacs/add-to-hooks #'my-cpp//ccls-use-project-build-directory
-                          c-c++-mode-hooks))
+  ;; It is deliberate that this hook is installed here, in cc-modes post-init;
+  ;; `my-cpp//ccls-use-project-build-directory' needs to be invoked before
+  ;; `spacemacs//c-c++-setup-backend'.
+  (let ((local-vars-hooks '(c-mode-local-vars-hook c++-mode-local-vars-hook)))
+    (when (configuration-layer/package-used-p 'lsp-mode)
+      (spacemacs/add-to-hooks #'my-cpp//clangd-use-project-build-directory
+                              local-vars-hooks))
+    (when (configuration-layer/package-used-p 'ccls)
+      (spacemacs/add-to-hooks #'my-cpp//ccls-use-project-build-directory
+                              local-vars-hooks))))
 
 (defun my-cpp/post-init-clang-format ()
   (with-eval-after-load 'clang-format
@@ -60,8 +66,6 @@
     :defer t))
 
 (defun my-cpp/post-init-lsp-mode ()
-  (spacemacs/add-to-hooks #'my-cpp//clangd-use-project-build-directory
-                          c-c++-mode-hooks 'append)
   (with-eval-after-load 'lsp-mode
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.ccls-cache$")
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]build$")

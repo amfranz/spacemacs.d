@@ -15,32 +15,42 @@ To activate this every time a CMake file is opened, use the following:
     (font-lock-mode -1)
     (font-lock-mode 1)))
 
+(defun my-cpp//find-build-dir ()
+  "Finds the build directory of the current project by looking for
+compile_commands.json in common build directory locations. Returns the absolute
+path to the build directory if found."
+  (when-let ((project-dir (projectile-project-root)))
+    (let (confirmed-build-dir
+          (candidate-dirs (list (projectile-compilation-dir)
+                                (concat project-dir "build/"))))
+      (while (and candidate-dirs (not confirmed-build-dir))
+        (let* ((subject-dir (pop candidate-dirs)))
+          (when (file-exists-p (concat subject-dir "compile_commands.json"))
+            (setq confirmed-build-dir subject-dir))))
+      confirmed-build-dir)))
+
 (defun my-cpp//clangd-use-project-build-directory ()
   "If a project build folder exists with a compilation database exists, store
 the build cache there and make use of the compilation database."
-  (when-let ((root-dir (projectile-project-root)))
-    (let ((build-dir (concat root-dir "build/")))
-      (when (file-exists-p (concat build-dir "compile_commands.json"))
-        (setq-local lsp-clients-clangd-args
-                    (list (concat "-compile-commands-dir=" root-dir "build")))))))
+  (when-let ((build-dir (my-cpp//find-build-dir)))
+    (setq-local lsp-clients-clangd-args
+                (list (concat "-compile-commands-dir=" build-dir)))))
 
 (defun my-cpp//ccls-use-project-build-directory ()
   "If a project build folder exists with a compilation database exists, store
 the build cache there and make use of the compilation database."
-  (when-let ((root-dir (projectile-project-root)))
-    (let ((build-dir (concat root-dir "build/")))
-      (when (file-exists-p (concat build-dir "compile_commands.json"))
-        ;; The `use-package' config hook that Spacemacs installs sets the
-        ;; default value of `ccls-initialization-options' with `setq'. If at
-        ;; that point the variable is buffer-local this would set the
-        ;; buffer-local value instead of the default value. The purpose of the
-        ;; `require' is to force the `use-package' config hook to run first
-        ;; which will `setq' the default value, afterwards we can safely make
-        ;; the variable buffer-local.
-        (require 'ccls)
-        (setq-local ccls-initialization-options
-                    (list :cache '(:directory "build/.ccls-cache")
-                          :compilationDatabaseDirectory "build"))))))
+  (when-let ((build-dir (my-cpp//find-build-dir)))
+    ;; The `use-package' config hook that Spacemacs installs sets the
+    ;; default value of `ccls-initialization-options' with `setq'. If at
+    ;; that point the variable is buffer-local this would set the
+    ;; buffer-local value instead of the default value. The purpose of the
+    ;; `require' is to force the `use-package' config hook to run first
+    ;; which will `setq' the default value, afterwards we can safely make
+    ;; the variable buffer-local.
+    (require 'ccls)
+    (setq-local ccls-initialization-options
+                (list :cache `(:directory ,(concat build-dir ".ccls-cache/"))
+                      :compilationDatabaseDirectory build-dir))))
 
 (defun my-lsp//ccls-add-library-folders-fn (args)
   "Set library-folders-fn in the CCLS lsp-client definition."

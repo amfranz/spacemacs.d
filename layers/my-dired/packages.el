@@ -171,9 +171,6 @@
       "c" #'dired-do-copy
       "C" #'dired-do-compress-to)
 
-    (spacemacs/declare-prefix-for-mode 'dired-mode "g" "tags")
-    (spacemacs/declare-prefix-for-mode 'dired-mode "T" "toggle")
-
     (spacemacs/declare-prefix-for-mode 'dired-mode "ms" "subdir")
     (spacemacs/set-leader-keys-for-major-mode 'dired-mode
       "sj" #'dired-goto-subdir

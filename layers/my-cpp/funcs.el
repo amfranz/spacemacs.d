@@ -34,7 +34,8 @@ path to the build directory if found."
 the build cache there and make use of the compilation database."
   (when-let ((build-dir (my-cpp//find-build-dir)))
     (setq-local lsp-clients-clangd-args
-                (list (concat "-compile-commands-dir=" build-dir)))))
+                (append (bound-and-true-p lsp-clients-clangd-args)
+                        (list (concat "--compile-commands-dir=" build-dir))))))
 
 (defun my-cpp//ccls-use-project-build-directory ()
   "If a project build folder exists with a compilation database exists, store

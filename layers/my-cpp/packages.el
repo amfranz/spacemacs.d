@@ -10,7 +10,8 @@
                             modern-cpp-font-lock
                             (nxml-mode :location built-in)
                             qt-pro-mode
-                            yaml-mode))
+                            yaml-mode
+                            zeal-at-point))
 
 (defun my-cpp/post-init-cc-mode ()
   (spacemacs/add-to-hooks #'my-cpp//disable-escape-quotes-after-insert
@@ -82,3 +83,7 @@
 
 (defun my-cpp/post-init-yaml-mode ()
   (add-to-list 'auto-mode-alist '("\\.clang-format\\'" . yaml-mode)))
+
+(defun my-cpp/post-init-zeal-at-point ()
+  (with-eval-after-load 'zeal-at-point
+    (add-to-list 'zeal-at-point-docsets "qt5")))

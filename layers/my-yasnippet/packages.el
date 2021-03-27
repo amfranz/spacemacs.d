@@ -1,18 +1,17 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-yasnippet-packages '(helm-c-yasnippet yasnippet yasnippet-classic-snippets))
+(defconst my-yasnippet-packages '(helm-c-yasnippet
+                                  yasnippet
+                                  yasnippet-classic-snippets))
 
 (defun my-yasnippet/post-init-helm-c-yasnippet ()
-  ;; This message displays the key binding for the snippet, but the message is
+  ;; The message we disable here displays the key binding for the snippet. It is
   ;; pretty useless because most snippets do not have a key binding.
   (setq helm-yas-display-msg-after-complete nil)
 
 
   ;; Preserve the point when saving a snippet. Loading the snippet from the
   ;; buffer causes the point to jump which is unnecessary and distracting.
-  (defun my-yasnippet//preserve-point (orig-fun &rest args)
-    (save-excursion
-      (apply orig-fun args)))
   (advice-add 'yas-maybe-load-snippet-buffer
               :around #'my-yasnippet//preserve-point)
 
@@ -44,8 +43,13 @@ like `yas--current-key'"
                            (cl-values (buffer-substring-no-properties start end) start end))
                        (error (cl-values "" (point) (point))))))))))))
 
-(defun my-yasnippet/post-init-yasnippet()
+(defun my-yasnippet/post-init-yasnippet ()
+  ;; Load `yasnippet' in `text-mode', but not if `text-mode' is used for the
+  ;; scratch buffer. This lets us initialize the scratch buffer with `text-mode'
+  ;; while avoiding `yasnippet' to be loaded eagerly at startup.
   (add-hook 'text-mode-hook #'my-yasnippet//load-yasnippet-unless-scratch)
+
+  ;; Avoids an error if `hippie-expand' is used before `yasnippet' is loaded.
   (autoload 'yas-hippie-try-expand "yasnippet"))
 
 (defun my-yasnippet/init-yasnippet-classic-snippets ()

@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-cpp-packages '(cc-mode
-                            clang-format
                             cmake-font-lock
                             cmake-mode
                             eldoc-cmake
@@ -31,11 +30,6 @@
     (when (configuration-layer/package-used-p 'ccls)
       (spacemacs/add-to-hooks #'my-cpp//ccls-use-project-build-directory
                               local-vars-hooks))))
-
-(defun my-cpp/post-init-clang-format ()
-  (with-eval-after-load 'clang-format
-    (setq clang-format-executable (or (executable-find "clang-format-8")
-                                      clang-format-executable))))
 
 (defun my-cpp/init-eldoc-cmake ()
   (use-package eldoc-cmake

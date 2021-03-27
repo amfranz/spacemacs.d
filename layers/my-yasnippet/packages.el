@@ -9,6 +9,12 @@
   ;; pretty useless because most snippets do not have a key binding.
   (setq helm-yas-display-msg-after-complete nil)
 
+  ;; This avoids a warning about overwriting `helm-c-yas-space-match-any-greedy'
+  ;; by aliasing it. This is because Spacemacs is setting the value using a
+  ;; deprecated name for the variable. Here we "migrate" the value to the new
+  ;; neame of the variable to avoid the warning.
+  (setq helm-yas-space-match-any-greedy helm-c-yas-space-match-any-greedy)
+  (makunbound 'helm-c-yas-space-match-any-greedy)
 
   ;; Preserve the point when saving a snippet. Loading the snippet from the
   ;; buffer causes the point to jump which is unnecessary and distracting.

@@ -224,7 +224,7 @@ channel."
   (use-package poporg
     :defer t
     :init
-    (spacemacs/safe-set-leader-keys "xe" #'poporg-dwim)))
+    (spacemacs/safe-set-leader-keys "xp" #'poporg-dwim)))
 
 (defun my-org/post-init-popwin ()
   (with-eval-after-load 'popwin

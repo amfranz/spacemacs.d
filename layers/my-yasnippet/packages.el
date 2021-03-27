@@ -45,12 +45,12 @@
   (advice-add 'yas-maybe-load-snippet-buffer
               :around #'my-yasnippet//preserve-point)
 
-  ;; The following patch fixes these issues in `helm-c-yasnippet': (1) filter
-  ;; the list of snippets by their conditions, and (2) if a region is selected
-  ;; it will be used for the snippet like `yas-insert-snippet' would do.
+  ;; The following patch makes it so that if a region is selected it will be
+  ;; used for the snippet just like `yas-insert-snippet' would do.
   ;;
-  ;; It is unfortunate to have to patch it this way - these fixes should
-  ;; probably the submitted back to the helm-c-yasnippet project.
+  ;; It is unfortunate to have to patch it this way - this fix should
+  ;; probably the submitted back to the `helm-c-yasnippet' project.
+  ;;
   (el-patch-feature helm-c-yasnippet)
   (with-eval-after-load 'helm-c-yasnippet
     (eval '(el-patch-defun helm-yas-get-cmp-context ()
@@ -71,55 +71,7 @@ like `yas--current-key'"
                            (skip-syntax-backward syntax)
                            (setq start (point))
                            (cl-values (buffer-substring-no-properties start end) start end))
-                       (error (cl-values "" (point) (point))))))))))
-    (eval '(el-patch-defun helm-yas-build-cur-snippets-alist (&optional table)
-             (let ((yas-choose-keys-first nil)
-                   (yas-choose-tables-first nil)
-                   (el-patch-remove (yas-buffer-local-condition 'always)))
-               (let* ((result-alist '((candidates) (transformed) (template-key-alist)
-                                      (template-file-alist) (template-expand-env-alist)))
-                      (cur-tables
-                       (if table
-                           (list table)
-                         (yas--get-snippet-tables)))
-                      (hash-value-alist nil))
-                 (let ((hashes (cl-loop for table in cur-tables
-                                        collect (yas--table-hash table))))
-                   (cl-loop for hash in hashes
-                            do (maphash (lambda (k v)
-                                          (let (a)
-                                            (maphash (lambda (_n te)
-                                                       (setq a (append (list (cons k te)) a)))
-                                                     v)
-                                            (setq hash-value-alist (append a hash-value-alist))))
-                                        hash))
-                   (cl-loop with transformed
-                            with templates
-                            with template-key-alist
-                            with template-file-alist
-                            with template-expand-env-alist
-                            for lst in (el-patch-wrap 1 (yas--filter-templates-by-condition hash-value-alist))
-                            for key = (car lst)
-                            for template-struct = (cdr lst)
-                            for name = (yas--template-name template-struct) ;`yas--template-name'
-                            for template = (yas--template-content template-struct) ;`yas--template-content'
-                            for file = (yas--template-load-file template-struct) ;`yas--template-content'
-                            for expand-env = (yas--template-expand-env template-struct)
-                            do (progn (push template templates)
-                                      (push `(,name . ,template) transformed)
-                                      (push `(,template . ,key) template-key-alist)
-                                      (push `(,template . ,file) template-file-alist)
-                                      (push `(,template . ,expand-env) template-expand-env-alist)
-                                      )
-                            finally (progn (push `(candidates . ,templates) result-alist)
-                                           (push `(transformed . ,transformed) result-alist)
-                                           (push `(template-file-alist . ,template-file-alist) result-alist)
-                                           (push `(template-key-alist . ,template-key-alist) result-alist)
-                                           (push `(template-expand-env-alist . ,template-expand-env-alist) result-alist)
-                                           ))
-                   result-alist)
-                 ))))
-    ))
+                       (error (cl-values "" (point) (point))))))))))))
 
 (defun my-yasnippet/post-init-yasnippet()
   (add-hook 'text-mode-hook #'my-yasnippet//load-yasnippet-unless-scratch)

@@ -61,9 +61,9 @@
 
 (defun my-cpp/post-init-lsp-mode ()
   (with-eval-after-load 'lsp-mode
-    (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.ccls-cache$")
-    (add-to-list 'lsp-file-watch-ignored "[/\\\\]build$")
-    (add-to-list 'lsp-file-watch-ignored "[/\\\\]vendor$"))
+    (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.ccls-cache\\'")
+    (add-to-list 'lsp-file-watch-ignored "[/\\\\]build\\'")
+    (add-to-list 'lsp-file-watch-ignored "[/\\\\]vendor\\'"))
   (advice-add 'lsp-register-client :filter-args
               #'my-lsp//ccls-add-library-folders-fn))
 

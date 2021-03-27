@@ -58,6 +58,16 @@ like `yas--current-key'"
   ;; Avoids an error if `hippie-expand' is used before `yasnippet' is loaded.
   (autoload 'yas-hippie-try-expand "yasnippet"))
 
+;; Not all snippets will get loaded if something causes yasnippet to load too
+;; early on startup (eg. the Spacemacs Julia layer is a cause. This is due to
+;; order-of-operations assumptions with `eval-after-load' in the Spacemacs
+;; core and layers. Only if `yasnippet' is lazy loaded when opening a file,
+;; snippets are guaranteed to be loaded as expected.
+;;
+;; Here we install a check that verifies `yasnippet' is not yet loaded at the
+;; end of the startup sequence, it will alert us about the issue if it is.
+;; (add-hook 'spacemacs-post-user-config-hook #'my-yasnippet//verify-lazy-load))
+
 (defun my-yasnippet/init-yasnippet-classic-snippets ()
   (use-package yasnippet-classic-snippets
     :defer t))

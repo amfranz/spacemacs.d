@@ -21,6 +21,20 @@
   (with-eval-after-load 'cc-mode
     (setf (alist-get 'other c-default-style) "linux"))
 
+  (let (docs-at-point docs-at-point-set-docset)
+    (when (configuration-layer/package-used-p 'dash-at-point)
+      (setq docs-at-point #'dash-at-point
+            docs-at-point-set-docset #'dash-at-point-set-docset))
+    (when (configuration-layer/package-used-p 'zeal-at-point)
+      (setq docs-at-point #'zeal-at-point
+            docs-at-point-set-docset #'zeal-at-point-set-docset))
+    (when docs-at-point
+      (with-eval-after-load 'cc-mode
+        (dolist (mode c-c++-modes)
+          (spacemacs/safe-set-leader-keys-for-major-mode mode
+            "hd" docs-at-point
+            "hD" docs-at-point-set-docset)))))
+
   ;; It is deliberate that this hook is installed here, in cc-modes post-init;
   ;; `my-cpp//ccls-use-project-build-directory' needs to be invoked before
   ;; `spacemacs//c-c++-setup-backend'.

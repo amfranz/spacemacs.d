@@ -7,35 +7,6 @@
   ;; pretty useless because most snippets do not have a key binding.
   (setq helm-yas-display-msg-after-complete nil)
 
-  ;; Workaround for snippet expansion when in evil visual mode.
-  ;; For details, see https://github.com/emacs-evil/evil/issues/254
-  (defun my-yasnippet//leave-visual-state ()
-    (when (evil-visual-state-p)
-      (let ((p (point))
-            (m (mark)))
-        (evil-normal-state)
-        (goto-char p)
-        (set-mark m))))
-  (add-hook 'yas-before-expand-snippet-hook
-            #'my-yasnippet//leave-visual-state)
-
-  ;; Enter insert mode automatically when moving the point to a snippet field.
-  (defun my-yasnippet//enter-insert-state (&rest ignored)
-    (unless undo-in-progress
-      (when (evil-normal-state-p)
-        (evil-insert-state))))
-  (advice-add 'yas--move-to-field :after
-              #'my-yasnippet//enter-insert-state)
-
-  ;; Leave insert mode automatically when reaching the exit point of a snippet.
-  (defun my-yasnippet//exit-insert-state (&rest ignored)
-    (unless undo-in-progress ;; required?
-      (when (evil-insert-state-p)
-        ;; FIXME: breaks company completion
-        ;; (evil-normal-state)
-        )))
-  (advice-add 'yas-exit-snippet :after
-              #'my-yasnippet//exit-insert-state)
 
   ;; Preserve the point when saving a snippet. Loading the snippet from the
   ;; buffer causes the point to jump which is unnecessary and distracting.

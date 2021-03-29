@@ -1,20 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-evil-packages '(drag-stuff
-                             evil
+(defconst my-evil-packages '(evil
                              (evil-escape :excluded t)
                              evil-nerd-commenter
                              evil-numbers
                              vimish-fold
                              evil-vimish-fold))
-
-(defun my-evil/init-drag-stuff ()
-  (use-package drag-stuff
-    :defer t
-    :init
-    (with-eval-after-load 'evil-maps
-      (define-key evil-visual-state-map "J" #'drag-stuff-down)
-      (define-key evil-visual-state-map "K" #'drag-stuff-up))))
 
 (defun my-evil/post-init-evil ()
   ;; Do not move cursor back when exiting insert state, and allow the cursor to

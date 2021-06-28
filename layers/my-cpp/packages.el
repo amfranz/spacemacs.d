@@ -2,6 +2,9 @@
 
 (defconst my-cpp-packages '(cc-mode
                             cmake-font-lock
+                            (cmake-format :location (recipe
+                                                     :fetcher github
+                                                     :repo "simonfxr/cmake-format.el"))
                             cmake-mode
                             eldoc-cmake
                             evil-surround
@@ -12,6 +15,13 @@
                             qt-pro-mode
                             yaml-mode
                             zeal-at-point))
+
+;; NOTE: The package is missing a require for either cl or cl-lib (not sure), so
+;;       the compilation might result in invalid byte code for the call to incf.
+;;       If that happens, as a workaround, delete cmake-format.elc.
+(defun my-cpp/init-cmake-format ()
+  (use-package cmake-format
+    :init (add-hook 'cmake-mode-hook #'cmake-format-mode)))
 
 (defun my-cpp/post-init-cc-mode ()
   (spacemacs/add-to-hooks #'my-cpp//disable-escape-quotes-after-insert

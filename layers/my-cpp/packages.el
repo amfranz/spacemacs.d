@@ -8,6 +8,7 @@
                             cmake-mode
                             eldoc-cmake
                             evil-surround
+                            glsl-mode
                             highlight-doxygen
                             lsp-mode
                             modern-cpp-font-lock
@@ -59,6 +60,10 @@
 (defun my-cpp/init-eldoc-cmake ()
   (use-package eldoc-cmake
     :hook (cmake-mode . eldoc-cmake-enable)))
+
+(defun my-cpp/init-glsl-mode ()
+  (use-package glsl-mode
+    :defer t))
 
 (defun my-cpp/post-init-evil-surround ()
   ;; In `c++-mode' the HTML tag surround pair is pretty much useless. It is far

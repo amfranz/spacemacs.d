@@ -86,6 +86,7 @@
 
 (defun my-cpp/post-init-lsp-mode ()
   (with-eval-after-load 'lsp-mode
+    (setq ccls-executable (concat dotspacemacs-directory "bin/ccls-ulimit"))
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]\\.ccls-cache\\'")
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]build\\'")
     (add-to-list 'lsp-file-watch-ignored "[/\\\\]vendor\\'"))

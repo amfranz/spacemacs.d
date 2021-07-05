@@ -1,0 +1,4 @@
+#!/bin/sh
+# https://github.com/MaskRay/ccls/wiki/FAQ#maximum-number-of-file-descriptors
+ulimit -n 32768
+exec ccls "$@"

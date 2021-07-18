@@ -119,7 +119,8 @@ This function should only modify configuration layer settings."
             c-c++-enable-clang-format-on-save t
             c-c++-default-mode-for-headers 'c-or-c++-mode
             c-c++-adopt-subprojects t
-            c-c++-backend 'lsp-ccls)
+            c-c++-backend 'lsp-ccls
+            c-c++-dap-adapters '(dap-gdb-lldb))
      (clojure :packages (not clojure-cheatsheet))
      colors
      copy-as-format

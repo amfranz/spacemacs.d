@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: #if 0
+# key: if0
+# expand-env: ((yas-indent-line nil) (yas-wrap-around-region t))
+# --
+#if 0
+$0#endif

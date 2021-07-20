@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: make class noncopyable
+# key: noncopyable
+# --
+$1(const $1 &) = delete;
+$1 &operator=(const $1 &) = delete;
+$0

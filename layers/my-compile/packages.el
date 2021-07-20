@@ -1,10 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-compile-packages '((compile :location built-in)
-                                projectile))
-
-(defun my-compile/post-init-compile ()
-  (compilation-auto-quit-window))
+(defconst my-compile-packages '(projectile))
 
 (defun my-compile/post-init-projectile ()
   ;; Merge all keybindings for project build / run / test commands under a

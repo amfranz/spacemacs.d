@@ -151,7 +151,10 @@ This function should only modify configuration layer settings."
                  js-indent-level 2)
      (json :variables
            json-fmt-tool 'prettier)
-     lsp
+     (lsp :variables
+          ;; Lens causes severe performance issues in some large C++ files with
+          ;; the ccls backend.
+          lsp-lens-enable nil)
      lua
      (markdown :variables
                markdown-live-preview-engine 'vmd)

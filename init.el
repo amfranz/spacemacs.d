@@ -1183,6 +1183,13 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; See https://emacs.stackexchange.com/questions/37393/disable-undo-tree-on-a-region-of-text
   (setq undo-tree-enable-undo-in-region nil)
 
+  ;; Move files with persisted undo-tree history to a separate directory tree.
+  ;; By default it litters these files into source controlled directories and
+  ;; are a footgun since it is too easy to accidentally commit them to source
+  ;; control.
+  (setq undo-tree-history-directory-alist
+        `(("." . ,(concat spacemacs-private-directory "undo-tree/"))))
+
   ;; Commands like `evil-show-registers' pop up a window but leave it opened
   ;; when you quit the buffer using "q". This binding alters that behavior so
   ;; that the window will get closed in addition to killing the buffer.

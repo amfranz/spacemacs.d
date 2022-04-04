@@ -59,6 +59,11 @@
   ;; are (un-)staged.
   (add-hook 'magit-status-mode-hook #'centered-cursor-mode)
 
+  ;; The key bindings of evil-surround mode conflict with keybindings for
+  ;; staging in evil-visual-state. evil-surround is also pretty useless in Magit
+  ;; buffers anyway, so there is no harm in disabling it.
+  (add-hook 'magit-mode-hook #'turn-off-evil-surround-mode)
+
   ;; Theme diff faces.
   (with-eval-after-load 'magit-diff
     (add-hook 'spacemacs-post-theme-change-hook

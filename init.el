@@ -746,7 +746,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Prefer to load non-compiled elisp files if they are newer than their
   ;; compiled equivalents. This is a prophylactic against loading outdated
   ;; compiled files. Requires Emacs >= 24.4.
-  (setq load-prefer-newer t)
+  ;; NOTE: causes issues if native compilation is enabled
+  (unless (functionp 'native-compile)
+    (setq load-prefer-newer t))
+
+  ;; Don't report warnings and errors during native compilation. It makes the
+  ;; warning window to pop up, which is annoying to happen without warning.
+  (setq native-comp-async-report-warnings-errors nil)
 
   ;; Garbage collect only during idle times.
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)

@@ -5,7 +5,7 @@
   (interactive)
   (term-send-raw-string "\e"))
 
-(defun my-shell//helm-kill-ring-action-yank-1 (orig-fun str)
+(defun my-shell//vterm-insert-for-yank (orig-fun string)
   (if (derived-mode-p 'vterm-mode)
-      (vterm-send-string str t)
-    (funcall orig-fun str)))
+      (vterm-insert string)
+    (funcall orig-fun string)))

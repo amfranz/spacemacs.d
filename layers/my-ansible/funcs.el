@@ -296,9 +296,7 @@
                     "@" box-name ":/home/vagrant/"))
         (require 'vterm)
         (let ((vterm-term-environment-variable "xterm-256color")
-              (vterm-shell (concat dotspacemacs-directory "bin/molecule-tramp "
-                                   (base64-encode-string molecule--directory t)
-                                   " " (shell-quote-argument box-name))))
+              (vterm-shell "/bin/bash"))
           (vterm-mode))))
     (switch-to-buffer buffer)))
 

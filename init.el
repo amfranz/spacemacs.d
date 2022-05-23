@@ -1198,7 +1198,13 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; are a footgun since it is too easy to accidentally commit them to source
   ;; control.
   (setq undo-tree-history-directory-alist
-        `(("." . ,(concat spacemacs-private-directory "undo-tree/"))))
+        `(("." . ,(concat spacemacs-cache-directory "undo-tree/"))))
+
+  ;; On second thought, let's disable this feature. I somehow trained myself to
+  ;; spam undo to reset a file back to what is stored on disk. With a persisted
+  ;; undo history the state of the file goes back in time too far, and I have a
+  ;; hard time recovering from that.
+  (setq undo-tree-auto-save-history nil)
 
   ;; Commands like `evil-show-registers' pop up a window but leave it opened
   ;; when you quit the buffer using "q". This binding alters that behavior so

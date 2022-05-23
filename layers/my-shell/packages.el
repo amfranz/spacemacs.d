@@ -121,7 +121,8 @@
       (kbd "C-n") #'vterm--self-insert
       (kbd "C-p") #'vterm--self-insert
       (kbd "C-r") #'vterm--self-insert
-      (kbd "C-u") #'vterm--self-insert)
+      (kbd "C-u") #'vterm--self-insert
+      (kbd "C-x") #'vterm--self-insert)
 
     (add-to-list 'spacemacs-indent-sensitive-modes 'vterm-mode)
     (advice-add 'helm-kill-ring-action-yank-1

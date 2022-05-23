@@ -1,10 +1,33 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-shell-packages '(eterm-256color
-                              eshell
+(defconst my-shell-packages '((ansi-color :location built-in)
+                              eterm-256color
+                              (eshell :location built-in)
                               shell-pop
-                              term
+                              (term :location built-in)
                               vterm))
+
+(defun my-shell/init-ansi-color ()
+  (with-eval-after-load 'ansi-color
+    (spacemacs/after-load-theme 'zenburn
+      (custom-theme-alter-faces
+       'zenburn
+       '(ansi-color-black          ((t :foreground "#3F3F3F" :background "#3F3F3F")))
+       '(ansi-color-red            ((t :foreground "#A95050" :background "#A95050")))
+       '(ansi-color-green          ((t :foreground "#60B389" :background "#60B389")))
+       '(ansi-color-yellow         ((t :foreground "#DEAE8E" :background "#DEAE8E")))
+       '(ansi-color-blue           ((t :foreground "#99B7D6" :background "#99B7D6")))
+       '(ansi-color-magenta        ((t :foreground "#DB8BC2" :background "#DB8BC2")))
+       '(ansi-color-cyan           ((t :foreground "#8BCFD2" :background "#8BCFD2")))
+       '(ansi-color-white          ((t :foreground "#DBDBCB" :background "#DBDBCB")))
+       '(ansi-color-bright-black   ((t :foreground "#708F80" :background "#708F80")))
+       '(ansi-color-bright-red     ((t :foreground "#DBA2A2" :background "#DBA2A2")))
+       '(ansi-color-bright-green   ((t :foreground "#72D4A2" :background "#72D4A2")))
+       '(ansi-color-bright-yellow  ((t :foreground "#EFDEAE" :background "#EFDEAE")))
+       '(ansi-color-bright-blue    ((t :foreground "#93BEF2" :background "#93BEF2")))
+       '(ansi-color-bright-magenta ((t :foreground "#EB92D2" :background "#EB92D2")))
+       '(ansi-color-bright-cyan    ((t :foreground "#92DFE2" :background "#92DFE2")))
+       '(ansi-color-bright-white   ((t :foreground "#FEFEFE" :background "#FEFEFE")))))))
 
 (defun my-shell/post-init-eshell ()
   (with-eval-after-load 'eshell
@@ -44,9 +67,28 @@
 
 (defun my-shell/post-init-term ()
   (with-eval-after-load 'term
-    (add-hook 'spacemacs-post-theme-change-hook
-              #'my-shell//term-customize-faces)
-    (my-shell//term-customize-faces)
+
+    (spacemacs/after-load-theme 'zenburn
+      (custom-theme-alter-faces
+       'zenburn
+       '(term                      ((t :foreground "#DBDBCB" :inherit default)))
+       '(term-color-black          ((t :foreground "#3F3F3F" :background "#3F3F3F")))
+       '(term-color-red            ((t :foreground "#A95050" :background "#A95050")))
+       '(term-color-green          ((t :foreground "#60B389" :background "#60B389")))
+       '(term-color-yellow         ((t :foreground "#DEAE8E" :background "#DEAE8E")))
+       '(term-color-blue           ((t :foreground "#99B7D6" :background "#99B7D6")))
+       '(term-color-magenta        ((t :foreground "#DB8BC2" :background "#DB8BC2")))
+       '(term-color-cyan           ((t :foreground "#8BCFD2" :background "#8BCFD2")))
+       '(term-color-white          ((t :foreground "#DBDBCB" :background "#DBDBCB")))
+       '(term-color-bright-black   ((t :foreground "#708F80" :background "#708F80")))
+       '(term-color-bright-red     ((t :foreground "#DBA2A2" :background "#DBA2A2")))
+       '(term-color-bright-green   ((t :foreground "#72D4A2" :background "#72D4A2")))
+       '(term-color-bright-yellow  ((t :foreground "#EFDEAE" :background "#EFDEAE")))
+       '(term-color-bright-blue    ((t :foreground "#93BEF2" :background "#93BEF2")))
+       '(term-color-bright-magenta ((t :foreground "#EB92D2" :background "#EB92D2")))
+       '(term-color-bright-cyan    ((t :foreground "#92DFE2" :background "#92DFE2")))
+       '(term-color-bright-white   ((t :foreground "#FEFEFE" :background "#FEFEFE")))))
+
     (evil-collection-init 'term)
     (evil-define-key 'insert 'term-raw-map (kbd "C-c C-e") #'term-send-esc)
     (dolist (mode '(term-mode-map term-raw-map))

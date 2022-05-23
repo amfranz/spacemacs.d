@@ -172,10 +172,23 @@
     (spacemacs|hide-lighter ansible)
 
     ;; Additional keybindings for Ansible playbooks and roles.
+    (spacemacs/declare-prefix-for-mode 'ansible "mb" "buffer")
+    (spacemacs/declare-prefix-for-mode 'ansible "mh" "help")
+    (spacemacs/declare-prefix-for-mode 'ansible "mg" "goto")
+    (spacemacs/declare-prefix-for-mode 'ansible "mr" "region")
+    (spacemacs/declare-prefix-for-mode 'ansible "mm" "molecule")
+    (spacemacs/declare-prefix-for-mode 'ansible "mmj" "jump")
     (spacemacs/set-leader-keys-for-minor-mode 'ansible
       "rd" #'my-ansible/decrypt-region
       "re" #'my-ansible/encrypt-region
-      "u" #'my-ansible/upgrade-syntax)))
+      "u" #'my-ansible/upgrade-syntax
+      "ml" #'molecule-list
+      "mc" #'molecule-create
+      "md" #'molecule-destroy
+      "mm" #'molecule-converge
+      "mt" #'molecule-login
+      "mjd" #'molecule-dired
+      "mjD" #'molecule-dired-as-root)))
 
 (defun my-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc

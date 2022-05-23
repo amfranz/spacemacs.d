@@ -95,10 +95,10 @@
       (evil-define-key 'insert term-mode-map (kbd "s-v") #'term-paste))))
 
 (defun my-shell/post-init-vterm ()
-  (with-eval-after-load 'vterm
-    ;; My answer will always be yes anyway, just do it.
-    (setq vterm-always-compile-module t)
+  ;; My answer will always be yes anyway, just do it.
+  (setq vterm-always-compile-module t)
 
+  (with-eval-after-load 'vterm
     ;; GUI Emacs can be configured to distinguish between TAB and C-i. This
     ;; restores expected terminal behavior of both bindings acting the same.
     (when dotspacemacs-distinguish-gui-tab

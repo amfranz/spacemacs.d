@@ -216,7 +216,9 @@
                        (tramp-remote-shell "/bin/sh")
                        (tramp-remote-shell-args ("-c")))))
       (with-eval-after-load 'recentf
-        (add-to-list 'recentf-exclude "\\`/molecule:")))))
+        (add-to-list 'recentf-exclude "\\`/molecule:")))
+    :config
+    (setq molecule-command "PY_COLORS=1 ANSIBLE_FORCE_COLOR=1 molecule")))
 
 (defun my-ansible/post-init-yaml-mode ()
   (add-to-list 'auto-mode-alist '("\\.yamllint\\'" . yaml-mode))

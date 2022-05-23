@@ -1,10 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
 (defconst my-shell-packages '((ansi-color :location built-in)
-                              eterm-256color
                               (eshell :location built-in)
+                              eterm-256color
                               shell-pop
                               (term :location built-in)
+                              xterm-color
                               vterm))
 
 (defun my-shell/init-ansi-color ()
@@ -38,27 +39,7 @@
 
 (defun my-shell/init-eterm-256color ()
   (use-package eterm-256color
-    :hook (term-mode . eterm-256color-mode)
-    :init
-    (setq xterm-color-names
-          ["#3F3F3F"    ; black
-           "#A95050"    ; red
-           "#60B389"    ; green
-           "#DEAE8E"    ; yellow
-           "#99B7D6"    ; blue
-           "#DB8BC2"    ; magenta
-           "#8BCFD2"    ; cyan
-           "#DBDBCB"]   ; white
-          xterm-color-names-bright
-          ["#708F80"    ; black
-           "#DBA2A2"    ; red
-           "#72D4A2"    ; green
-           "#EFDEAE"    ; yellow
-           "#93BEF2"    ; blue
-           "#EB92D2"    ; magenta
-           "#92DFE2"    ; cyan
-           "#FEFEFE"]   ; white
-          )))
+    :hook (term-mode . eterm-256color-mode)))
 
 (defun my-shell/post-init-shell-pop ()
   ;; Do not kill shell buffers when the words 'finished' or 'exited' appear in
@@ -93,6 +74,28 @@
     (evil-define-key 'insert 'term-raw-map (kbd "C-c C-e") #'term-send-esc)
     (dolist (mode '(term-mode-map term-raw-map))
       (evil-define-key 'insert term-mode-map (kbd "s-v") #'term-paste))))
+
+(defun my-shell/post-init-xterm-color ()
+  (with-eval-after-load 'xterm-color
+    (setq xterm-color-names
+          ["#3F3F3F"    ; black
+           "#A95050"    ; red
+           "#60B389"    ; green
+           "#DEAE8E"    ; yellow
+           "#99B7D6"    ; blue
+           "#DB8BC2"    ; magenta
+           "#8BCFD2"    ; cyan
+           "#DBDBCB"]   ; white
+          xterm-color-names-bright
+          ["#708F80"    ; black
+           "#DBA2A2"    ; red
+           "#72D4A2"    ; green
+           "#EFDEAE"    ; yellow
+           "#93BEF2"    ; blue
+           "#EB92D2"    ; magenta
+           "#92DFE2"    ; cyan
+           "#FEFEFE"]   ; white
+          )))
 
 (defun my-shell/post-init-vterm ()
   ;; My answer will always be yes anyway, just do it.

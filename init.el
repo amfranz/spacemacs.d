@@ -754,6 +754,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; warning window to pop up, which is annoying to happen without warning.
   (setq native-comp-async-report-warnings-errors nil)
 
+  ;; The compilation of `with-editor.el' causes the deferred Emacs instance to hang.
+  (with-eval-after-load 'comp
+    (add-to-list 'native-comp-deferred-compilation-deny-list "with-editor\\.el\\'"))
+
   ;; Garbage collect only during idle times.
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)
 

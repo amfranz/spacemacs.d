@@ -1064,13 +1064,18 @@ potentially deletes it, after which it can not be autoloaded any more."
   ;; Recent files are still available via "fr".
   (spacemacs/replace-leader-key "bb" #'lazy-helm/helm-mini #'helm-buffers-list)
 
-  ;; The latter, to me, makes more sense to be at that key binding. The former
-  ;; also already has another binding ("SPC F o").
-  (spacemacs/replace-leader-key "wo" #'other-frame #'ace-select-window)
-
   ;; This binding is a good mnemonic for this function. The former also already
   ;; has another binding ("SPC w F").
-  (spacemacs/replace-leader-key "Fn" #'make-frame #'select-frame-by-name)
+  ;; (spacemacs/replace-leader-key "Fh" #'make-frame #'select-frame-by-name)
+  (spacemacs/safe-set-leader-keys "Fh" #'select-frame-by-name)
+
+  ;; Remove silly bindings.
+  (spacemacs/replace-leader-key "wF" #'make-frame nil)
+
+  ;; Move the `ace-window' to a binding that matches the letter that "SPC .",
+  ;; aka `window-transient-state', uses for the same functionality.
+  (spacemacs/replace-leader-key "wW" #'ace-window nil)
+  (spacemacs/safe-set-leader-keys "wa" #'ace-window)
 
   ;; Additional miscellaneous key bindings. These might conflict with key
   ;; bindings set up by Spacemacs, so extra checks are performed to verify they
@@ -1297,7 +1302,9 @@ potentially deletes it, after which it can not be autoloaded any more."
     (interactive)
     (when-let ((window (get-mru-window nil t t)))
       (select-window window)))
-  (spacemacs/set-leader-keys "ww" #'my-select-mru-window)
+  ;; This binding is a good mnemonic for this function. The former also already
+  ;; has another binding ("SPC w F").
+  (spacemacs/replace-leader-key "wo" #'other-frame #'my-select-mru-window)
 
   ;; Sort ripgrep search results. This is a trade-off. Sorting means that
   ;; ripgrep can't parallelize the search. On the other hand sorting prevents

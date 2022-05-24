@@ -177,7 +177,6 @@
     (spacemacs/declare-prefix-for-mode 'ansible "mg" "goto")
     (spacemacs/declare-prefix-for-mode 'ansible "mr" "region")
     (spacemacs/declare-prefix-for-mode 'ansible "mm" "molecule")
-    (spacemacs/declare-prefix-for-mode 'ansible "mmj" "jump")
     (spacemacs/set-leader-keys-for-minor-mode 'ansible
       "rd" #'my-ansible/decrypt-region
       "re" #'my-ansible/encrypt-region
@@ -185,10 +184,11 @@
       "ml" #'molecule-list
       "mc" #'molecule-create
       "md" #'molecule-destroy
-      "mm" #'molecule-converge
-      "mt" #'molecule-login
-      "mjd" #'molecule-dired
-      "mjD" #'molecule-dired-as-root)))
+      "mf" #'molecule-dired
+      "ml" #'molecule-cache-dired
+      "mm" #'molecule-converge-with-playbook-args
+      "ms" #'molecule-side-effect
+      "mt" #'molecule-login)))
 
 (defun my-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc

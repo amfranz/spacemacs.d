@@ -263,23 +263,14 @@
     ;; TODO: consider natsort https://stackoverflow.com/questions/1942045/natural-order-sort-for-emacs-lisp
     (cl-sort hosts 'string-lessp :key 'downcase)))
 
-(defun molecule-dired ()
-  (interactive)
+(defun molecule-dired (&optional as-root)
+  (interactive "P")
   (let ((box-name (let* ((names (molecule-instances)))
                     (if (eq 1 (length names))
                         (car names)
-                      (completing-read "molecule dired to: " names)))))
+                      (completing-read (concat (if as-root "[root]" "[vagrant]") " molecule dired to: ") names)))))
     (find-file (concat "/molecule:" (base64-encode-string molecule--directory t)
-                       "@" box-name ":/home/vagrant/"))))
-
-(defun molecule-dired-as-root ()
-  (interactive)
-  (let ((box-name (let* ((names (molecule-instances)))
-                    (if (eq 1 (length names))
-                        (car names)
-                      (completing-read "molecule dired (as root) to: " names)))))
-    (find-file (concat "/molecule:" (base64-encode-string molecule--directory t)
-                       "@" box-name "|sudo:" box-name ":/root/"))))
+                       "@" box-name (if as-root (concat "|sudo:" box-name ":/root/") ":/home/vagrant/")))))
 
 (defun molecule-login ()
   (interactive)
@@ -299,6 +290,20 @@
               (vterm-shell "/bin/bash"))
           (vterm-mode))))
     (switch-to-buffer buffer)))
+
+(defun molecule-converge-with-playbook-args (playbook-args)
+  (interactive "sansible-playbook arguments: ")
+  (let ((orig-compile (symbol-function 'compile)))
+    (cl-letf (((symbol-function 'compile)
+               (lambda (command &rest orig-args)
+                 (apply orig-compile (concat command " -- " playbook-args) orig-args))))
+      (molecule-converge))))
+
+(defun molecule-cache-dired ()
+  (interactive)
+  (when-let (project-dir (locate-dominating-file default-directory "molecule/default/molecule.yml"))
+    (find-file (concat "~/.cache/molecule/"
+                       (file-name-as-directory (file-name-nondirectory (directory-file-name project-dir)))))))
 
 (defun yaml-syntax-propertize-extend-region (beg end)
   "Extend the region so its boundaries do not fall within a YAML block literal."

@@ -185,10 +185,10 @@
       "mc" #'molecule-create
       "md" #'molecule-destroy
       "mf" #'molecule-dired
-      "ml" #'molecule-cache-dired
       "mm" #'molecule-converge-with-playbook-args
       "ms" #'molecule-side-effect
-      "mt" #'molecule-login)))
+      "mt" #'molecule-login
+      "mv" #'molecule-cache-dired)))
 
 (defun my-ansible/post-init-ansible-doc ()
   (with-eval-after-load 'ansible-doc

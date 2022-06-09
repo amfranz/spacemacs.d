@@ -277,19 +277,11 @@
   (let* ((box-name (let* ((names (molecule-instances)))
                      (if (eq 1 (length names))
                          (car names)
-                       (completing-read "molecule login to: " names))))
-         (name (concat "molecule term: " box-name))
-         (buffer (get-buffer-create (concat "*" name "*"))))
-    ;; term-check-proc is not defined until term.el has been loaded
-    (unless (and (fboundp 'term-check-proc) (term-check-proc buffer))
-      (with-current-buffer buffer
-        (cd (concat "/molecule:" (base64-encode-string molecule--directory t)
-                    "@" box-name ":/home/vagrant/"))
-        (require 'vterm)
-        (let ((vterm-term-environment-variable "xterm-256color")
-              (vterm-shell "/bin/bash"))
-          (vterm-mode))))
-    (switch-to-buffer buffer)))
+                       (completing-read "molecule login to: " names)))))
+    (let ((process-environment (cons "EMACS_SOCKET_NAME" initial-environment)))
+      (call-process "konsole" nil 0 nil
+                    "--workdir" molecule--directory "-e" "tmux" "new-session"
+                    "/bin/zsh" "-i" "-c" (concat "molecule login --host " box-name)))))
 
 
 (defvar molecule--converge-with-playbook-args-history nil)

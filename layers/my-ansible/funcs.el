@@ -291,8 +291,13 @@
           (vterm-mode))))
     (switch-to-buffer buffer)))
 
+
+(defvar molecule--converge-with-playbook-args-history nil)
 (defun molecule-converge-with-playbook-args (playbook-args)
-  (interactive "sansible-playbook arguments: ")
+  (interactive
+   (list (read-string "ansible-playbook arguments: "
+                      (car molecule--converge-with-playbook-args-history)
+                      '(molecule--converge-with-playbook-args-history . 1))))
   (let ((orig-compile (symbol-function 'compile)))
     (cl-letf (((symbol-function 'compile)
                (lambda (command &rest orig-args)

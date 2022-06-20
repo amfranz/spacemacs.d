@@ -92,7 +92,7 @@ buffers of that mode already exist, for example in logic that is lazy loaded via
 
 \(fn MODE FUN)" nil nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-config" '("spacemacs//lookup-leader-key")))
+(register-definition-prefixes "my-config" '("spacemacs//lookup-leader-key"))
 
 ;;;***
 
@@ -107,28 +107,20 @@ buffers of that mode already exist, for example in logic that is lazy loaded via
 ;;; Generated autoloads from my-utils.el
 
 (autoload 'my-find-custom-file "my-utils" "\
-Edit the `custom-file', in the current window.
-
-\(fn)" t nil)
+Edit the `custom-file', in the current window." t nil)
 
 (autoload 'my-insert-date-or-time "my-utils" "\
 Inserts the current time and/or date into the current buffer.
 
 The timestamp will be formatted by `format-time-string'. The user will be asked
-which format string to use.
-
-\(fn)" t nil)
+which format string to use." t nil)
 
 (autoload 'lisp-sandbox "my-utils" "\
-Switch to a scratch buffer with major mode `lisp-interaction-mode.'
-
-\(fn)" t nil)
+Switch to a scratch buffer with major mode `lisp-interaction-mode.'" t nil)
 
 (autoload 'projectile-copy-project-root "my-utils" "\
 Show and copy the full path to the current project directory in the
-minibuffer.
-
-\(fn)" t nil)
+minibuffer." t nil)
 
 (autoload 'sort-lines-by-length "my-utils" "\
 Sort lines by length.
@@ -140,37 +132,27 @@ Sort lines by length.
 
 \(fn VALUE)" t nil)
 
-(autoload 'open-terminal "my-utils" "\
+(autoload 'open-terminal "my-utils" nil t nil)
 
+(autoload 'projectile-open-terminal "my-utils" nil t nil)
 
-\(fn)" t nil)
+(autoload 'projectile-open-shell "my-utils" nil t nil)
 
-(autoload 'projectile-open-terminal "my-utils" "\
+(autoload 'open-file-manager "my-utils" nil t nil)
 
-
-\(fn)" t nil)
-
-(autoload 'projectile-open-shell "my-utils" "\
-
-
-\(fn)" t nil)
-
-(autoload 'open-file-manager "my-utils" "\
-
-
-\(fn)" t nil)
-
-(autoload 'dedup-safe-local-variables "my-utils" "\
-
-
-\(fn)" nil nil)
+(autoload 'dedup-safe-local-variables "my-utils" nil nil nil)
 
 (autoload 'renumber-list "my-utils" "\
 Renumber the list items in the current region.
 
 \(fn START END)" t nil)
 
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "my-utils" '(#("lisp-sandbox-buffer-name" 0 24 (face font-lock-variable-name-face fontified nil)))))
+(autoload 'read-string-with-history "my-utils" "\
+
+
+\(fn PROMPT HISTORY)" nil nil)
+
+(register-definition-prefixes "my-utils" '("lisp-sandbox-buffer-name"))
 
 ;;;***
 

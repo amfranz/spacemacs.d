@@ -283,13 +283,11 @@
                     "--workdir" molecule--directory "-e" "tmux" "new-session"
                     "/bin/zsh" "-i" "-c" (concat "molecule login --host " box-name)))))
 
-
 (defvar molecule--converge-with-playbook-args-history nil)
 (defun molecule-converge-with-playbook-args (playbook-args)
   (interactive
-   (list (read-string "ansible-playbook arguments: "
-                      (car molecule--converge-with-playbook-args-history)
-                      '(molecule--converge-with-playbook-args-history . 1))))
+   (list (read-string-with-history "ansible-playbook arguments: "
+                                   'molecule--converge-with-playbook-args-history)))
   (let ((orig-compile (symbol-function 'compile)))
     (cl-letf (((symbol-function 'compile)
                (lambda (command &rest orig-args)

@@ -152,4 +152,13 @@ minibuffer."
                 (replace-match (format fmt num))))
           (set-marker end-mark nil))))))
 
+;;;###autoload
+(defun read-string-with-history (prompt history)
+  (let ((reply (read-string prompt
+                            (car (symbol-value history))
+                            (cons history 1))))
+    (when (string-empty-p reply)
+      (add-to-history history reply nil t))
+    reply))
+
 (provide 'my-utils)

@@ -1384,6 +1384,9 @@ current frame but keep Emacs running."
       (dolist (face '(helm-selection))
         (set-face-attribute face nil :extend t))))
 
+  ;; Avoids duplicates in popup, idea is from https://emacs.stackexchange.com/a/68735
+  (setq company-transformers '(delete-dups))
+
   ;; This will make the value of a file-local tab-width setting to carry over to evil-shift-width.
   (add-to-list 'spacemacs--indent-variable-alist '(conf-mode . tab-width))
 

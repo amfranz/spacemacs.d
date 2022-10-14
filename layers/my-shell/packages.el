@@ -10,7 +10,19 @@
 
 (defun my-shell/init-ansi-color ()
   (with-eval-after-load 'ansi-color
+    (setq ansi-color-bold-is-bright t)
     (spacemacs/after-load-theme 'zenburn
+      (custom-theme-alter-variables
+       'zenburn
+       '(ansi-color-names-vector ["#3F3F3F" "#A95050" "#60B389" "#DEAE8E" "#99B7D6" "#DB8BC2" "#8BCFD2" "#DBDBCB"])
+       '(ansi-color-basic-faces-vector [default
+                                         ansi-color-bold
+                                         ansi-color-faint
+                                         ansi-color-italic
+                                         ansi-color-underline
+                                         ansi-color-slow-blink
+                                         ansi-color-fast-blink
+                                         ansi-color-inverse]))
       (custom-theme-alter-faces
        'zenburn
        '(ansi-color-black          ((t :foreground "#3F3F3F" :background "#3F3F3F")))

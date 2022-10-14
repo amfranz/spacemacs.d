@@ -181,9 +181,7 @@ This function should only modify configuration layer settings."
      (ruby :variables
            ruby-test-runner 'rspec
            ruby-version-manager 'rbenv)
-     (rust :variables
-           rust-backend 'lsp
-           rust-format-on-save t)
+     rust
      search-engine
      (shell :variables
             shell-default-shell 'vterm)

@@ -748,13 +748,25 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (unless (functionp 'native-compile)
     (setq load-prefer-newer t))
 
-  ;; Don't report warnings and errors during native compilation. It makes the
-  ;; warning window to pop up, which is annoying to happen without warning.
-  (setq native-comp-async-report-warnings-errors nil)
+  (when (functionp 'native-compile)
+    ;; Redirect compilation output to the Spacemacs cache. This ensures these
+    ;; files are not shared with Doom Emacs. These files can not be shared, it
+    ;; causes all sorts of issues.
+    (setq native-comp-eln-load-path (list (concat spacemacs-cache-directory "eln/")))
 
-  ;; The compilation of `with-editor.el' causes the deferred Emacs instance to hang.
-  (with-eval-after-load 'comp
-    (add-to-list 'native-comp-deferred-compilation-deny-list "with-editor\\.el\\'"))
+    ;; Now that the eln cache directory has been customized, allow native
+    ;; compilation to proceed.
+    (setq native-comp-deferred-compilation t)
+
+    ;; Don't report warnings and errors during native compilation. It makes the
+    ;; warning window to pop up, which is annoying to happen without warning.
+    (setq native-comp-async-report-warnings-errors nil)
+
+    ;; The compilation of `with-editor.el' causes the deferred Emacs instance to hang.
+    (with-eval-after-load 'comp
+      (add-to-list 'native-comp-deferred-compilation-deny-list "/with-editor\\.el\\'")
+      (add-to-list 'native-comp-deferred-compilation-deny-list "/evil-collection-vterm\\.el\\'")
+      (add-to-list 'native-comp-deferred-compilation-deny-list "/emacs-jupyter.*\\.el\\'")))
 
   ;; Garbage collect only during idle times.
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)

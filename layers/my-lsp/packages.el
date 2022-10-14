@@ -11,7 +11,9 @@
   (setq lsp-restart 'ignore)
   (with-eval-after-load 'lsp-mode
     (spacemacs/set-leader-keys-for-minor-mode 'lsp-mode
-      "hd" #'lsp-ui-doc-glance)))
+      "hd" #'lsp-ui-doc-glance)
+    (add-to-list 'lsp-language-id-configuration
+                 '(direnv-envrc-mode . "shellscript"))))
 
 (defun my-lsp/post-init-lsp-treemacs ()
   (with-eval-after-load 'treemacs

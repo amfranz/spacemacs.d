@@ -1481,6 +1481,13 @@ current frame but keep Emacs running."
           . (space :align-to (fci-column . width)))   ; <-- instead of `:align-to fci-column`
         (space :width 0))))
 
+  ;; Remove the ugly border around the key bindings in the helm user interface.
+  (spacemacs/after-load-theme 'zenburn
+    (custom-theme-alter-faces
+     'zenburn `(helm-M-x-key
+                ((t ,@(and (>= emacs-major-version 27) '(:extend t))
+                    :foreground "orange")))))
+
   ;; Apply persisted custom settings. This needs to be the very last step to
   ;; make sure that any customization applied by the custom file will not get
   ;; undone by later stages of the Emacs startup sequence.

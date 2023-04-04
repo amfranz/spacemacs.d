@@ -14,7 +14,7 @@
 (defun my-magit/post-init-browse-at-remote ()
   (with-eval-after-load 'browse-at-remote
     (add-to-list 'browse-at-remote-remote-type-regexps
-                 '("^gitea\\.amfranz\\.com$" . "gitea"))))
+                 '(:host "^gitea\\.amfranz\\.com$" :type "gitea"))))
 
 (defun my-magit/post-init-diff-mode ()
   ;; Do not automatically trim trailing whitespace when saving edited diff

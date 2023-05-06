@@ -1,6 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
-(defconst my-python-packages '(python treemacs))
+(defconst my-python-packages '(isortify python treemacs))
+
+(defun my-python/init-isortify ()
+  (use-package isortify
+    :hook (python-mode . isortify-mode)))
 
 ;; TODO: this is global, can this be made buffer-local?
 ;; maybe use `pyvenv-mode' vs `pyvenv-tracking-mode'?

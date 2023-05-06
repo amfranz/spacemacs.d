@@ -129,7 +129,7 @@ minibuffer."
 
 ;;;###autoload
 (defun dedup-safe-local-variables ()
-  (let ((dedup (copy-list safe-local-variable-values)))
+  (let ((dedup (cl-copy-list safe-local-variable-values)))
     (delete-dups dedup)
     (unless (eq (length dedup) (length safe-local-variable-values))
       (customize-save-variable 'safe-local-variable-values dedup))))

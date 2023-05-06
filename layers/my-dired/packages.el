@@ -12,11 +12,8 @@
                               (dired-x :location built-in)
                               (image-dired :location built-in)
                               (wdired :location built-in)
-                              ;; This conflicts with the location in `spacemacs-modeline-packages'
-                              ;; which fetches an older version of `font-lock+' from emacsmirror.
-                              ;; (font-lock+ :location (recipe :fetcher url
-                              ;;                               :url "https://www.emacswiki.org/emacs/download/font-lock+.el"))
-                              font-lock+))
+                              (font-lock+ :location (recipe :fetcher wiki
+                                                            :files ("font-lock+.el")))))
 
 ;; TODO: Move this to another layer. The Spacemacs auto-completion layer owns
 ;;       the `all-the-icons' package now.
@@ -259,7 +256,7 @@ the customization to `dired-filter-prefix' did not take effect."))
 
 ;; TODO: Move this to another layer. The Spacemacs auto-completion layer owns
 ;;       the `all-the-icons' package now.
-(defun my-dired/post-init-font-lock+ ()
+(defun my-dired/init-font-lock+ ()
   ;; `font-lock+' is needed for the icons in `dired-mode' buffers to be
   ;; colorized by `all-the-icons-dired'. We only need it for this purpose, but
   ;; considering this feature potentially modifies font lock functionality in

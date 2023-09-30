@@ -764,9 +764,14 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
     ;; The compilation of `with-editor.el' causes the deferred Emacs instance to hang.
     (with-eval-after-load 'comp
-      (add-to-list 'native-comp-deferred-compilation-deny-list "/with-editor\\.el\\'")
-      (add-to-list 'native-comp-deferred-compilation-deny-list "/evil-collection-vterm\\.el\\'")
-      (add-to-list 'native-comp-deferred-compilation-deny-list "/emacs-jupyter.*\\.el\\'")))
+      ;; `native-comp-jit-compilation-deny-list' supersedes
+      ;; `native-comp-deferred-compilation-deny-list' since Emacs 29.1.
+      (let ((deny-list-sym (if (boundp 'native-comp-deferred-compilation-deny-list)
+                               'native-comp-deferred-compilation-deny-list
+                             'native-comp-jit-compilation-deny-list)))
+        (add-to-list deny-list-sym "/with-editor\\.el\\'")
+        (add-to-list deny-list-sym "/evil-collection-vterm\\.el\\'")
+        (add-to-list deny-list-sym "/emacs-jupyter.*\\.el\\'"))))
 
   ;; Garbage collect only during idle times.
   (add-hook 'spacemacs-post-user-config-hook #'gc-idle-enable)

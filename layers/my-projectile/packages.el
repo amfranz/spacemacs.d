@@ -33,6 +33,10 @@
     (defadvice projectile-project-root (around ignore-remote first activate)
       (unless (file-remote-p default-directory) ad-do-it))
 
+    ;; Presence of an Obsidian Notes workspace data directory should mark a
+    ;; project root.
+    (add-to-list 'projectile-project-root-files ".obsidian")
+
     ;; When sorting by recentf, projectile does not remove deleted files or
     ;; files that are on the ignore list. This is a fixed implementation.
     (el-patch-defun projectile-sort-by-recentf-first (files)
